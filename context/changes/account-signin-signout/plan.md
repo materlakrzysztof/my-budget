@@ -231,8 +231,8 @@ Not applicable — no data model or schema changes in this slice.
 #### Manual
 
 - [x] 1.5 One-time E2E Supabase project created and configured (see change #5): "Confirm email" off, redirect URL allow-listed, `.dev.vars.e2e` populated
-- [ ] 1.6 Regression check: `npm run dev:e2e` dev-mode auto-confirm signup/signin flow works; regular `npm run dev` / `.dev.vars` unaffected — **blocked 2026-07-21**: signup against the E2E project hits Supabase's built-in mailer rate limit ("email rate limit exceeded") even with "Confirm email" reportedly off, and a subsequent signin returned "Invalid login credentials" (suggesting the account wasn't actually auto-confirmed). Root cause not yet confirmed — could be the shared-mailer rate limit firing independent of autoconfirm, or the toggle not taking effect. Not resolved; user asked to defer and move on rather than keep debugging now. Needs revisit before this step can be checked off.
-- [ ] 1.7 Redirect-fix check: confirmation email link origin verified via a real inbox against the E2E project (temporarily enabling "Confirm email") — blocked on 1.6 above.
+- [x] 1.6 Regression check: `npm run dev:e2e` dev-mode auto-confirm signup/signin flow works; regular `npm run dev` / `.dev.vars` unaffected — unblocked 2026-07-21: `GET /auth/v1/settings` on the E2E project confirmed `mailer_autoconfirm: true`, and a direct signup/signin against the Auth API succeeded with no rate-limit error, matching the user's confirmed manual run of `npm run dev:e2e`.
+- [x] 1.7 Redirect-fix check: confirmation email link origin verified via a real inbox against the E2E project (temporarily enabling "Confirm email") — confirmed by user 2026-07-21.
 
 ### Phase 2: E2E-cover the account creation and sign-in/out critical path
 
