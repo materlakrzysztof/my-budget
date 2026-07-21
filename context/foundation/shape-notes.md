@@ -57,12 +57,15 @@ Login (email + password / OAuth / passwordless — mechanism TBD downstream of s
 ## Success Criteria
 
 ### Primary
+
 - A user can create an account, set up categories (edit defaults, add new ones with a description), add an expense (auto or backdated date, manual category selection), and see a month-end summary showing the sum of expenses per category.
 
 ### Secondary
+
 - None for v1 — CSV/Excel export was considered but cut entirely from the MVP during the FR Socratic round (see Scope note below).
 
 ### Guardrails
+
 - A user's financial data is never visible to other users.
 - Adding or editing an expense completes in a few seconds, not longer.
 - The total shown in the monthly summary always reconciles with the sum of individual expense entries.
@@ -76,6 +79,7 @@ Login (email + password / OAuth / passwordless — mechanism TBD downstream of s
 - **Then** the expense appears in their expense list and is included in the current month's per-category summary
 
 #### Acceptance Criteria
+
 - The expense's amount is added to the correct category's running total for the month it was dated in
 - The monthly summary total always equals the sum of the individual expense amounts
 
@@ -86,18 +90,21 @@ Login (email + password / OAuth / passwordless — mechanism TBD downstream of s
 - **Then** the expense is attributed to the summary of the month it was dated in, not the month it was entered in
 
 #### Acceptance Criteria
+
 - Adding a backdated expense updates the previous month's summary, not the current month's, if that summary is viewed
 - The current month's summary is unaffected by a backdated entry
 
 ## Functional Requirements
 
 ### Authentication
+
 - FR-001: User can create an account. Priority: must-have
   > Socratic: No counter-argument considered; stands as written.
 - FR-002: User can log in and log out. Priority: must-have
   > Socratic: Counter-argument considered: "persistent login (no explicit logout) reduces friction in a daily-use personal app." Resolution: kept as written; logout is a cheap, small UI affordance, no reason to cut it.
 
 ### Categories
+
 - FR-003: User can view a set of default expense categories. Priority: must-have
   > Socratic: No counter-argument considered; stands as written.
 - FR-004: User can edit an existing category's name/description. Priority: nice-to-have
@@ -106,6 +113,7 @@ Login (email + password / OAuth / passwordless — mechanism TBD downstream of s
   > Socratic: Counter-argument considered: "unlimited custom categories could lead to overlapping categories that hurt analysis quality." Resolution: kept, extended with a simple similar-name warning on creation.
 
 ### Expenses
+
 - FR-006: User can add an expense with an automatic (today's) date. Priority: must-have
   > Socratic: No counter-argument considered; stands as written.
 - FR-007: User can add an expense with a backdated (past) date. Priority: must-have
@@ -114,10 +122,12 @@ Login (email + password / OAuth / passwordless — mechanism TBD downstream of s
   > Socratic: Counter-argument considered: "manual categorization on every expense is exactly the friction AI-categorization was meant to solve — worth doing manually now?" Resolution: kept manual for v1; AI categorization is deliberately deferred to v2 to protect the 3-week timeline. Manual entry is still faster than the current unstructured Excel workflow.
 
 ### Monthly summary
+
 - FR-009: User can view a month-end summary showing total expenses per category for the current month. Priority: must-have
   > Socratic: No counter-argument considered; stands as written — a deliberate scope-down from month-over-month trends (see Scope note).
 
 ## Scope note (deferred to v2)
+
 - AI auto-categorization of expenses — deferred; v1 uses manual category selection only (see FR-008 Socratic).
 - Month-over-month trend analysis — deferred; v1 uses simple per-category sums for the current month only (see FR-009 Socratic).
 - Payment reminders for upcoming bills — captured as a nice-to-have from the original idea, not selected as MVP Secondary; revisit post-MVP.

@@ -4,8 +4,8 @@
       "Skill(10x-init)",
       "PowerShell(Set-Clipboard \"/10x-prd\")",
       "PowerShell(Set-Clipboard \"/10x-tech-stack-selector\")",
-      "PowerShell(Set-Clipboard \"/10x-bootstrapper\")"
-     "Bash(npm *)",
+      "PowerShell(Set-Clipboard \"/10x-bootstrapper\")",
+      "Bash(npm *)",
       "Bash(npx *)",
       "Bash(node *)",
       "Bash(git add *)",
@@ -18,16 +18,18 @@
       "Bash(git stash *)",
       "Read",
       "Edit",
-      "Write"
+      "Write",
+      "Bash(git check-ignore *)",
+      "Bash(echo \"ignore-check-exit:$?\")"
+    ],
+    "deny": [
+      "Bash(rm -rf *)"
     ],
     "ask": [
       "Bash(curl *)",
       "Bash(wget *)",
       "Bash(git push *)",
       "Bash(git push)"
-    ],
-    "deny": [
-      "Bash(rm -rf *)",
     ]
   }
 }
