@@ -205,16 +205,16 @@ Not applicable — no data model or schema changes in this slice.
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Type checking passes: `npx astro check`
-- [x] 1.3 Build passes: `npm run build`
-- [x] 1.4 Playwright config is valid and discoverable: `npx playwright test --list` reports 0 tests in 0 files
+- [x] 1.1 Lint passes: `npm run lint` — 18321ed
+- [x] 1.2 Type checking passes: `npx astro check` — 18321ed
+- [x] 1.3 Build passes: `npm run build` — 18321ed
+- [x] 1.4 Playwright config is valid and discoverable: `npx playwright test --list` reports 0 tests in 0 files — 18321ed
 
 #### Manual
 
-- [x] 1.5 Precondition: `.dev.vars` repointed at local Supabase (not cloud)
-- [x] 1.6 Regression check: dev-mode auto-confirm signup/signin flow still works
-- [x] 1.7 Redirect-fix check: confirmation email link origin verified via local Inbucket
+- [x] 1.5 Precondition: `.dev.vars` repointed at local Supabase (not cloud) — 18321ed
+- [x] 1.6 Regression check: dev-mode auto-confirm signup/signin flow still works — 18321ed
+- [x] 1.7 Redirect-fix check: confirmation email link origin verified via local Inbucket — 18321ed
 
 ### Phase 2: E2E-cover the account creation and sign-in/out critical path
 
