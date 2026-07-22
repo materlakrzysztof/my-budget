@@ -426,11 +426,11 @@ The lazy per-user seeding (Phase 2) means existing rows are never bulk-migrated 
 
 #### Automated
 
-- [x] 4.1 `tests/e2e/categories-view-defaults.spec.ts` passes
-- [x] 4.2 `tests/e2e/categories-add-new.spec.ts` passes
-- [x] 4.3 `tests/e2e/categories-duplicate-blocked.spec.ts` passes
-- [x] 4.4 Full E2E suite passes: `npm run test:e2e`
+- [x] 4.1 `tests/e2e/categories-view-defaults.spec.ts` passes — cf050cf
+- [x] 4.2 `tests/e2e/categories-add-new.spec.ts` passes — cf050cf
+- [x] 4.3 `tests/e2e/categories-duplicate-blocked.spec.ts` passes — cf050cf
+- [x] 4.4 Full E2E suite passes: `npm run test:e2e` — cf050cf
 
 #### Manual
 
-- [x] 4.5 Each spec's deliberate-break check confirmed red-then-green
+- [x] 4.5 Each spec's deliberate-break check confirmed red-then-green — cf050cf
