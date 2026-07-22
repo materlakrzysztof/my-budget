@@ -161,6 +161,13 @@ Drives risk-tied Playwright coverage for the three behaviors this slice cares ab
 
 **Contract**: Sign up a user, then attempt signin with a wrong password; assert a generic error renders and the user is not redirected to `/`.
 
+#### 4. Discovered fixes (addendum, 2026-07-22)
+
+Two out-of-plan fixes surfaced while actually running the Phase 2 suite against the E2E project — not scope creep, but prerequisites for the specs above to pass at all:
+
+- **`astro.config.mjs`** — this plan's "Critical Implementation Details" (above) claimed `@cloudflare/vite-plugin` handles `.dev.vars.<env>` loading for `astro dev`, verified against that package's internals. That's true only for actual Cloudflare bindings (KV, R2, etc.). `@astrojs/cloudflare`'s own adapter hook (`astro:config:setup`, in `node_modules/@astrojs/cloudflare/dist/index.js`) separately and unconditionally reads `.dev.vars` to populate `astro:env/server` secrets — the exact mechanism `SUPABASE_URL`/`SUPABASE_KEY` go through — completely ignoring `CLOUDFLARE_ENV`. Without a fix, `dev:e2e` silently targeted the regular dev Supabase project instead of the E2E one. Fixed with a small Vite plugin (`loadCloudflareEnvDevVars`) that re-applies `.dev.vars.<CLOUDFLARE_ENV>` on top of `process.env` after Astro's own setup runs, without ever touching `.dev.vars` on disk.
+- **`tests/e2e/helpers.ts`** — the auth forms are React islands (`client:load`); Playwright could fill the first field of a freshly-loaded form before hydration attaches React's event handlers, and the value would be silently wiped once hydration completed and re-rendered from React's own (still-empty) state. Fixed with `waitForAuthFormHydration()`, a bounded wait-for-state retry loop (not a fixed sleep) that confirms hydration is live before any field is filled.
+
 ### Success Criteria:
 
 #### Automated Verification:

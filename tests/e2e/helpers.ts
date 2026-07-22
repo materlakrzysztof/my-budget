@@ -14,7 +14,10 @@ export async function waitForAuthFormHydration(page: Page) {
   const toggle = page.getByRole("button", { name: "Show password" }).first();
   const hydratedMarker = page.getByRole("button", { name: "Hide password" });
 
-  for (let attempt = 0; attempt < 20; attempt++) {
+  // ~10s total budget: wide enough to absorb CI/local resource contention
+  // (observed to flake at a 5s budget when other CPU-heavy tasks ran
+  // concurrently), while still failing fast if hydration is genuinely broken.
+  for (let attempt = 0; attempt < 40; attempt++) {
     await toggle.click();
     try {
       await expect(hydratedMarker).toBeVisible({ timeout: 250 });
