@@ -382,29 +382,29 @@ The lazy per-user seeding (Phase 2) means existing rows are never bulk-migrated 
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Build passes: `npm run build`
+- [x] 1.1 Lint passes: `npm run lint` — 4102fbe
+- [x] 1.2 Build passes: `npm run build` — 4102fbe
 
 #### Manual
 
-- [x] 1.3 Migration applied cleanly to the E2E Supabase project's SQL editor
-- [x] 1.4 Migration applied to the production Supabase project's SQL editor
-- [x] 1.5 RLS cross-user isolation manually verified
+- [x] 1.3 Migration applied cleanly to the E2E Supabase project's SQL editor — 4102fbe
+- [x] 1.4 Migration applied to the production Supabase project's SQL editor — 4102fbe
+- [x] 1.5 RLS cross-user isolation manually verified — 4102fbe
 
 ### Phase 2: Service layer, types, and API routes
 
 #### Automated
 
-- [ ] 2.1 Unit tests pass: `npm run test:unit`
-- [ ] 2.2 Lint passes: `npm run lint`
-- [ ] 2.3 Type checking passes: `npx astro check`
-- [ ] 2.4 Build passes: `npm run build`
+- [x] 2.1 Unit tests pass: `npm run test:unit`
+- [x] 2.2 Lint passes: `npm run lint`
+- [x] 2.3 Type checking passes: `npx astro check`
+- [x] 2.4 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 2.5 First `GET /api/categories` for a new user returns exactly the 8 defaults
-- [ ] 2.6 A second `GET /api/categories` does not duplicate the defaults
-- [ ] 2.7 `POST /api/categories` succeeds for a new name and returns 409 for an exact/normalized duplicate
+- [x] 2.5 First `GET /api/categories` for a new user returns exactly the 8 defaults
+- [x] 2.6 A second `GET /api/categories` does not duplicate the defaults
+- [x] 2.7 `POST /api/categories` succeeds for a new name and returns 409 for an exact/normalized duplicate
 
 ### Phase 3: UI — categories page and components
 
