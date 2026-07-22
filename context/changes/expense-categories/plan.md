@@ -410,27 +410,27 @@ The lazy per-user seeding (Phase 2) means existing rows are never bulk-migrated 
 
 #### Automated
 
-- [x] 3.1 Lint passes: `npm run lint`
-- [x] 3.2 Type checking passes: `npx astro check`
-- [x] 3.3 Build passes: `npm run build`
+- [x] 3.1 Lint passes: `npm run lint` — 8d04264
+- [x] 3.2 Type checking passes: `npx astro check` — 8d04264
+- [x] 3.3 Build passes: `npm run build` — 8d04264
 
 #### Manual
 
-- [x] 3.4 Signed-out visit to `/categories` redirects to `/auth/signin`
-- [x] 3.5 New user sees exactly the 8 defaults on first visit
-- [x] 3.6 Adding a new unique category appears without a page reload
-- [x] 3.7 Adding a case/whitespace-duplicate name shows the inline `role="alert"` error and is blocked
-- [x] 3.8 "Categories" link appears in Topbar only when signed in
+- [x] 3.4 Signed-out visit to `/categories` redirects to `/auth/signin` — 8d04264
+- [x] 3.5 New user sees exactly the 8 defaults on first visit — 8d04264
+- [x] 3.6 Adding a new unique category appears without a page reload — 8d04264
+- [x] 3.7 Adding a case/whitespace-duplicate name shows the inline `role="alert"` error and is blocked — 8d04264
+- [x] 3.8 "Categories" link appears in Topbar only when signed in — 8d04264
 
 ### Phase 4: E2E coverage for categories
 
 #### Automated
 
-- [ ] 4.1 `tests/e2e/categories-view-defaults.spec.ts` passes
-- [ ] 4.2 `tests/e2e/categories-add-new.spec.ts` passes
-- [ ] 4.3 `tests/e2e/categories-duplicate-blocked.spec.ts` passes
-- [ ] 4.4 Full E2E suite passes: `npm run test:e2e`
+- [x] 4.1 `tests/e2e/categories-view-defaults.spec.ts` passes
+- [x] 4.2 `tests/e2e/categories-add-new.spec.ts` passes
+- [x] 4.3 `tests/e2e/categories-duplicate-blocked.spec.ts` passes
+- [x] 4.4 Full E2E suite passes: `npm run test:e2e`
 
 #### Manual
 
-- [ ] 4.5 Each spec's deliberate-break check confirmed red-then-green
+- [x] 4.5 Each spec's deliberate-break check confirmed red-then-green
