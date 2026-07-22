@@ -395,32 +395,32 @@ The lazy per-user seeding (Phase 2) means existing rows are never bulk-migrated 
 
 #### Automated
 
-- [x] 2.1 Unit tests pass: `npm run test:unit`
-- [x] 2.2 Lint passes: `npm run lint`
-- [x] 2.3 Type checking passes: `npx astro check`
-- [x] 2.4 Build passes: `npm run build`
+- [x] 2.1 Unit tests pass: `npm run test:unit` — 63f3c60
+- [x] 2.2 Lint passes: `npm run lint` — 63f3c60
+- [x] 2.3 Type checking passes: `npx astro check` — 63f3c60
+- [x] 2.4 Build passes: `npm run build` — 63f3c60
 
 #### Manual
 
-- [x] 2.5 First `GET /api/categories` for a new user returns exactly the 8 defaults
-- [x] 2.6 A second `GET /api/categories` does not duplicate the defaults
-- [x] 2.7 `POST /api/categories` succeeds for a new name and returns 409 for an exact/normalized duplicate
+- [x] 2.5 First `GET /api/categories` for a new user returns exactly the 8 defaults — 63f3c60
+- [x] 2.6 A second `GET /api/categories` does not duplicate the defaults — 63f3c60
+- [x] 2.7 `POST /api/categories` succeeds for a new name and returns 409 for an exact/normalized duplicate — 63f3c60
 
 ### Phase 3: UI — categories page and components
 
 #### Automated
 
-- [ ] 3.1 Lint passes: `npm run lint`
-- [ ] 3.2 Type checking passes: `npx astro check`
-- [ ] 3.3 Build passes: `npm run build`
+- [x] 3.1 Lint passes: `npm run lint`
+- [x] 3.2 Type checking passes: `npx astro check`
+- [x] 3.3 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 3.4 Signed-out visit to `/categories` redirects to `/auth/signin`
-- [ ] 3.5 New user sees exactly the 8 defaults on first visit
-- [ ] 3.6 Adding a new unique category appears without a page reload
-- [ ] 3.7 Adding a case/whitespace-duplicate name shows the inline `role="alert"` error and is blocked
-- [ ] 3.8 "Categories" link appears in Topbar only when signed in
+- [x] 3.4 Signed-out visit to `/categories` redirects to `/auth/signin`
+- [x] 3.5 New user sees exactly the 8 defaults on first visit
+- [x] 3.6 Adding a new unique category appears without a page reload
+- [x] 3.7 Adding a case/whitespace-duplicate name shows the inline `role="alert"` error and is blocked
+- [x] 3.8 "Categories" link appears in Topbar only when signed in
 
 ### Phase 4: E2E coverage for categories
 
