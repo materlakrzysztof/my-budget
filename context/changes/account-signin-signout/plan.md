@@ -238,12 +238,12 @@ Not applicable — no data model or schema changes in this slice.
 
 #### Automated
 
-- [x] 2.1 `tests/e2e/auth-happy-path.spec.ts` passes
-- [x] 2.2 `tests/e2e/auth-duplicate-email.spec.ts` passes
-- [x] 2.3 `tests/e2e/auth-wrong-password.spec.ts` passes
-- [x] 2.4 Full E2E suite passes: `npm run test:e2e`
+- [x] 2.1 `tests/e2e/auth-happy-path.spec.ts` passes — 24b0508
+- [x] 2.2 `tests/e2e/auth-duplicate-email.spec.ts` passes — 24b0508
+- [x] 2.3 `tests/e2e/auth-wrong-password.spec.ts` passes — 24b0508
+- [x] 2.4 Full E2E suite passes: `npm run test:e2e` — 24b0508
 
 #### Manual
 
-- [x] 2.5 Each spec's deliberate-break check confirmed red-then-green
-- [x] 2.6 Full suite re-confirmed against `deploy-plan.md`'s production behavior
+- [x] 2.5 Each spec's deliberate-break check confirmed red-then-green — 24b0508
+- [x] 2.6 Full suite re-confirmed against `deploy-plan.md`'s production behavior — 24b0508
