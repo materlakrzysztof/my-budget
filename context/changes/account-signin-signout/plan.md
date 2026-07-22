@@ -231,19 +231,19 @@ Not applicable — no data model or schema changes in this slice.
 #### Manual
 
 - [x] 1.5 One-time E2E Supabase project created and configured (see change #5): "Confirm email" off, redirect URL allow-listed, `.dev.vars.e2e` populated
-- [x] 1.6 Regression check: `npm run dev:e2e` dev-mode auto-confirm signup/signin flow works; regular `npm run dev` / `.dev.vars` unaffected — unblocked 2026-07-21: `GET /auth/v1/settings` on the E2E project confirmed `mailer_autoconfirm: true`, and a direct signup/signin against the Auth API succeeded with no rate-limit error, matching the user's confirmed manual run of `npm run dev:e2e`.
-- [x] 1.7 Redirect-fix check: confirmation email link origin verified via a real inbox against the E2E project (temporarily enabling "Confirm email") — confirmed by user 2026-07-21.
+- [x] 1.6 Regression check: `npm run dev:e2e` dev-mode auto-confirm signup/signin flow works; regular `npm run dev` / `.dev.vars` unaffected — unblocked 2026-07-21: `GET /auth/v1/settings` on the E2E project confirmed `mailer_autoconfirm: true`, and a direct signup/signin against the Auth API succeeded with no rate-limit error, matching the user's confirmed manual run of `npm run dev:e2e`. — 319ca1c
+- [x] 1.7 Redirect-fix check: confirmation email link origin verified via a real inbox against the E2E project (temporarily enabling "Confirm email") — confirmed by user 2026-07-21. — 319ca1c
 
 ### Phase 2: E2E-cover the account creation and sign-in/out critical path
 
 #### Automated
 
-- [ ] 2.1 `tests/e2e/auth-happy-path.spec.ts` passes
-- [ ] 2.2 `tests/e2e/auth-duplicate-email.spec.ts` passes
-- [ ] 2.3 `tests/e2e/auth-wrong-password.spec.ts` passes
-- [ ] 2.4 Full E2E suite passes: `npm run test:e2e`
+- [x] 2.1 `tests/e2e/auth-happy-path.spec.ts` passes
+- [x] 2.2 `tests/e2e/auth-duplicate-email.spec.ts` passes
+- [x] 2.3 `tests/e2e/auth-wrong-password.spec.ts` passes
+- [x] 2.4 Full E2E suite passes: `npm run test:e2e`
 
 #### Manual
 
-- [ ] 2.5 Each spec's deliberate-break check confirmed red-then-green
-- [ ] 2.6 Full suite re-confirmed against `deploy-plan.md`'s production behavior
+- [x] 2.5 Each spec's deliberate-break check confirmed red-then-green
+- [x] 2.6 Full suite re-confirmed against `deploy-plan.md`'s production behavior
