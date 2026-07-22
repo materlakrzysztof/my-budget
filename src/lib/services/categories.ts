@@ -28,7 +28,7 @@ export class DuplicateCategoryError extends Error {
 }
 
 export function normalizeCategoryName(name: string): string {
-  return name.trim().replace(/\s+/g, " ").toLowerCase();
+  return name.trim().toLowerCase();
 }
 
 interface CategoryRow {

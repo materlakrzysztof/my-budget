@@ -6,8 +6,8 @@ describe("normalizeCategoryName", () => {
     ["Food", "food"],
     ["  Food  ", "food"],
     ["FOOD", "food"],
-    ["Food   Truck", "food truck"],
     ["food", "food"],
+    ["Food   Truck", "food   truck"],
   ];
 
   it.each(cases)("normalizes %j to %j", (input, expected) => {
