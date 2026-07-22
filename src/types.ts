@@ -17,3 +17,39 @@ export interface CreateCategoryResponse {
 export interface ListCategoriesResponse {
   categories: Category[];
 }
+
+export interface Expense {
+  id: string;
+  categoryId: string;
+  categoryName: string;
+  amount: string;
+  date: string;
+  createdAt: string;
+}
+
+export interface CreateExpenseRequest {
+  categoryId: string;
+  amount: string;
+  date: string;
+}
+
+export type UpdateExpenseRequest = CreateExpenseRequest;
+
+export interface ExpenseResponse {
+  expense: Expense;
+}
+
+export interface ListExpensesResponse {
+  expenses: Expense[];
+}
+
+export interface MonthlySummaryEntry {
+  categoryId: string;
+  categoryName: string;
+  total: string;
+  rank: number;
+}
+
+export interface MonthlySummaryResponse {
+  summary: MonthlySummaryEntry[];
+}

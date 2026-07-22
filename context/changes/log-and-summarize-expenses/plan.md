@@ -415,33 +415,33 @@ This is a net-new table with no existing data to migrate. The composite foreign 
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Build passes: `npm run build`
+- [x] 1.1 Lint passes: `npm run lint` — 548948f
+- [x] 1.2 Build passes: `npm run build` — 548948f
 
 #### Manual
 
-- [ ] 1.3 Migration applied cleanly to the E2E Supabase project's SQL editor
-- [ ] 1.4 Migration applied to the production Supabase project's SQL editor
-- [ ] 1.5 Postgres session timezone confirmed UTC
-- [ ] 1.6 RLS cross-user isolation manually verified (select/update/delete and the summary view)
-- [ ] 1.7 Composite FK rejects a cross-user category_id
-- [ ] 1.8 Check constraint rejects a future-dated expense
+- [x] 1.3 Migration applied cleanly to the E2E Supabase project's SQL editor
+- [x] 1.4 Migration applied to the production Supabase project's SQL editor
+- [x] 1.5 Postgres session timezone confirmed UTC
+- [x] 1.6 RLS cross-user isolation manually verified (select/update/delete and the summary view)
+- [x] 1.7 Composite FK rejects a cross-user category_id
+- [x] 1.8 Check constraint rejects a future-dated expense
 
 ### Phase 2: Service layer, types, and API routes
 
 #### Automated
 
-- [ ] 2.1 Unit tests pass: `npm run test:unit`
-- [ ] 2.2 Lint passes: `npm run lint`
-- [ ] 2.3 Type checking passes: `npx astro check`
-- [ ] 2.4 Build passes: `npm run build`
+- [x] 2.1 Unit tests pass: `npm run test:unit`
+- [x] 2.2 Lint passes: `npm run lint`
+- [x] 2.3 Type checking passes: `npx astro check`
+- [x] 2.4 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 2.5 POST/GET /api/expenses create-and-list round trip verified
-- [ ] 2.6 PATCH/DELETE /api/expenses/:id update-and-delete verified
-- [ ] 2.7 GET /api/expenses/summary reflects all categories with correct $0.00 defaults and ranking
-- [ ] 2.8 Future-date POST returns 422; cross-user category_id returns 409
+- [x] 2.5 POST/GET /api/expenses create-and-list round trip verified
+- [x] 2.6 PATCH/DELETE /api/expenses/:id update-and-delete verified
+- [x] 2.7 GET /api/expenses/summary reflects all categories with correct $0.00 defaults and ranking
+- [x] 2.8 Future-date POST returns 422; cross-user category_id returns 409
 
 ### Phase 3: UI — expenses page, add/edit dialog, and ranked summary
 
