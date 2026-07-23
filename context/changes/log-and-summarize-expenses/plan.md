@@ -466,12 +466,12 @@ This is a net-new table with no existing data to migrate. The composite foreign 
 
 #### Automated
 
-- [x] 4.1 `tests/e2e/expenses-add-and-summary.spec.ts` passes
-- [x] 4.2 `tests/e2e/expenses-backdated-attribution.spec.ts` passes
-- [x] 4.3 `tests/e2e/expenses-edit-updates-summary.spec.ts` passes
-- [x] 4.4 `tests/e2e/expenses-delete-updates-summary.spec.ts` passes
-- [x] 4.5 Full E2E suite passes: `npm run test:e2e`
+- [x] 4.1 `tests/e2e/expenses-add-and-summary.spec.ts` passes — 98a9bb1
+- [x] 4.2 `tests/e2e/expenses-backdated-attribution.spec.ts` passes — 98a9bb1
+- [x] 4.3 `tests/e2e/expenses-edit-updates-summary.spec.ts` passes — 98a9bb1
+- [x] 4.4 `tests/e2e/expenses-delete-updates-summary.spec.ts` passes — 98a9bb1
+- [x] 4.5 Full E2E suite passes: `npm run test:e2e` — 98a9bb1
 
 #### Manual
 
-- [ ] 4.6 Each spec's deliberate-break check confirmed red-then-green
+- [x] 4.6 Each spec's deliberate-break check confirmed red-then-green
