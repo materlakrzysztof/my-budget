@@ -396,9 +396,9 @@ missing update/delete policies untouched).
 
 #### Automated
 
-- [x] 1.1 `npm run test:integration` runs and the connectivity test passes
-- [x] 1.2 `npm run test:unit` still passes, unaffected
-- [x] 1.3 `npm run lint` passes on all new files
+- [x] 1.1 `npm run test:integration` runs and the connectivity test passes — 6c9ad2a
+- [x] 1.2 `npm run test:unit` still passes, unaffected — 6c9ad2a
+- [x] 1.3 `npm run lint` passes on all new files — 6c9ad2a
 
 #### Manual
 
@@ -409,8 +409,8 @@ missing update/delete policies untouched).
 
 #### Automated
 
-- [ ] 2.1 `npm run test:integration` passes, including all isolation and summary-exclusion assertions
-- [ ] 2.2 `npm run lint` passes
+- [x] 2.1 `npm run test:integration` passes, including all isolation and summary-exclusion assertions
+- [x] 2.2 `npm run lint` passes
 
 #### Manual
 
