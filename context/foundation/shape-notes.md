@@ -1,153 +1,156 @@
 ---
 project: MyBudget
-context_type: greenfield
-created: 2026-07-20
-updated: 2026-07-20
+context_type: brownfield
+created: 2026-07-23
+updated: 2026-07-23
 product_type: web-app
 target_scale:
   users: small
   qps: low
   data_volume: small
 timeline_budget:
-  mvp_weeks: 3
+  delivery_weeks: 3
   hard_deadline: null
   after_hours_only: true
 checkpoint:
   current_phase: 8
   phases_completed: [1, 2, 3, 4, 5, 6, 7]
   gray_areas_resolved:
-    - topic: "pain category"
-      decision: "workflow friction + missing capability (auto-reminders) + data trapped across sources + decision paralysis on trends (all apply)"
-    - topic: "insight"
-      decision: "automatic categorization removes the manual entry chore that causes people to abandon manual budgeting (Excel, notes) after a few weeks"
-    - topic: "primary persona scope"
-      decision: "single individual managing their own household budget"
-    - topic: "auth model"
-      decision: "login (email+password / OAuth / passwordless) — flat user model, no roles, each user sees only their own data"
-    - topic: "MVP scope-cost"
-      decision: "scoped down — AI auto-categorization deferred to v2 (manual category selection in v1); monthly analysis simplified to per-category sums (no month-over-month trends in v1)"
-    - topic: "FR Socratic round"
-      decision: "FR-004 (category editing) demoted to nice-to-have/deferred; FR-005 extended with similar-name warning; FR-008 (manual categorization) kept deliberately despite friction overlap with deferred AI; FR-010 (CSV export) dropped entirely from v1"
-    - topic: "business logic rule vs v1 scope conflict"
-      decision: "one-sentence rule = rank spending categories by total for the current month (surfacing biggest spend); month-over-month trend comparison stays deferred to v2, consistent with the Step 3 scope-down"
-    - topic: "NFRs"
-      decision: "sub-1s perceived response to any user action; usable on both mobile and desktop screen sizes"
-    - topic: "product framing"
-      decision: "web-app; small scale (just the user, or a handful); no hard deadline; after-hours-only work; 100x-scale probe surfaced no change to the category-ranking rule"
-    - topic: "non-goals"
-      decision: "no automatic bank-account import (manual expense entry only); no shared/multi-user household budgets"
-  frs_drafted: 9
+    - topic: "must preserve"
+      decision: "existing expense & category data and monthly summary totals must stay correct; current Supabase login/session behavior must keep working unchanged"
+    - topic: "change category"
+      decision: "bundle of four small, mostly independent UX/feature additions: navigation reorganization, expense name/description field, category-filtered expense list, per-user currency setting"
+    - topic: "currency scope"
+      decision: "one currency per user account (set once, e.g. in settings), not per-expense — matches the single-household-budget use case"
+    - topic: "auth/roles"
+      decision: "no changes — current Supabase login and flat single-user model preserved"
+    - topic: "blast radius"
+      decision: "existing expense records are the main risk — adding name/description and currency fields requires a migration with safe defaults for existing rows; nav, category browsing, and the settings-level currency picker are additive-only"
+    - topic: "timeline"
+      decision: "3 weeks after-hours, no hard deadline; no Secondary success criterion — scope stays to the four core items"
+    - topic: "currency change semantics"
+      decision: "changing currency is a relabel only, no conversion — the stored number is unchanged, only the display unit changes going forward; no FX-rate dependency"
+  frs_drafted: 5
   quality_check_status: accepted
 ---
 
-## Vision & Problem Statement
+## Current System
 
-A person managing their own household budget today tracks expenses in Excel — manually entering and categorizing every line item. The spreadsheet doesn't analyze data automatically, has no built-in categories, and becomes unwieldy as entries accumulate. The pain hits hardest when they try to understand where the money went and which categories generated the biggest expenses — a question a manual spreadsheet can't answer without extra, tedious work.
+MyBudget is a live personal expense tracker (Astro 6 SSR + React 19 islands, Supabase auth), already shipped past its original MVP. Existing capabilities: account sign-up/sign-in/sign-out, default + custom expense categories, expense logging (today-dated or backdated) with manual category selection, and a month-end summary ranking categories by total spend. Currency is currently hardcoded to USD everywhere amounts are entered or displayed. Navigation between these areas (dashboard, expenses, categories) has no structured menu — users must find pages without a consistent nav affordance.
 
-Automatic expense capture and categorization removes exactly the manual work that is the main reason people abandon manual budgeting (spreadsheets, notes) after a few weeks.
+Users today: a single individual managing their own household budget (unchanged from the original MVP persona).
+
+## Vision & Problem Statement (delta)
+
+Four gaps have emerged from real usage of the shipped MVP:
+
+1. **Navigation** — there is no organized menu; reaching "add expense" or "categories" isn't discoverable through consistent nav.
+2. **Expense identity** — an expense has no name/description field, so entries are hard to tell apart later beyond amount/category/date.
+3. **Category drill-down** — there's no way to browse the list of expenses filtered to a single category; the monthly summary only shows totals, not the underlying entries.
+4. **Currency** — amounts are always shown/entered in USD; the user cannot set their own currency.
+
+The insight: these are exactly the gaps that only surface after living with the MVP day-to-day — none were discoverable at initial shaping since they require having real expenses logged and a real habit of checking them.
 
 ## User & Persona
 
-**Primary**: A single individual managing their own household budget, currently using Excel to manually track expenses. They reach for a new tool at the moment they want to understand where their money went in a given month and which categories drove the largest expenses.
+Unchanged: a single individual managing their own household budget, now an existing user of the shipped MVP rather than a prospective one. This change affects their day-to-day navigation and expense-entry experience, not new user types.
 
 ## Access Control
 
-Login (email + password / OAuth / passwordless — mechanism TBD downstream of stack selection). Flat user model: each authenticated user sees only their own data. No roles, no shared/household access in the MVP.
+No changes planned — current model preserved. Supabase login (email+password/OAuth), flat user model, no roles, each authenticated user sees only their own data.
 
 ## Success Criteria
 
 ### Primary
 
-- A user can create an account, set up categories (edit defaults, add new ones with a description), add an expense (auto or backdated date, manual category selection), and see a month-end summary showing the sum of expenses per category.
+- A logged-in user can reach "add expense" and "categories" through a persistent nav menu, set a currency once in settings that applies app-wide, add an expense with a name/description, and click into a category to see the filtered list of expenses within it.
 
 ### Secondary
 
-- None for v1 — CSV/Excel export was considered but cut entirely from the MVP during the FR Socratic round (see Scope note below).
+- None for this change — scope stays to the four core items above.
 
 ### Guardrails
 
-- A user's financial data is never visible to other users.
-- Adding or editing an expense completes in a few seconds, not longer.
-- The total shown in the monthly summary always reconciles with the sum of individual expense entries.
+- Existing expense and category data, and the monthly per-category summary totals, remain correct after the schema change (new name/description and currency-related fields get safe defaults for pre-existing rows).
+- Current Supabase login/session behavior and per-user data isolation are unaffected.
+- The new nav does not remove or break any existing bookmarked route.
 
 ## User Stories
 
-### US-01: User adds an expense and sees it in the monthly summary
+### US-01: User finds "add expense" through nav and browses a category's expenses
 
-- **Given** a logged-in user with at least one category
-- **When** they add an expense with a manually selected category and today's date
-- **Then** the expense appears in their expense list and is included in the current month's per-category summary
-
-#### Acceptance Criteria
-
-- The expense's amount is added to the correct category's running total for the month it was dated in
-- The monthly summary total always equals the sum of the individual expense amounts
-
-### US-02: User adds a backdated expense
-
-- **Given** a logged-in user viewing the current month's summary
-- **When** they add an expense dated in a previous month
-- **Then** the expense is attributed to the summary of the month it was dated in, not the month it was entered in
+- **Given** a logged-in user on any page of the app
+- **When** they open the nav menu and select "Add expense", then later select a category from the summary or categories page
+- **Then** they reach the add-expense form directly from nav, and see the filtered list of expenses belonging to that category
 
 #### Acceptance Criteria
 
-- Adding a backdated expense updates the previous month's summary, not the current month's, if that summary is viewed
-- The current month's summary is unaffected by a backdated entry
+- The nav menu is reachable from every authenticated page and links to Dashboard, Expenses (add), and Categories
+- Selecting a category shows only expenses tagged with that category, not the full list
+- Previously, there was no nav-driven path to "add expense" or a category-filtered view — both are new
+
+### US-02: User sets currency once and it applies everywhere
+
+- **Given** a logged-in user who has not yet set a currency (defaults to USD)
+- **When** they set their currency in settings
+- **Then** all expense amounts, forms, and the monthly summary display and accept that currency going forward
+
+#### Acceptance Criteria
+
+- Changing currency does not convert or alter previously logged amounts — it only changes the unit going forward (no FX conversion in this MVP)
+- The monthly summary total still reconciles with the sum of individual expense amounts in the selected currency
 
 ## Functional Requirements
 
-### Authentication
+### Navigation
 
-- FR-001: User can create an account. Priority: must-have
-  > Socratic: No counter-argument considered; stands as written.
-- FR-002: User can log in and log out. Priority: must-have
-  > Socratic: Counter-argument considered: "persistent login (no explicit logout) reduces friction in a daily-use personal app." Resolution: kept as written; logout is a cheap, small UI affordance, no reason to cut it.
-
-### Categories
-
-- FR-003: User can view a set of default expense categories. Priority: must-have
-  > Socratic: No counter-argument considered; stands as written.
-- FR-004: User can edit an existing category's name/description. Priority: nice-to-have
-  > Socratic: Counter-argument considered: "not necessary in MVP if default categories + adding new ones suffice." Resolution: demoted to nice-to-have, deferred to v2.
-- FR-005: User can add a new category with a description; the system warns if a similar category name already exists. Priority: must-have
-  > Socratic: Counter-argument considered: "unlimited custom categories could lead to overlapping categories that hurt analysis quality." Resolution: kept, extended with a simple similar-name warning on creation.
+- FR-001: User can access a persistent nav menu from any authenticated page, linking to Dashboard, Add Expense, Categories, Settings. Priority: must-have. Change: new
+  > Socratic: Counter-argument considered: "for ~4 destinations, a home-page-with-links might be simpler than a full nav." Resolution: kept as written; a persistent nav directly solves the stated discoverability pain and is low-cost.
 
 ### Expenses
 
-- FR-006: User can add an expense with an automatic (today's) date. Priority: must-have
-  > Socratic: No counter-argument considered; stands as written.
-- FR-007: User can add an expense with a backdated (past) date. Priority: must-have
-  > Socratic: No counter-argument considered; stands as written — an explicit requirement from the original idea.
-- FR-008: User can manually select a category for an expense. Priority: must-have
-  > Socratic: Counter-argument considered: "manual categorization on every expense is exactly the friction AI-categorization was meant to solve — worth doing manually now?" Resolution: kept manual for v1; AI categorization is deliberately deferred to v2 to protect the 3-week timeline. Manual entry is still faster than the current unstructured Excel workflow.
+- FR-002: User can add a name/description when creating or editing an expense (optional field). Priority: must-have. Change: modified
+  > Socratic: Counter-argument considered: "category + amount + date may already be enough to distinguish expenses." Resolution: kept as written — explicitly requested; kept optional to avoid adding friction to every entry.
 
-### Monthly summary
+### Categories
 
-- FR-009: User can view a month-end summary showing total expenses per category for the current month. Priority: must-have
-  > Socratic: No counter-argument considered; stands as written — a deliberate scope-down from month-over-month trends (see Scope note).
+- FR-003: User can select a category and view the list of expenses belonging to that category. Priority: must-have. Change: new
+  > Socratic: Counter-argument considered: "the monthly summary already shows per-category totals — could this wait?" Resolution: kept as written — totals alone don't show which expenses made up a category; explicitly requested.
 
-## Scope note (deferred to v2)
+### Currency
 
-- AI auto-categorization of expenses — deferred; v1 uses manual category selection only (see FR-008 Socratic).
-- Month-over-month trend analysis — deferred; v1 uses simple per-category sums for the current month only (see FR-009 Socratic).
-- Payment reminders for upcoming bills — captured as a nice-to-have from the original idea, not selected as MVP Secondary; revisit post-MVP.
-- Category editing (name/description) — demoted to nice-to-have; default categories + add-new cover MVP needs (see FR-004 Socratic).
-- CSV/Excel export — removed from v1 entirely and moved to the v2 backlog. Socratic counter-argument: "every hour spent on export is an hour not spent on the core flow." Resolution: dropped from v1; all effort goes to account/categories/expenses/summary.
+- FR-004: User can set their currency once in settings; it applies to all amount display/entry going forward, with no conversion of previously logged amounts. Priority: must-have. Change: new
+  > Socratic: Counter-argument considered: "relabeling old amounts without conversion could make historical summaries misleading if currency changes later." Resolution: acceptable as written — currency changes are expected to be rare (set once, near account creation); simplicity wins over the edge case.
+
+### Preserved behavior
+
+- FR-005: Existing expense list, category management, and monthly summary continue working exactly as before. Priority: must-have. Change: preserved
+  > Socratic: Counter-argument considered: "this restates the Guardrails already captured in Success Criteria — redundant?" Resolution: kept as written — explicit defensive FR makes preservation a first-class requirement for implementation, not just an implicit assumption.
 
 ## Business Logic
 
-The application ranks the user's spending categories by total amount for the current month, surfacing which categories drove the largest share of spending.
+No domain logic change. This is an infrastructure/UX change. The existing rule — rank the user's spending categories by total amount for the current month — is unchanged; nav, the name/description field, category drill-down, and the currency setting are all presentation/data-shape additions, not new decisions the app makes for the user.
 
-The rule consumes the expenses the user has logged during the current month, each carrying a category and an amount. Its output is an ordered view of categories from largest to smallest total spend for that month. The user encounters this ranking in the month-end summary — instead of a flat, unordered list of category sums, the categories that consumed the most money surface first.
+## Constraints & Preserved Behavior
 
-Month-over-month trend comparison (how a category's spending changes across months) is a related but separate rule, deliberately deferred to v2 (see Scope note above and the Step 5 resolution) to protect the 3-week MVP timeline.
+- Migration: the expenses table gains a nullable name/description column (existing rows: empty/null). Currency is a per-user setting (on the user/profile record), not a per-expense column, so existing expense rows need no currency migration — they are implicitly interpreted in whatever currency the user later sets, per the FR-004 relabel-only decision.
+- No backward-compatibility breakage: existing bookmarked routes, the Supabase auth flow, and the monthly summary calculation must continue to work unchanged (see FR-005, Guardrails).
+- No new external integrations are introduced by this change.
 
 ## Non-Functional Requirements
 
-- A user perceives acknowledgement of any action (adding an expense, switching views, editing a category) within 1 second.
-- The application remains usable on both mobile and desktop screen sizes.
+- Same as the existing app-wide standard: a user perceives acknowledgement of any action (opening nav, filtering by category, saving an expense, changing currency) within 1 second.
+- The application remains usable on both mobile and desktop screen sizes — the new nav must not break this.
 
 ## Non-Goals
 
-- **No automatic bank-account import.** Expenses are entered manually only. Open-banking / bank-API integration is a large, security-sensitive undertaking out of scope for the MVP.
-- **No shared/multi-user household budgets.** Consistent with the flat, single-user access model locked in Phase 2 — each account sees only its own data; no budget sharing or multi-member households in v1.
+- **No multi-currency / FX conversion.** Single currency label per user account, relabel-only on change; no exchange-rate lookups, no per-expense currency, no historical conversion.
+- **No expense search/full-text search.** This change adds category-filtered browsing only; keyword search across name/description is out of scope.
+- **No role/permission changes.** Auth and access control stay exactly as they are today — consistent with the Access Control section.
+- **No redesign of the monthly summary itself.** The existing ranked category-summary view/logic is untouched; this change only adds a way to drill into a category's underlying expense list.
+
+## Product framing
+
+- product_type: web-app (unchanged)
+- target_scale: small / single user (unchanged)
+- No existing-system constraint beyond what's already captured in CI (lint + build via GitHub Actions), Supabase migration conventions, and RLS policies.

@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "dev:e2e": "cross-env CLOUDFLARE_ENV=e2e astro dev",
     "test:e2e": "playwright test",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",

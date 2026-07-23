@@ -1,0 +1,125 @@
+---
+project: MyBudget
+version: 2
+status: draft
+created: 2026-07-23
+context_type: brownfield
+product_type: web-app
+target_scale:
+  users: small
+  qps: low
+  data_volume: small
+timeline_budget:
+  delivery_weeks: 3
+  hard_deadline: null
+  after_hours_only: true
+---
+
+## Current System Overview
+
+MyBudget is a live personal expense tracker for a single individual managing their own household budget.
+
+- **System purpose**: let a user log expenses, organize them into categories, and see which categories drove the most spending each month.
+- **Key architecture**: server-rendered web application with interactive UI islands for dynamic parts of the interface.
+- **Tech stack**: Astro 6 (SSR), React 19, Supabase (authentication).
+- **Current user base**: a single individual, small scale — the app has shipped past its original MVP and is in active use.
+- **Core functionality today**: account sign-up/sign-in/sign-out; default and custom expense categories; expense logging (today-dated or backdated) with manual category selection; a month-end summary ranking categories by total spend. Currency is currently hardcoded to USD everywhere amounts are entered or displayed. Navigation between these areas has no structured menu — users must find pages without a consistent nav affordance.
+
+## Problem Statement & Motivation
+
+Four gaps have emerged from real usage of the shipped MVP:
+
+1. **Navigation** — there is no organized menu; reaching "add expense" or "categories" isn't discoverable through consistent nav.
+2. **Expense identity** — an expense has no name/description field, so entries are hard to tell apart later beyond amount/category/date.
+3. **Category drill-down** — there's no way to browse the list of expenses filtered to a single category; the monthly summary only shows totals, not the underlying entries.
+4. **Currency** — amounts are always shown/entered in USD; the user cannot set their own currency.
+
+Why now: these are exactly the gaps that only surface after living with the MVP day-to-day — none were discoverable at initial shaping since they require having real expenses logged and a real habit of checking them.
+
+Current workaround: none — these are gaps in the current product, not workflows the user has found another way to handle.
+
+## User & Persona
+
+Unchanged: a single individual managing their own household budget, now an existing user of the shipped MVP rather than a prospective one. This change affects their day-to-day navigation and expense-entry experience, not new user types.
+
+## Success Criteria
+
+### Primary
+
+- A logged-in user can reach "add expense" and "categories" through a persistent nav menu, set a currency once in settings that applies app-wide, add an expense with a name/description, and click into a category to see the filtered list of expenses within it.
+
+### Secondary
+
+- None for this change — scope stays to the four core items above.
+
+### Guardrails
+
+- Existing expense and category data, and the monthly per-category summary totals, remain correct after this change (new name/description and currency-related capabilities use safe defaults for pre-existing records).
+- Current login/session behavior and per-user data isolation are unaffected.
+- The new nav does not remove or break any existing bookmarked route.
+- A user perceives acknowledgement of any action (opening nav, filtering by category, saving an expense, changing currency) within 1 second.
+- The application remains usable on both mobile and desktop screen sizes — the new nav must not break this.
+
+## User Stories
+
+### US-01: User finds "add expense" through nav and browses a category's expenses
+
+- **Given** a logged-in user on any page of the app
+- **When** they open the nav menu and select "Add expense", then later select a category from the summary or categories page
+- **Then** they reach the add-expense form directly from nav, and see the filtered list of expenses belonging to that category
+
+#### Acceptance Criteria
+
+- The nav menu is reachable from every authenticated page and links to Dashboard, Expenses (add), and Categories
+- Selecting a category shows only expenses tagged with that category, not the full list
+- Previously, there was no nav-driven path to "add expense" or a category-filtered view — both are new
+
+### US-02: User sets currency once and it applies everywhere
+
+- **Given** a logged-in user who has not yet set a currency (defaults to USD)
+- **When** they set their currency in settings
+- **Then** all expense amounts, forms, and the monthly summary display and accept that currency going forward
+
+#### Acceptance Criteria
+
+- Changing currency does not convert or alter previously logged amounts — it only changes the unit going forward (no FX conversion in this change)
+- The monthly summary total still reconciles with the sum of individual expense amounts in the selected currency
+
+## Scope of Change
+
+- [new] User can access a persistent nav menu from any authenticated page, linking to Dashboard, Add Expense, Categories, Settings. Priority: must-have. (FR-001)
+  > Socratic: Counter-argument considered: "for ~4 destinations, a home-page-with-links might be simpler than a full nav." Resolution: kept as written; a persistent nav directly solves the stated discoverability pain and is low-cost.
+- [modified] User can add a name/description when creating or editing an expense (optional field) — previously expenses had no name/description field. Priority: must-have. (FR-002)
+  > Socratic: Counter-argument considered: "category + amount + date may already be enough to distinguish expenses." Resolution: kept as written — explicitly requested; kept optional to avoid adding friction to every entry.
+- [new] User can select a category and view the list of expenses belonging to that category. Priority: must-have. (FR-003)
+  > Socratic: Counter-argument considered: "the monthly summary already shows per-category totals — could this wait?" Resolution: kept as written — totals alone don't show which expenses made up a category; explicitly requested.
+- [new] User can set their currency once in settings; it applies to all amount display/entry going forward, with no conversion of previously logged amounts. Priority: must-have. (FR-004)
+  > Socratic: Counter-argument considered: "relabeling old amounts without conversion could make historical summaries misleading if currency changes later." Resolution: acceptable as written — currency changes are expected to be rare (set once, near account creation); simplicity wins over the edge case.
+- [preserved] Existing expense list, category management, and monthly summary continue working exactly as before. Priority: must-have. (FR-005)
+  > Socratic: Counter-argument considered: "this restates the Guardrails already captured in Success Criteria — redundant?" Resolution: kept as written — explicit defensive item makes preservation a first-class requirement for implementation, not just an implicit assumption.
+
+## Constraints & Compatibility
+
+- **Backward compatibility**: existing bookmarked routes, the current login/session flow, and the monthly summary calculation must continue working exactly as before.
+- **Data changes needed**: expenses gain an optional name/description; currency becomes a per-user setting rather than a fixed value. Both are additive — existing expense records remain valid and complete without requiring any change to previously entered data. Currency is set at the user level, not per expense, so existing expense records need no currency-related change; existing amounts are interpreted in whichever currency the user later sets, per the relabel-only decision in Scope of Change.
+- **Existing integrations**: none — no new external integrations are introduced by this change.
+- **Preserved behavior**: see the `[preserved]` item in Scope of Change and the Guardrails above — existing expense list, category management, monthly summary, and login/session behavior must not regress.
+
+## Business Logic Changes
+
+No domain logic change. This is an infrastructure/UX change. The existing rule — rank the user's spending categories by total amount for the current month — is unchanged; nav, the name/description field, category drill-down, and the currency setting are all presentation/data-shape additions, not new decisions the app makes for the user.
+
+## Access Control Changes
+
+No access control changes — current model preserved. Email+password/OAuth login, flat user model, no roles; each authenticated user sees only their own data.
+
+## Non-Goals
+
+- **No multi-currency / FX conversion.** Single currency label per user account, relabel-only on change; no exchange-rate lookups, no per-expense currency, no historical conversion.
+- **No expense search/full-text search.** This change adds category-filtered browsing only; keyword search across name/description is out of scope.
+- **No role/permission changes.** Auth and access control stay exactly as they are today — consistent with Access Control Changes.
+- **No redesign of the monthly summary itself.** The existing ranked category-summary view/logic is untouched; this change only adds a way to drill into a category's underlying expense list.
+
+## Open Questions
+
+None identified at this time.

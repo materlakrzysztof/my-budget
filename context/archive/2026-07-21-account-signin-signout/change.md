@@ -1,10 +1,10 @@
 ---
 change_id: account-signin-signout
 title: Confirm account creation and sign-in/out, close the redirect gap, add E2E coverage
-status: impl_reviewed
+status: archived
 created: 2026-07-21
-updated: 2026-07-22
-archived_at: null
+updated: 2026-07-23
+archived_at: 2026-07-23T12:38:14Z
 ---
 
 ## Notes
