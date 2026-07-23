@@ -421,9 +421,9 @@ missing update/delete policies untouched).
 
 #### Automated
 
-- [x] 3.1 `npm run test:unit` passes locally
-- [x] 3.2 CI workflow YAML triggers without a syntax error
+- [x] 3.1 `npm run test:unit` passes locally — 7970157
+- [x] 3.2 CI workflow YAML triggers without a syntax error — 7970157
 
 #### Manual
 
-- [ ] 3.3 Actions tab shows the new `test:unit` step running and passing on a push/PR
+- [x] 3.3 Actions tab shows the new `test:unit` step running and passing on a push/PR
