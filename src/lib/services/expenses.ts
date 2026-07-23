@@ -9,11 +9,15 @@ function todayIsoDate(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+// Column is numeric(12,2): 12 total digits, 2 after the decimal point.
+const MAX_AMOUNT = 9999999999.99;
+
 const amountSchema = z
   .string()
   .trim()
   .regex(/^\d+(\.\d{1,2})?$/, "Amount must be a positive number with at most 2 decimal places")
-  .refine((value) => Number(value) > 0, "Amount must be greater than zero");
+  .refine((value) => Number(value) > 0, "Amount must be greater than zero")
+  .refine((value) => Number(value) <= MAX_AMOUNT, "Amount must be at most 9,999,999,999.99");
 
 const dateSchema = z
   .string()
@@ -33,6 +37,13 @@ export class FutureDateError extends Error {
   constructor() {
     super("Expense date cannot be in the future.");
     this.name = "FutureDateError";
+  }
+}
+
+export class InvalidAmountError extends Error {
+  constructor() {
+    super("Amount must be a positive number within the supported range.");
+    this.name = "InvalidAmountError";
   }
 }
 
@@ -62,10 +73,18 @@ interface ExpenseRow {
 const EXPENSE_SELECT = "id, category_id, amount, date, created_at, categories!expenses_user_category_fk(name)";
 
 function toExpense(row: ExpenseRow): Expense {
+  if (!row.categories) {
+    // The composite ownership FK guarantees every expense has a category
+    // row visible under this same user's RLS — a null embed here means the
+    // PostgREST schema cache is stale or the FK's invariant broke, not a
+    // legitimate "no category" state worth defaulting through silently.
+    throw new Error(`Expense ${row.id} has no resolvable category (category_id: ${row.category_id})`);
+  }
+
   return {
     id: row.id,
     categoryId: row.category_id,
-    categoryName: row.categories?.name ?? "",
+    categoryName: row.categories.name,
     amount: row.amount,
     date: row.date,
     createdAt: row.created_at,
@@ -73,7 +92,13 @@ function toExpense(row: ExpenseRow): Expense {
 }
 
 function mapWriteError(error: PostgrestError): never {
-  if (error.code === FUTURE_DATE_VIOLATION) throw new FutureDateError();
+  if (error.code === FUTURE_DATE_VIOLATION) {
+    // "23514" (check_violation) is shared by both the amount>0 and the
+    // date<=current_date checks on expenses — the constraint name in the
+    // error message is the only way to tell which one actually fired.
+    if (error.message.includes("expenses_amount_check")) throw new InvalidAmountError();
+    throw new FutureDateError();
+  }
   if (error.code === CATEGORY_OWNERSHIP_VIOLATION) throw new CategoryOwnershipError();
   throw error;
 }

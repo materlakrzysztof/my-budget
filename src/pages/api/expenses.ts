@@ -5,6 +5,7 @@ import {
   createExpenseSchema,
   CategoryOwnershipError,
   FutureDateError,
+  InvalidAmountError,
   listExpenses,
 } from "@/lib/services/expenses";
 import type { ExpenseResponse, ListExpensesResponse } from "@/types";
@@ -49,7 +50,7 @@ export const POST: APIRoute = async (context) => {
     const expense = await createExpense(supabase, context.locals.user.id, parsed.data);
     return json({ expense } satisfies ExpenseResponse, 201);
   } catch (err) {
-    if (err instanceof FutureDateError) {
+    if (err instanceof FutureDateError || err instanceof InvalidAmountError) {
       return json({ error: err.message }, 422);
     }
     if (err instanceof CategoryOwnershipError) {

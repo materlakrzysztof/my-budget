@@ -5,6 +5,7 @@ import {
   deleteExpense,
   ExpenseNotFoundError,
   FutureDateError,
+  InvalidAmountError,
   updateExpense,
   updateExpenseSchema,
 } from "@/lib/services/expenses";
@@ -39,7 +40,7 @@ export const PATCH: APIRoute = async (context) => {
     if (err instanceof ExpenseNotFoundError) {
       return json({ error: err.message }, 404);
     }
-    if (err instanceof FutureDateError) {
+    if (err instanceof FutureDateError || err instanceof InvalidAmountError) {
       return json({ error: err.message }, 422);
     }
     if (err instanceof CategoryOwnershipError) {

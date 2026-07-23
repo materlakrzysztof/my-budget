@@ -68,6 +68,16 @@ export default function ExpensesManager({ categories, initialExpenses, initialSu
     setServerError(null);
   }
 
+  function openDeleteDialog(expense: Expense) {
+    setServerError(null);
+    setDeleteTarget(expense);
+  }
+
+  function closeDeleteDialog() {
+    setDeleteTarget(null);
+    setServerError(null);
+  }
+
   async function handleFormSubmit(input: CreateExpenseRequest) {
     const target = dialogMode === "edit" ? editingExpense : null;
     const url = target ? `/api/expenses/${target.id}` : "/api/expenses";
@@ -86,7 +96,10 @@ export default function ExpensesManager({ categories, initialExpenses, initialSu
     }
 
     if (!response.ok) {
-      throw new Error(target ? "Failed to update expense" : "Failed to create expense");
+      setServerError(
+        target ? "Failed to update expense. Please try again." : "Failed to create expense. Please try again.",
+      );
+      return;
     }
 
     closeFormDialog();
@@ -98,10 +111,11 @@ export default function ExpensesManager({ categories, initialExpenses, initialSu
 
     const response = await fetch(`/api/expenses/${deleteTarget.id}`, { method: "DELETE" });
     if (!response.ok && response.status !== 404) {
-      throw new Error("Failed to delete expense");
+      setServerError("Failed to delete expense. Please try again.");
+      return;
     }
 
-    setDeleteTarget(null);
+    closeDeleteDialog();
     await refresh();
   }
 
@@ -123,7 +137,7 @@ export default function ExpensesManager({ categories, initialExpenses, initialSu
             Add expense
           </Button>
         </div>
-        <ExpenseList expenses={expenses} onEdit={openEditDialog} onDeleteRequest={setDeleteTarget} />
+        <ExpenseList expenses={expenses} onEdit={openEditDialog} onDeleteRequest={openDeleteDialog} />
       </div>
 
       <ExpenseFormDialog
@@ -140,7 +154,7 @@ export default function ExpensesManager({ categories, initialExpenses, initialSu
       <Dialog
         open={deleteTarget !== null}
         onOpenChange={(next) => {
-          if (!next) setDeleteTarget(null);
+          if (!next) closeDeleteDialog();
         }}
       >
         <DialogContent className="border-white/10 bg-slate-900 text-white">
@@ -150,14 +164,20 @@ export default function ExpensesManager({ categories, initialExpenses, initialSu
               Are you sure you want to delete this expense? This cannot be undone.
             </DialogDescription>
           </DialogHeader>
+          {serverError && (
+            <p
+              role="alert"
+              className="flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-900/30 px-3 py-2 text-sm text-red-300"
+            >
+              {serverError}
+            </p>
+          )}
           <DialogFooter>
             <Button
               type="button"
               variant="outline"
               className="border-white/20 bg-white/10 text-white hover:bg-white/20"
-              onClick={() => {
-                setDeleteTarget(null);
-              }}
+              onClick={closeDeleteDialog}
             >
               Cancel
             </Button>
