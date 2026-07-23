@@ -105,4 +105,14 @@ describe("createExpenseSchema", () => {
     const result = createExpenseSchema.safeParse({ categoryId: validCategoryId, amount: "10.00", date: futureIso() });
     expect(result.success).toBe(false);
   });
+
+  it("rejects a missing categoryId", () => {
+    const result = createExpenseSchema.safeParse({ amount: "10.00", date: todayIso() });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects an empty categoryId", () => {
+    const result = createExpenseSchema.safeParse({ categoryId: "", amount: "10.00", date: todayIso() });
+    expect(result.success).toBe(false);
+  });
 });

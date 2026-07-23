@@ -62,6 +62,17 @@ almost never surfaces from a happy-path interview on its own).
 | #4   | The category a user selects when creating an expense is the category persisted and displayed, verified with ≥2 distinct categories so a swap is actually observable | "The selection is fine" when only one category exists in the test proves nothing; also challenge silent fallback-to-default on empty/invalid selection | Expense-create request/handler contract; how `category_id` is validated and persisted                                    | integration test on the expense-create endpoint with ≥2 seeded categories                  | Single-category e2e test where a category mixup is structurally invisible                                     |
 | #5   | A migration applied to a production-like schema still produces the correct data shape, and a deploy doesn't ship with missing seed/reference data (e.g. default categories) | "Passed on staging" ≠ "safe for production" — challenge whether staging schema/data actually resembles production at apply time | Supabase migration process/tooling in use; whether a default-categories seed exists; CI's current DB-related steps (none today) | CI quality gate — apply migrations to a fresh/throwaway database (dry-run/schema-diff), plus a post-deploy data-smoke check | Treating "migration file exists and build passes" as sufficient signal without ever applying it to a production-like schema |
 
+Risk #3 closure note (2026-07-23, Phase 2): the monthly-summary API/UI never
+expose a past month — `getMonthlySummary` always resolves to the current
+month and there is no UI to view another one — so "an expense correctly
+appears in its own past month's summary" has no product surface to test
+through beyond what the existing e2e exclusion test
+(`tests/e2e/expenses-backdated-attribution.spec.ts`) and Phase 1's
+summary-view integration coverage already establish. Deliberately out of
+scope, not a gap. Phase 2 closed by testing the one remaining real gap
+instead: `categoryId` rejection on expense creation (Risk #4), see
+`context/changes/expense-attribution-correctness/`.
+
 ## 3. Phased Rollout
 
 Each row is a discrete rollout phase that will open its own change folder
@@ -71,7 +82,7 @@ orchestrator updates Status as artifacts appear on disk.
 | #   | Phase name                                    | Goal (one line)                                                                                                     | Risks covered | Test types          | Status      | Change folder |
 | --- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------- | ----------- | -------------- |
 | 1   | Financial data isolation & summary correctness | Bootstrap a test runner and prove the two PRD guardrails (cross-user isolation, summary reconciliation) as S-02/S-03 land | #1, #2         | unit + integration    | researched | `context/changes/testing-data-isolation-summary/` |
-| 2   | Expense attribution correctness                | Lock in correct month/category attribution and extend the existing Playwright suite across the full US-01/US-02 journey | #3, #4         | unit + e2e            | not started | —              |
+| 2   | Expense attribution correctness                | Lock in correct month/category attribution and extend the existing Playwright suite across the full US-01/US-02 journey | #3, #4         | unit + e2e            | complete | `context/changes/expense-attribution-correctness/` |
 | 3   | Migration & deploy safety net                  | Close the staging-vs-production data-integrity gap the team has already been burned by                                | #5             | CI quality gate       | not started | —              |
 
 **Status vocabulary** (fixed): `not started` → `change opened` → `researched` → `planned` → `implementing` → `complete`.
@@ -82,7 +93,7 @@ orchestrator updates Status as artifacts appear on disk.
 | --------------------- | ----------------------- | ------- | -------------------------------------------------------------------------------------------- |
 | unit + integration    | none yet                | —       | See §3 Phase 1 — first phase bootstraps the runner (candidate: Vitest, given the Vite/Astro toolchain already in use) |
 | API mocking            | none yet                | —       | Mocking policy TBD in Phase 1; per convention, mock only at the network edge, never internal modules |
-| e2e                    | Playwright              | ^1.61   | Configured (`playwright.config.ts`), 0 specs shipped yet. Sibling change `account-signin-signout` has 3 auth specs planned but not yet landed — Phase 2 here extends the same infra |
+| e2e                    | Playwright              | ^1.61   | Configured (`playwright.config.ts`), 11 specs shipped (auth, categories, expenses — includes partial Risk #3/#4 coverage that landed with the original feature build, not a dedicated test phase). Phase 2 here extends the same infra |
 | accessibility          | none yet                | —       | No PRD/interview signal raised this as a top-5 risk; not scoped into this rollout            |
 | (optional) AI-native   | not evaluated           | n/a     | No AI-native layer proposed — classic unit/integration/e2e covers all 5 top risks at the cheapest layer |
 
