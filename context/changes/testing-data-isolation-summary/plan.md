@@ -402,27 +402,27 @@ missing update/delete policies untouched).
 
 #### Manual
 
-- [ ] 1.4 `npm run test:integration` runs reliably against the real E2E project across repeated runs
-- [ ] 1.5 Env loader never prints/logs actual credential values
+- [x] 1.4 `npm run test:integration` runs reliably against the real E2E project across repeated runs
+- [x] 1.5 Env loader never prints/logs actual credential values
 
 ### Phase 2: Cross-User Isolation & Summary Exclusion Suite
 
 #### Automated
 
-- [x] 2.1 `npm run test:integration` passes, including all isolation and summary-exclusion assertions
-- [x] 2.2 `npm run lint` passes
+- [x] 2.1 `npm run test:integration` passes, including all isolation and summary-exclusion assertions — 2f93a91
+- [x] 2.2 `npm run lint` passes — 2f93a91
 
 #### Manual
 
-- [ ] 2.3 Temporarily breaking an RLS policy causes the corresponding assertion to fail (proves the suite isn't vacuous)
-- [ ] 2.4 Run doesn't touch or require the local dev Supabase project
+- [x] 2.3 Temporarily breaking an RLS policy causes the corresponding assertion to fail (proves the suite isn't vacuous)
+- [x] 2.4 Run doesn't touch or require the local dev Supabase project
 
 ### Phase 3: Wire Existing Unit Tests into CI
 
 #### Automated
 
-- [ ] 3.1 `npm run test:unit` passes locally
-- [ ] 3.2 CI workflow YAML triggers without a syntax error
+- [x] 3.1 `npm run test:unit` passes locally
+- [x] 3.2 CI workflow YAML triggers without a syntax error
 
 #### Manual
 
