@@ -10,6 +10,12 @@ import { createExpense, getMonthlySummary } from "@/lib/services/expenses";
  * service layer's own defense-in-depth filter would otherwise absorb a
  * broken RLS policy and make these tests pass vacuously. See the plan's
  * "Critical Implementation Details" for why.
+ *
+ * The expenses `it` blocks below rely on Vitest's default sequential,
+ * non-shuffled execution within a file: the update test's zero-rows
+ * assertion and the delete test's "still exists" assertion both depend
+ * on `aExpenseId` still pointing at an untouched row, which only holds
+ * if these run in the order they're written.
  */
 
 function todayIsoDate(): string {

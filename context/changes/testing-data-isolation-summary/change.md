@@ -1,7 +1,7 @@
 ---
 change_id: testing-data-isolation-summary
 title: Testing data isolation summary
-status: implemented
+status: impl_reviewed
 created: 2026-07-21
 updated: 2026-07-23
 archived_at: null
