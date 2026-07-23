@@ -447,30 +447,30 @@ This is a net-new table with no existing data to migrate. The composite foreign 
 
 #### Automated
 
-- [x] 3.1 Lint passes: `npm run lint`
-- [x] 3.2 Type checking passes: `npx astro check`
-- [x] 3.3 Build passes: `npm run build`
+- [x] 3.1 Lint passes: `npm run lint` — d4b7896
+- [x] 3.2 Type checking passes: `npx astro check` — d4b7896
+- [x] 3.3 Build passes: `npm run build` — d4b7896
 
 #### Manual
 
-- [x] 3.4 Signed-out visit to `/expenses` redirects to `/auth/signin`
-- [x] 3.5 New user sees all categories at $0.00 with zero-width bars and an empty list
-- [x] 3.6 Adding an expense updates the list and summary without a page reload
-- [x] 3.7 Adding a backdated expense does not change the current month's summary
-- [x] 3.8 Editing an expense (amount/date/category) updates list and summary correctly
-- [x] 3.9 Deleting an expense via the in-app confirmation dialog updates list and summary
-- [x] 3.10 Future-dated submission is blocked client-side with an inline error
-- [x] 3.11 "Expenses" link appears in Topbar only when signed in
+- [x] 3.4 Signed-out visit to `/expenses` redirects to `/auth/signin` — d4b7896
+- [x] 3.5 New user sees all categories at $0.00 with zero-width bars and an empty list — d4b7896
+- [x] 3.6 Adding an expense updates the list and summary without a page reload — d4b7896
+- [x] 3.7 Adding a backdated expense does not change the current month's summary — d4b7896
+- [x] 3.8 Editing an expense (amount/date/category) updates list and summary correctly — d4b7896
+- [x] 3.9 Deleting an expense via the in-app confirmation dialog updates list and summary — d4b7896
+- [x] 3.10 Future-dated submission is blocked client-side with an inline error — d4b7896
+- [x] 3.11 "Expenses" link appears in Topbar only when signed in — d4b7896
 
 ### Phase 4: E2E coverage for expenses and the monthly summary
 
 #### Automated
 
-- [ ] 4.1 `tests/e2e/expenses-add-and-summary.spec.ts` passes
-- [ ] 4.2 `tests/e2e/expenses-backdated-attribution.spec.ts` passes
-- [ ] 4.3 `tests/e2e/expenses-edit-updates-summary.spec.ts` passes
-- [ ] 4.4 `tests/e2e/expenses-delete-updates-summary.spec.ts` passes
-- [ ] 4.5 Full E2E suite passes: `npm run test:e2e`
+- [x] 4.1 `tests/e2e/expenses-add-and-summary.spec.ts` passes
+- [x] 4.2 `tests/e2e/expenses-backdated-attribution.spec.ts` passes
+- [x] 4.3 `tests/e2e/expenses-edit-updates-summary.spec.ts` passes
+- [x] 4.4 `tests/e2e/expenses-delete-updates-summary.spec.ts` passes
+- [x] 4.5 Full E2E suite passes: `npm run test:e2e`
 
 #### Manual
 

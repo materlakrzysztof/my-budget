@@ -78,3 +78,44 @@ export async function signUpAndSignIn(page: Page, email: string, password: strin
   await page.getByRole("button", { name: "Sign in" }).click();
   await expect(page).toHaveURL("/");
 }
+
+/**
+ * The expenses page's "Add expense" button is a plain onClick handler inside
+ * the ExpensesManager island (client:load) — before hydration a click is a
+ * silent no-op, the same SSR/islands race waitForAuthFormHydration guards
+ * against. Retrying the click until the Add-expense dialog actually opens
+ * both proves hydration and leaves the dialog open, ready for the caller to
+ * fill in the first expense.
+ */
+export async function openAddExpenseDialog(page: Page) {
+  await page.waitForLoadState("networkidle");
+  const addButton = page.getByRole("button", { name: "Add expense" });
+
+  await expect(async () => {
+    await addButton.click();
+    await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible({ timeout: 250 });
+  }).toPass({ timeout: 5000 });
+}
+
+/**
+ * Scopes to the add/edit expense dialog by its title. This disambiguates the
+ * dialog's own submit button (labeled "Add expense" in add mode) from the
+ * page-level button of the same name that opens the dialog in the first place.
+ */
+export function expenseDialog(page: Page, mode: "add" | "edit") {
+  return page.getByRole("dialog", { name: mode === "add" ? "Add expense" : "Edit expense" });
+}
+
+/**
+ * A MonthlySummary row and an ExpenseList row can show the same category
+ * name and dollar amount, so a plain text match can't tell them apart. Only
+ * the expense-list row renders the "·" date separator — the stable way to
+ * distinguish "this category's total" from "this one expense entry".
+ */
+export function summaryRowFor(page: Page, categoryName: string) {
+  return page.getByRole("listitem").filter({ hasText: categoryName }).filter({ hasNotText: "·" });
+}
+
+export function expenseRowFor(page: Page, categoryName: string) {
+  return page.getByRole("listitem").filter({ hasText: categoryName }).filter({ hasText: "·" });
+}
