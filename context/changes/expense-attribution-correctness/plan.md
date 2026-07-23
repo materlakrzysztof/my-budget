@@ -243,11 +243,11 @@ edit.
 
 #### Automated
 
-- [x] 1.1 Unit tests pass: `npm run test:unit`
-- [x] 1.2 Integration tests pass: `npm run test:integration`
-- [x] 1.3 Lint passes: `npm run lint`
+- [x] 1.1 Unit tests pass: `npm run test:unit` — 0136318
+- [x] 1.2 Integration tests pass: `npm run test:integration` — 0136318
+- [x] 1.3 Lint passes: `npm run lint` — 0136318
 
 #### Manual
 
-- [ ] 1.4 New integration test confirmed non-vacuous (break/restore check)
-- [ ] 1.5 `test-plan.md` Phase 2 row and Risk #3 note confirmed correct
+- [x] 1.4 New integration test confirmed non-vacuous (break/restore check) — 0136318
+- [x] 1.5 `test-plan.md` Phase 2 row and Risk #3 note confirmed correct — 0136318
