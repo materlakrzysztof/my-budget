@@ -431,36 +431,36 @@ This is a net-new table with no existing data to migrate. The composite foreign 
 
 #### Automated
 
-- [x] 2.1 Unit tests pass: `npm run test:unit`
-- [x] 2.2 Lint passes: `npm run lint`
-- [x] 2.3 Type checking passes: `npx astro check`
-- [x] 2.4 Build passes: `npm run build`
+- [x] 2.1 Unit tests pass: `npm run test:unit` — 9c2127e
+- [x] 2.2 Lint passes: `npm run lint` — 9c2127e
+- [x] 2.3 Type checking passes: `npx astro check` — 9c2127e
+- [x] 2.4 Build passes: `npm run build` — 9c2127e
 
 #### Manual
 
-- [x] 2.5 POST/GET /api/expenses create-and-list round trip verified
-- [x] 2.6 PATCH/DELETE /api/expenses/:id update-and-delete verified
-- [x] 2.7 GET /api/expenses/summary reflects all categories with correct $0.00 defaults and ranking
-- [x] 2.8 Future-date POST returns 422; cross-user category_id returns 409
+- [x] 2.5 POST/GET /api/expenses create-and-list round trip verified — 9c2127e
+- [x] 2.6 PATCH/DELETE /api/expenses/:id update-and-delete verified — 9c2127e
+- [x] 2.7 GET /api/expenses/summary reflects all categories with correct $0.00 defaults and ranking — 9c2127e
+- [x] 2.8 Future-date POST returns 422; cross-user category_id returns 409 — 9c2127e
 
 ### Phase 3: UI — expenses page, add/edit dialog, and ranked summary
 
 #### Automated
 
-- [ ] 3.1 Lint passes: `npm run lint`
-- [ ] 3.2 Type checking passes: `npx astro check`
-- [ ] 3.3 Build passes: `npm run build`
+- [x] 3.1 Lint passes: `npm run lint`
+- [x] 3.2 Type checking passes: `npx astro check`
+- [x] 3.3 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 3.4 Signed-out visit to `/expenses` redirects to `/auth/signin`
-- [ ] 3.5 New user sees all categories at $0.00 with zero-width bars and an empty list
-- [ ] 3.6 Adding an expense updates the list and summary without a page reload
-- [ ] 3.7 Adding a backdated expense does not change the current month's summary
-- [ ] 3.8 Editing an expense (amount/date/category) updates list and summary correctly
-- [ ] 3.9 Deleting an expense via the in-app confirmation dialog updates list and summary
-- [ ] 3.10 Future-dated submission is blocked client-side with an inline error
-- [ ] 3.11 "Expenses" link appears in Topbar only when signed in
+- [x] 3.4 Signed-out visit to `/expenses` redirects to `/auth/signin`
+- [x] 3.5 New user sees all categories at $0.00 with zero-width bars and an empty list
+- [x] 3.6 Adding an expense updates the list and summary without a page reload
+- [x] 3.7 Adding a backdated expense does not change the current month's summary
+- [x] 3.8 Editing an expense (amount/date/category) updates list and summary correctly
+- [x] 3.9 Deleting an expense via the in-app confirmation dialog updates list and summary
+- [x] 3.10 Future-dated submission is blocked client-side with an inline error
+- [x] 3.11 "Expenses" link appears in Topbar only when signed in
 
 ### Phase 4: E2E coverage for expenses and the monthly summary
 
