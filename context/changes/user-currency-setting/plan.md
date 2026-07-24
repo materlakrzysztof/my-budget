@@ -323,6 +323,6 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Automated
 
-- [x] 4.1 Unit tests pass
+- [x] 4.1 Unit tests pass — 09d4698
 - [ ] 4.2 Integration tests pass
 - [ ] 4.3 Full e2e suite passes
