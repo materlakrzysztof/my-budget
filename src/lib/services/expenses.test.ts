@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { createExpenseSchema, mergeCategoriesWithTotals, updateExpenseSchema } from "./expenses";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { createExpenseSchema, listExpenses, mergeCategoriesWithTotals, updateExpenseSchema } from "./expenses";
 
 describe("mergeCategoriesWithTotals", () => {
   it("defaults a category with no matching total to 0.00", () => {
@@ -51,6 +52,53 @@ describe("mergeCategoriesWithTotals", () => {
     );
     expect(result.map((r) => r.rank)).toEqual([1, 2, 3]);
     expect(result.map((r) => r.categoryId)).toEqual(["c2", "c3", "c1"]);
+  });
+});
+
+describe("listExpenses", () => {
+  interface QueryBuilderMock {
+    select: () => QueryBuilderMock;
+    eq: (column: string, value: unknown) => QueryBuilderMock;
+    order: () => Promise<{ data: unknown[]; error: null }>;
+  }
+
+  // Records every `.eq()` filter applied to the query so a test can assert
+  // exactly which columns were constrained — the category clause is what
+  // distinguishes a filtered call from an unfiltered one.
+  function makeSupabaseMock() {
+    const eqCalls: [string, unknown][] = [];
+    const builder: QueryBuilderMock = {
+      select: () => builder,
+      eq: (column, value) => {
+        eqCalls.push([column, value]);
+        return builder;
+      },
+      order: () => Promise.resolve({ data: [], error: null }),
+    };
+    const supabase = { from: () => builder } as unknown as SupabaseClient;
+    return { supabase, eqCalls };
+  }
+
+  it("constrains only by user_id when no filter is given", async () => {
+    const { supabase, eqCalls } = makeSupabaseMock();
+    await listExpenses(supabase, "user-1");
+    expect(eqCalls).toEqual([["user_id", "user-1"]]);
+    expect(eqCalls.some(([column]) => column === "category_id")).toBe(false);
+  });
+
+  it("adds a category_id clause when a categoryId filter is given", async () => {
+    const { supabase, eqCalls } = makeSupabaseMock();
+    await listExpenses(supabase, "user-1", { categoryId: "cat-9" });
+    expect(eqCalls).toEqual([
+      ["user_id", "user-1"],
+      ["category_id", "cat-9"],
+    ]);
+  });
+
+  it("ignores an empty filter object (no category clause)", async () => {
+    const { supabase, eqCalls } = makeSupabaseMock();
+    await listExpenses(supabase, "user-1", {});
+    expect(eqCalls).toEqual([["user_id", "user-1"]]);
   });
 });
 

@@ -232,18 +232,18 @@ No schema change — this is a query/UI-only feature.
 
 #### Automated
 
-- [ ] 1.1 Type checking passes
-- [ ] 1.2 Linting passes
-- [ ] 1.3 Unit tests pass
-- [ ] 1.4 Integration tests pass
+- [x] 1.1 Type checking passes — 67804a7
+- [x] 1.2 Linting passes — 67804a7
+- [x] 1.3 Unit tests pass — 67804a7
+- [x] 1.4 Integration tests pass — 67804a7
 
 ### Phase 2: UI — Entry Points & Filtered View
 
 #### Automated
 
-- [ ] 2.1 Type checking passes
-- [ ] 2.2 Linting passes
-- [ ] 2.3 Build succeeds
+- [x] 2.1 Type checking passes — 34def69
+- [x] 2.2 Linting passes — 34def69
+- [x] 2.3 Build succeeds — 34def69
 
 #### Manual
 
@@ -258,6 +258,6 @@ No schema change — this is a query/UI-only feature.
 
 #### Automated
 
-- [ ] 3.1 Unit tests pass
+- [x] 3.1 Unit tests pass — 1995c25
 - [ ] 3.2 Integration tests pass
 - [ ] 3.3 Full e2e suite passes

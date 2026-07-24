@@ -26,7 +26,12 @@ export const GET: APIRoute = async (context) => {
     return json({ error: "Supabase is not configured" }, 500);
   }
 
-  const expenses = await listExpenses(supabase, context.locals.user.id);
+  const category = context.url.searchParams.get("category");
+  const expenses = await listExpenses(
+    supabase,
+    context.locals.user.id,
+    category ? { categoryId: category } : undefined,
+  );
   return json({ expenses } satisfies ListExpensesResponse, 200);
 };
 

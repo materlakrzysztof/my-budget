@@ -4,6 +4,9 @@
 // expenses added under two distinct categories must each attribute to their
 // own category's total (not the other's, not merged), and the larger total
 // must rank above the smaller one — FR-006/FR-008/US-01.
+// Also covers user-currency-setting plan.md Phase 4 #3: changing currency in
+// Settings relabels existing amounts on /expenses without changing the
+// underlying numbers — the reconciliation guardrail from prd-v2.md FR-005.
 // seed: tests/e2e/seed.spec.ts
 import { test, expect } from "@playwright/test";
 import { signUpAndSignIn, expenseDialog, summaryRowFor, expenseRowFor } from "./helpers";
@@ -44,4 +47,24 @@ test("two expenses under two categories reconcile to their own category's total 
   const transportIndex = summaryTexts.findIndex((t) => t.includes("Transport"));
   expect(groceriesIndex).toBeGreaterThanOrEqual(0);
   expect(transportIndex).toBeGreaterThan(groceriesIndex);
+
+  // Changing currency only relabels — the underlying numbers must stay the same.
+  await page.getByRole("link", { name: "Settings" }).click();
+  await expect(page).toHaveURL(/\/settings$/);
+  await page.waitForLoadState("networkidle");
+
+  const currencySelect = page.getByLabel("Currency");
+  await expect(async () => {
+    await currencySelect.selectOption({ label: "Polish Złoty (PLN)" });
+    await expect(currencySelect).toHaveValue("PLN");
+  }).toPass({ timeout: 5000 });
+
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByRole("status")).toHaveText("Currency updated.");
+
+  await page.goto("/expenses");
+  await expect(expenseRowFor(page, "Groceries")).toContainText("PLN 40.00");
+  await expect(expenseRowFor(page, "Transport")).toContainText("PLN 15.00");
+  await expect(summaryRowFor(page, "Groceries")).toContainText("PLN 40.00");
+  await expect(summaryRowFor(page, "Transport")).toContainText("PLN 15.00");
 });

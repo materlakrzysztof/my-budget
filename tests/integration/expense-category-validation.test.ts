@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { signUpTestUser } from "./supabase-client";
 import { listCategories } from "@/lib/services/categories";
-import { createExpense, CategoryOwnershipError } from "@/lib/services/expenses";
+import { createExpense, CategoryOwnershipError, listExpenses } from "@/lib/services/expenses";
 
 function todayIsoDate(): string {
   return new Date().toISOString().slice(0, 10);
@@ -37,5 +37,50 @@ describe("category attachment validation", () => {
         date: todayIsoDate(),
       }),
     ).rejects.toBeInstanceOf(CategoryOwnershipError);
+  });
+});
+
+describe("listExpenses category filtering", () => {
+  let owner: TestUser;
+  let other: TestUser;
+  let ownerCatA: string;
+  let ownerCatB: string;
+  let otherCategoryId: string;
+
+  beforeAll(async () => {
+    [owner, other] = await Promise.all([
+      signUpTestUser("integration-list-filter-owner"),
+      signUpTestUser("integration-list-filter-other"),
+    ]);
+
+    const ownerCategories = await listCategories(owner.supabase, owner.userId);
+    ownerCatA = ownerCategories[0].id;
+    ownerCatB = ownerCategories[1].id;
+
+    const otherCategories = await listCategories(other.supabase, other.userId);
+    otherCategoryId = otherCategories[0].id;
+
+    await createExpense(owner.supabase, owner.userId, { categoryId: ownerCatA, amount: "10.00", date: todayIsoDate() });
+    await createExpense(owner.supabase, owner.userId, { categoryId: ownerCatA, amount: "20.00", date: todayIsoDate() });
+    await createExpense(owner.supabase, owner.userId, { categoryId: ownerCatB, amount: "5.00", date: todayIsoDate() });
+  });
+
+  it("returns only the filtered category's expenses for the owning user", async () => {
+    const result = await listExpenses(owner.supabase, owner.userId, { categoryId: ownerCatA });
+
+    expect(result).toHaveLength(2);
+    expect(result.every((expense) => expense.categoryId === ownerCatA)).toBe(true);
+  });
+
+  it("returns every expense when no filter is given", async () => {
+    const result = await listExpenses(owner.supabase, owner.userId);
+
+    expect(result).toHaveLength(3);
+  });
+
+  it("returns an empty array (not an error) when filtering by another user's category", async () => {
+    const result = await listExpenses(owner.supabase, owner.userId, { categoryId: otherCategoryId });
+
+    expect(result).toEqual([]);
   });
 });

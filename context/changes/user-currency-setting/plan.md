@@ -284,19 +284,19 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Automated
 
-- [ ] 1.1 Migration applies cleanly
-- [ ] 1.2 Type checking passes
-- [ ] 1.3 Linting passes
-- [ ] 1.4 Unit tests pass
-- [ ] 1.5 Integration tests pass
+- [x] 1.1 Migration applies cleanly — 04411e5
+- [x] 1.2 Type checking passes — 04411e5
+- [x] 1.3 Linting passes — 04411e5
+- [x] 1.4 Unit tests pass — 04411e5
+- [x] 1.5 Integration tests pass — 04411e5
 
 ### Phase 2: API Route & Settings Page
 
 #### Automated
 
-- [ ] 2.1 Type checking passes
-- [ ] 2.2 Linting passes
-- [ ] 2.3 Build succeeds
+- [x] 2.1 Type checking passes — b83932f
+- [x] 2.2 Linting passes — b83932f
+- [x] 2.3 Build succeeds — b83932f
 
 #### Manual
 
@@ -309,9 +309,9 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Automated
 
-- [ ] 3.1 Type checking passes
-- [ ] 3.2 Linting passes
-- [ ] 3.3 Build succeeds
+- [x] 3.1 Type checking passes — 732e487
+- [x] 3.2 Linting passes — 732e487
+- [x] 3.3 Build succeeds — 732e487
 
 #### Manual
 
@@ -323,6 +323,6 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Automated
 
-- [ ] 4.1 Unit tests pass
+- [x] 4.1 Unit tests pass — 09d4698
 - [ ] 4.2 Integration tests pass
 - [ ] 4.3 Full e2e suite passes
