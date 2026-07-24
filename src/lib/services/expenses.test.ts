@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createExpenseSchema, mergeCategoriesWithTotals } from "./expenses";
+import { createExpenseSchema, mergeCategoriesWithTotals, updateExpenseSchema } from "./expenses";
 
 describe("mergeCategoriesWithTotals", () => {
   it("defaults a category with no matching total to 0.00", () => {
@@ -114,5 +114,50 @@ describe("createExpenseSchema", () => {
   it("rejects an empty categoryId", () => {
     const result = createExpenseSchema.safeParse({ categoryId: "", amount: "10.00", date: todayIso() });
     expect(result.success).toBe(false);
+  });
+});
+
+describe("createExpenseSchema — name field", () => {
+  const base = { categoryId: "11111111-1111-4111-8111-111111111111", amount: "10.00", date: "2020-01-01" };
+
+  it("trims and passes through a normal name", () => {
+    const result = createExpenseSchema.safeParse({ ...base, name: "  Birthday dinner  " });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.name).toBe("Birthday dinner");
+  });
+
+  it("accepts a name of exactly 100 characters", () => {
+    const result = createExpenseSchema.safeParse({ ...base, name: "a".repeat(100) });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.name).toBe("a".repeat(100));
+  });
+
+  it("rejects a name longer than 100 characters", () => {
+    const result = createExpenseSchema.safeParse({ ...base, name: "a".repeat(101) });
+    expect(result.success).toBe(false);
+  });
+
+  it("normalizes an empty string to null", () => {
+    const result = createExpenseSchema.safeParse({ ...base, name: "" });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.name).toBeNull();
+  });
+
+  it("normalizes a whitespace-only name to null", () => {
+    const result = createExpenseSchema.safeParse({ ...base, name: "   " });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.name).toBeNull();
+  });
+
+  it("defaults an omitted name to null", () => {
+    const result = createExpenseSchema.safeParse({ ...base });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.name).toBeNull();
+  });
+
+  it("updateExpenseSchema applies the same name normalization", () => {
+    const result = updateExpenseSchema.safeParse({ ...base, name: "   " });
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.name).toBeNull();
   });
 });

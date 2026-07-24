@@ -222,9 +222,9 @@ Purely additive (`alter table ... add column`); existing rows get `null` automat
 
 #### Automated
 
-- [x] 2.1 Type checking passes
-- [x] 2.2 Linting passes
-- [x] 2.3 Build succeeds
+- [x] 2.1 Type checking passes — 90afd65
+- [x] 2.2 Linting passes — 90afd65
+- [x] 2.3 Build succeeds — 90afd65
 
 #### Manual
 
@@ -237,6 +237,6 @@ Purely additive (`alter table ... add column`); existing rows get `null` automat
 
 #### Automated
 
-- [ ] 3.1 Unit tests pass
+- [x] 3.1 Unit tests pass
 - [ ] 3.2 Integration tests pass
 - [ ] 3.3 Full e2e suite passes
