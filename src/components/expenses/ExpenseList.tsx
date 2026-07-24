@@ -25,6 +25,7 @@ export function ExpenseList({ expenses, onEdit, onDeleteRequest }: ExpenseListPr
         >
           <div>
             <p className="font-medium text-white">{formatAmount(expense.amount)}</p>
+            {expense.name !== null && <p className="text-sm text-blue-100/90">{expense.name}</p>}
             <p className="text-sm text-blue-100/60">
               {expense.date} &middot; {expense.categoryName}
             </p>

@@ -213,18 +213,18 @@ Purely additive (`alter table ... add column`); existing rows get `null` automat
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly
-- [x] 1.2 Type checking passes
-- [x] 1.3 Linting passes
-- [x] 1.4 Existing schema-safety suite still passes unchanged
+- [x] 1.1 Migration applies cleanly — 4f89c49
+- [x] 1.2 Type checking passes — 4f89c49
+- [x] 1.3 Linting passes — 4f89c49
+- [x] 1.4 Existing schema-safety suite still passes unchanged — 4f89c49
 
 ### Phase 2: UI — Form & List
 
 #### Automated
 
-- [ ] 2.1 Type checking passes
-- [ ] 2.2 Linting passes
-- [ ] 2.3 Build succeeds
+- [x] 2.1 Type checking passes
+- [x] 2.2 Linting passes
+- [x] 2.3 Build succeeds
 
 #### Manual
 
