@@ -241,9 +241,9 @@ No schema change — this is a query/UI-only feature.
 
 #### Automated
 
-- [x] 2.1 Type checking passes
-- [x] 2.2 Linting passes
-- [x] 2.3 Build succeeds
+- [x] 2.1 Type checking passes — 34def69
+- [x] 2.2 Linting passes — 34def69
+- [x] 2.3 Build succeeds — 34def69
 
 #### Manual
 
@@ -258,6 +258,6 @@ No schema change — this is a query/UI-only feature.
 
 #### Automated
 
-- [ ] 3.1 Unit tests pass
+- [x] 3.1 Unit tests pass
 - [ ] 3.2 Integration tests pass
 - [ ] 3.3 Full e2e suite passes
