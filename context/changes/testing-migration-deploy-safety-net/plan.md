@@ -405,10 +405,10 @@ Not applicable — this phase adds a test/CI gate, not a data migration.
 
 #### Automated
 
-- [x] 3.1 `npm run format` produces no diff on the updated `test-plan.md`
+- [x] 3.1 `npm run format` produces no diff on the updated `test-plan.md` — 40e9a32
 
 #### Manual
 
-- [x] 3.2 Confirm both `ci` and `migration-safety` show as checks on a pushed PR
-- [x] 3.3 Add `migration-safety` as a required status check in GitHub branch protection for `main` (confirm with user first)
-- [x] 3.4 Re-read updated `test-plan.md` §3/§5/§6.5 and the new Risk #5 closure note for accuracy
+- [x] 3.2 Confirm both `ci` and `migration-safety` show as checks on a pushed PR — 40e9a32
+- [x] 3.3 Add `migration-safety` as a required status check in GitHub branch protection for `main` (confirm with user first) — 40e9a32
+- [x] 3.4 Re-read updated `test-plan.md` §3/§5/§6.5 and the new Risk #5 closure note for accuracy — 40e9a32
