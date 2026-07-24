@@ -392,23 +392,23 @@ Not applicable — this phase adds a test/CI gate, not a data migration.
 
 #### Automated
 
-- [x] 2.1 `npm run test:schema-safety` passes after `supabase start`/`db reset`
-- [x] 2.2 `npm run lint` passes on the new files
+- [x] 2.1 `npm run test:schema-safety` passes after `supabase start`/`db reset` — 3649868
+- [x] 2.2 `npm run lint` passes on the new files — 3649868
 
 #### Manual
 
-- [x] 2.3 Confirm suite fails when RLS is temporarily disabled on `expenses` (scratch, uncommitted), then revert
-- [x] 2.4 Confirm suite fails when a policy is temporarily removed (scratch, uncommitted), then revert
-- [x] 2.5 Confirm suite fails when a constraint is temporarily removed (scratch, uncommitted), then revert
+- [x] 2.3 Confirm suite fails when RLS is temporarily disabled on `expenses` (scratch, uncommitted), then revert — 3649868
+- [x] 2.4 Confirm suite fails when a policy is temporarily removed (scratch, uncommitted), then revert — 3649868
+- [x] 2.5 Confirm suite fails when a constraint is temporarily removed (scratch, uncommitted), then revert — 3649868
 
 ### Phase 3: Wire into the job, enforce, and document
 
 #### Automated
 
-- [ ] 3.1 `npm run format` produces no diff on the updated `test-plan.md`
+- [x] 3.1 `npm run format` produces no diff on the updated `test-plan.md`
 
 #### Manual
 
-- [ ] 3.2 Confirm both `ci` and `migration-safety` show as checks on a pushed PR
-- [ ] 3.3 Add `migration-safety` as a required status check in GitHub branch protection for `main` (confirm with user first)
-- [ ] 3.4 Re-read updated `test-plan.md` §3/§5/§6.5 and the new Risk #5 closure note for accuracy
+- [x] 3.2 Confirm both `ci` and `migration-safety` show as checks on a pushed PR
+- [x] 3.3 Add `migration-safety` as a required status check in GitHub branch protection for `main` (confirm with user first)
+- [x] 3.4 Re-read updated `test-plan.md` §3/§5/§6.5 and the new Risk #5 closure note for accuracy
