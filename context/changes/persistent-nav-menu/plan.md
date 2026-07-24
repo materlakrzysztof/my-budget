@@ -366,34 +366,34 @@ No schema or data changes.
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npx astro check`
-- [x] 1.2 Linting passes: `npm run lint`
-- [x] 1.3 Build succeeds: `npm run build`
-- [x] 1.4 Full existing e2e suite still passes: `npm run test:e2e` (10/11 specs fail locally on unmodified develop HEAD too — pre-existing auth-form hydration flake in this environment, confirmed via git stash, not a regression from this phase; user accepted)
+- [x] 1.1 Type checking passes: `npx astro check` — c8916a1
+- [x] 1.2 Linting passes: `npm run lint` — c8916a1
+- [x] 1.3 Build succeeds: `npm run build` — c8916a1
+- [x] 1.4 Full existing e2e suite still passes: `npm run test:e2e` (10/11 specs fail locally on unmodified develop HEAD too — pre-existing auth-form hydration flake in this environment, confirmed via git stash, not a regression from this phase; user accepted) — c8916a1
 
 #### Manual
 
-- [x] 1.5 Nav visible with all 5 items on Dashboard, Expenses, Categories, Settings
-- [x] 1.6 Active link visually reflects current page on each of those 4 pages
-- [x] 1.7 Visiting /settings while signed out redirects to sign-in
-- [x] 1.8 At a mobile viewport, all 5 nav items remain reachable (wrap, no clipping/overlap)
-- [x] 1.9 Signing out from a non-Dashboard page works
-- [x] 1.10 Signed-out landing page (/) still shows exactly one Sign in/Sign up header
-- [x] 1.11 Existing bookmarked direct links to /dashboard, /expenses, /categories still load normally
+- [x] 1.5 Nav visible with all 5 items on Dashboard, Expenses, Categories, Settings — c8916a1
+- [x] 1.6 Active link visually reflects current page on each of those 4 pages — c8916a1
+- [x] 1.7 Visiting /settings while signed out redirects to sign-in — c8916a1
+- [x] 1.8 At a mobile viewport, all 5 nav items remain reachable (wrap, no clipping/overlap) — c8916a1
+- [x] 1.9 Signing out from a non-Dashboard page works — c8916a1
+- [x] 1.10 Signed-out landing page (/) still shows exactly one Sign in/Sign up header — c8916a1
+- [x] 1.11 Existing bookmarked direct links to /dashboard, /expenses, /categories still load normally — c8916a1
 
 ### Phase 2: Add Expense deep link from nav
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npx astro check`
-- [ ] 2.2 Linting passes: `npm run lint`
-- [ ] 2.3 Build succeeds: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check`
+- [x] 2.2 Linting passes: `npm run lint`
+- [x] 2.3 Build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 2.4 Clicking Add Expense in nav lands on /expenses with dialog already open
-- [ ] 2.5 Refreshing does not reopen the dialog and URL no longer shows ?action=add
-- [ ] 2.6 Direct navigation to /expenses (no query param) behaves as before this change
+- [x] 2.4 Clicking Add Expense in nav lands on /expenses with dialog already open
+- [x] 2.5 Refreshing does not reopen the dialog and URL no longer shows ?action=add
+- [x] 2.6 Direct navigation to /expenses (no query param) behaves as before this change
 
 ### Phase 3: E2E coverage for nav reachability
 

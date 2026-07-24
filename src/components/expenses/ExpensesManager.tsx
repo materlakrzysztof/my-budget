@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,17 +24,34 @@ interface ExpensesManagerProps {
   categories: Category[];
   initialExpenses: Expense[];
   initialSummary: MonthlySummaryEntry[];
+  autoOpenAdd?: boolean;
 }
 
 type DialogMode = "closed" | "add" | "edit";
 
-export default function ExpensesManager({ categories, initialExpenses, initialSummary }: ExpensesManagerProps) {
+export default function ExpensesManager({
+  categories,
+  initialExpenses,
+  initialSummary,
+  autoOpenAdd,
+}: ExpensesManagerProps) {
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
   const [summary, setSummary] = useState<MonthlySummaryEntry[]>(initialSummary);
   const [dialogMode, setDialogMode] = useState<DialogMode>("closed");
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
+  const hasAutoOpened = useRef(false);
+
+  useEffect(() => {
+    if (autoOpenAdd && !hasAutoOpened.current) {
+      hasAutoOpened.current = true;
+      setEditingExpense(null);
+      setServerError(null);
+      setDialogMode("add");
+      window.history.replaceState(null, "", "/expenses");
+    }
+  }, [autoOpenAdd]);
 
   async function refresh() {
     const [expensesRes, summaryRes] = await Promise.all([fetch("/api/expenses"), fetch("/api/expenses/summary")]);

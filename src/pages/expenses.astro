@@ -10,6 +10,7 @@ const supabase = createClient(Astro.request.headers, Astro.cookies);
 const categories = supabase && user ? await listCategories(supabase, user.id) : [];
 const expenses = supabase && user ? await listExpenses(supabase, user.id) : [];
 const summary = supabase && user ? await getMonthlySummary(supabase, user.id) : [];
+const autoOpenAdd = Astro.url.searchParams.get("action") === "add";
 ---
 
 <Layout title="Expenses">
@@ -19,7 +20,13 @@ const summary = supabase && user ? await getMonthlySummary(supabase, user.id) : 
         <h1 class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
           Expenses
         </h1>
-        <ExpensesManager categories={categories} initialExpenses={expenses} initialSummary={summary} client:load />
+        <ExpensesManager
+          categories={categories}
+          initialExpenses={expenses}
+          initialSummary={summary}
+          autoOpenAdd={autoOpenAdd}
+          client:load
+        />
       </div>
     </div>
   </div>
