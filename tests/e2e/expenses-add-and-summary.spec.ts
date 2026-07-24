@@ -6,7 +6,7 @@
 // must rank above the smaller one — FR-006/FR-008/US-01.
 // seed: tests/e2e/seed.spec.ts
 import { test, expect } from "@playwright/test";
-import { signUpAndSignIn, openAddExpenseDialog, expenseDialog, summaryRowFor, expenseRowFor } from "./helpers";
+import { signUpAndSignIn, expenseDialog, summaryRowFor, expenseRowFor } from "./helpers";
 
 test("two expenses under two categories reconcile to their own category's total and rank largest-first", async ({
   page,
@@ -15,11 +15,11 @@ test("two expenses under two categories reconcile to their own category's total 
   const password = "TestPassword123!";
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Expenses" }).click();
+  await page.getByRole("link", { name: "Add Expense" }).click();
   await expect(page).toHaveURL(/\/expenses$/);
+  await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
   // First expense: Groceries, the larger amount.
-  await openAddExpenseDialog(page);
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Groceries" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("40.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();

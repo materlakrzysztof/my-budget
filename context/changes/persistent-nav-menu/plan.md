@@ -369,7 +369,7 @@ No schema or data changes.
 - [x] 1.1 Type checking passes: `npx astro check` — c8916a1
 - [x] 1.2 Linting passes: `npm run lint` — c8916a1
 - [x] 1.3 Build succeeds: `npm run build` — c8916a1
-- [x] 1.4 Full existing e2e suite still passes: `npm run test:e2e` (10/11 specs fail locally on unmodified develop HEAD too — pre-existing auth-form hydration flake in this environment, confirmed via git stash, not a regression from this phase; user accepted) — c8916a1
+- [x] 1.4 Full existing e2e suite still passes: `npm run test:e2e` (10/11 specs fail locally on unmodified develop HEAD too — pre-existing auth-form hydration flake in this environment, confirmed via git stash, not a regression from this phase; user accepted) — c8916a1. Follow-up: the flake was caused by Playwright reusing a stray manually-started dev server instead of its own `dev:e2e` one; once that was cleared (Phase 3), the suite surfaced two real regressions from this phase's Topbar changes (the "Expenses"→"Add Expense" rename, and a duplicate email match) — both fixed in Phase 3's commit.
 
 #### Manual
 
@@ -385,23 +385,23 @@ No schema or data changes.
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npx astro check`
-- [x] 2.2 Linting passes: `npm run lint`
-- [x] 2.3 Build succeeds: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check` — 1e59980
+- [x] 2.2 Linting passes: `npm run lint` — 1e59980
+- [x] 2.3 Build succeeds: `npm run build` — 1e59980
 
 #### Manual
 
-- [x] 2.4 Clicking Add Expense in nav lands on /expenses with dialog already open
-- [x] 2.5 Refreshing does not reopen the dialog and URL no longer shows ?action=add
-- [x] 2.6 Direct navigation to /expenses (no query param) behaves as before this change
+- [x] 2.4 Clicking Add Expense in nav lands on /expenses with dialog already open — 1e59980
+- [x] 2.5 Refreshing does not reopen the dialog and URL no longer shows ?action=add — 1e59980
+- [x] 2.6 Direct navigation to /expenses (no query param) behaves as before this change — 1e59980
 
 ### Phase 3: E2E coverage for nav reachability
 
 #### Automated
 
-- [ ] 3.1 New spec passes: `npm run test:e2e -- nav-reachability`
-- [ ] 3.2 Full e2e suite still passes: `npm run test:e2e`
+- [x] 3.1 New spec passes: `npm run test:e2e -- nav-reachability`
+- [x] 3.2 Full e2e suite still passes: `npm run test:e2e` (13/13 green — also fixed 5 pre-existing specs broken by Phase 1's Topbar changes, see commit body)
 
 #### Manual
 
-- [ ] 3.3 Non-vacuity check: temporarily break a nav link, confirm the new spec fails, then restore
+- [x] 3.3 Non-vacuity check: temporarily break a nav link, confirm the new spec fails, then restore

@@ -4,19 +4,19 @@
 // that amount, not the whole category total.
 // seed: tests/e2e/seed.spec.ts
 import { test, expect } from "@playwright/test";
-import { signUpAndSignIn, openAddExpenseDialog, expenseDialog, summaryRowFor, expenseRowFor } from "./helpers";
+import { signUpAndSignIn, expenseDialog, summaryRowFor, expenseRowFor } from "./helpers";
 
 test("deleting an expense via the confirmation dialog updates the list and the summary total", async ({ page }) => {
   const email = `e2e-exp-delete-${Date.now()}@example.com`;
   const password = "TestPassword123!";
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Expenses" }).click();
+  await page.getByRole("link", { name: "Add Expense" }).click();
   await expect(page).toHaveURL(/\/expenses$/);
+  await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
   // Two expenses in the same category so the total is only meaningful if
   // exactly one entry's amount is subtracted, not the whole category wiped.
-  await openAddExpenseDialog(page);
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Utilities" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("30.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();

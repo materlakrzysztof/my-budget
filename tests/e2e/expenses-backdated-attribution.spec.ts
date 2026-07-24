@@ -4,7 +4,7 @@
 // only the today-dated expense in the same category should, per US-02.
 // seed: tests/e2e/seed.spec.ts
 import { test, expect } from "@playwright/test";
-import { signUpAndSignIn, openAddExpenseDialog, expenseDialog, summaryRowFor } from "./helpers";
+import { signUpAndSignIn, expenseDialog, summaryRowFor } from "./helpers";
 
 function isoDateMonthsAgo(months: number): string {
   const now = new Date();
@@ -18,11 +18,11 @@ test("a backdated expense does not affect the current month's summary total", as
   const backdatedDate = isoDateMonthsAgo(2);
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Expenses" }).click();
+  await page.getByRole("link", { name: "Add Expense" }).click();
   await expect(page).toHaveURL(/\/expenses$/);
+  await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
   // Today-dated expense in Housing.
-  await openAddExpenseDialog(page);
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Housing" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("25.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
