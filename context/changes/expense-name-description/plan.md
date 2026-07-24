@@ -237,6 +237,6 @@ Purely additive (`alter table ... add column`); existing rows get `null` automat
 
 #### Automated
 
-- [x] 3.1 Unit tests pass
+- [x] 3.1 Unit tests pass — 6e69b42
 - [ ] 3.2 Integration tests pass
 - [ ] 3.3 Full e2e suite passes
