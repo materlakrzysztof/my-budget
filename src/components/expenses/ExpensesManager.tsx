@@ -14,6 +14,7 @@ import { MonthlySummary } from "@/components/expenses/MonthlySummary";
 import type {
   Category,
   CreateExpenseRequest,
+  Currency,
   Expense,
   ListExpensesResponse,
   MonthlySummaryEntry,
@@ -24,6 +25,7 @@ interface ExpensesManagerProps {
   categories: Category[];
   initialExpenses: Expense[];
   initialSummary: MonthlySummaryEntry[];
+  currency: Currency;
   autoOpenAdd?: boolean;
 }
 
@@ -33,6 +35,7 @@ export default function ExpensesManager({
   categories,
   initialExpenses,
   initialSummary,
+  currency,
   autoOpenAdd,
 }: ExpensesManagerProps) {
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
@@ -140,7 +143,7 @@ export default function ExpensesManager({
     <div className="space-y-6">
       <div>
         <h2 className="mb-3 text-lg font-semibold text-white">This month&apos;s summary</h2>
-        <MonthlySummary entries={summary} />
+        <MonthlySummary entries={summary} currency={currency} />
       </div>
 
       <div>
@@ -154,7 +157,12 @@ export default function ExpensesManager({
             Add expense
           </Button>
         </div>
-        <ExpenseList expenses={expenses} onEdit={openEditDialog} onDeleteRequest={openDeleteDialog} />
+        <ExpenseList
+          expenses={expenses}
+          currency={currency}
+          onEdit={openEditDialog}
+          onDeleteRequest={openDeleteDialog}
+        />
       </div>
 
       <ExpenseFormDialog

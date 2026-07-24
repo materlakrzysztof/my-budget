@@ -1,14 +1,12 @@
-import type { MonthlySummaryEntry } from "@/types";
+import { formatAmount } from "@/lib/format";
+import type { Currency, MonthlySummaryEntry } from "@/types";
 
 interface MonthlySummaryProps {
   entries: MonthlySummaryEntry[];
+  currency: Currency;
 }
 
-function formatAmount(total: string): string {
-  return `$${Number(total).toFixed(2)}`;
-}
-
-export function MonthlySummary({ entries }: MonthlySummaryProps) {
+export function MonthlySummary({ entries, currency }: MonthlySummaryProps) {
   if (entries.length === 0) {
     return <p className="text-sm text-blue-100/50">No categories yet.</p>;
   }
@@ -27,7 +25,7 @@ export function MonthlySummary({ entries }: MonthlySummaryProps) {
             <li key={entry.categoryId} className="rounded-lg border border-white/10 bg-white/5 px-4 py-3">
               <div className="mb-2 flex items-center justify-between">
                 <span className="font-medium text-white">{entry.categoryName}</span>
-                <span className="text-sm text-blue-100/80">{formatAmount(entry.total)}</span>
+                <span className="text-sm text-blue-100/80">{formatAmount(entry.total, currency)}</span>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
                 <div className="h-full rounded-full bg-purple-500" style={{ width: `${widthPercent}%` }} />

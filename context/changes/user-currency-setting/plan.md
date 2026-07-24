@@ -294,9 +294,9 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Automated
 
-- [x] 2.1 Type checking passes
-- [x] 2.2 Linting passes
-- [x] 2.3 Build succeeds
+- [x] 2.1 Type checking passes — b83932f
+- [x] 2.2 Linting passes — b83932f
+- [x] 2.3 Build succeeds — b83932f
 
 #### Manual
 
@@ -309,9 +309,9 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Automated
 
-- [ ] 3.1 Type checking passes
-- [ ] 3.2 Linting passes
-- [ ] 3.3 Build succeeds
+- [x] 3.1 Type checking passes
+- [x] 3.2 Linting passes
+- [x] 3.3 Build succeeds
 
 #### Manual
 
