@@ -258,6 +258,6 @@ No schema change — this is a query/UI-only feature.
 
 #### Automated
 
-- [x] 3.1 Unit tests pass
+- [x] 3.1 Unit tests pass — 1995c25
 - [ ] 3.2 Integration tests pass
 - [ ] 3.3 Full e2e suite passes
