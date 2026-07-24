@@ -5,15 +5,21 @@ interface ExpenseListProps {
   expenses: Expense[];
   onEdit: (expense: Expense) => void;
   onDeleteRequest: (expense: Expense) => void;
+  emptyMessage?: string;
 }
 
 function formatAmount(amount: string): string {
   return `$${Number(amount).toFixed(2)}`;
 }
 
-export function ExpenseList({ expenses, onEdit, onDeleteRequest }: ExpenseListProps) {
+export function ExpenseList({
+  expenses,
+  onEdit,
+  onDeleteRequest,
+  emptyMessage = "No expenses yet.",
+}: ExpenseListProps) {
   if (expenses.length === 0) {
-    return <p className="text-sm text-blue-100/50">No expenses yet.</p>;
+    return <p className="text-sm text-blue-100/50">{emptyMessage}</p>;
   }
 
   return (

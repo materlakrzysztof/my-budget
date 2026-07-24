@@ -24,6 +24,7 @@ interface ExpensesManagerProps {
   categories: Category[];
   initialExpenses: Expense[];
   initialSummary: MonthlySummaryEntry[];
+  categoryFilter: Category | null;
   autoOpenAdd?: boolean;
 }
 
@@ -33,6 +34,7 @@ export default function ExpensesManager({
   categories,
   initialExpenses,
   initialSummary,
+  categoryFilter,
   autoOpenAdd,
 }: ExpensesManagerProps) {
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
@@ -54,7 +56,10 @@ export default function ExpensesManager({
   }, [autoOpenAdd]);
 
   async function refresh() {
-    const [expensesRes, summaryRes] = await Promise.all([fetch("/api/expenses"), fetch("/api/expenses/summary")]);
+    const expensesUrl = categoryFilter
+      ? `/api/expenses?category=${encodeURIComponent(categoryFilter.id)}`
+      : "/api/expenses";
+    const [expensesRes, summaryRes] = await Promise.all([fetch(expensesUrl), fetch("/api/expenses/summary")]);
 
     if (expensesRes.ok) {
       const { expenses: nextExpenses } = (await expensesRes.json()) as ListExpensesResponse;
@@ -154,7 +159,22 @@ export default function ExpensesManager({
             Add expense
           </Button>
         </div>
-        <ExpenseList expenses={expenses} onEdit={openEditDialog} onDeleteRequest={openDeleteDialog} />
+        {categoryFilter && (
+          <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-blue-100/80">
+            <span>
+              Filtered by: <span className="font-medium text-white">{categoryFilter.name}</span>
+            </span>
+            <a href="/expenses" className="font-medium text-purple-300 underline-offset-2 hover:underline">
+              Clear filter
+            </a>
+          </div>
+        )}
+        <ExpenseList
+          expenses={expenses}
+          onEdit={openEditDialog}
+          onDeleteRequest={openDeleteDialog}
+          emptyMessage={categoryFilter ? "No expenses in this category." : "No expenses yet."}
+        />
       </div>
 
       <ExpenseFormDialog
