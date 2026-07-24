@@ -4,6 +4,7 @@ import ExpensesManager from "@/components/expenses/ExpensesManager";
 import { createClient } from "@/lib/supabase";
 import { listCategories } from "@/lib/services/categories";
 import { getMonthlySummary, listExpenses } from "@/lib/services/expenses";
+import { getOrCreateUserSettings } from "@/lib/services/settings";
 
 const { user } = Astro.locals;
 const supabase = createClient(Astro.request.headers, Astro.cookies);
@@ -15,6 +16,7 @@ const expenses =
     ? await listExpenses(supabase, user.id, categoryFilter ? { categoryId: categoryFilter.id } : undefined)
     : [];
 const summary = supabase && user ? await getMonthlySummary(supabase, user.id) : [];
+const settings = supabase && user ? await getOrCreateUserSettings(supabase, user.id) : { currency: "USD" as const };
 const autoOpenAdd = Astro.url.searchParams.get("action") === "add";
 ---
 
@@ -30,6 +32,7 @@ const autoOpenAdd = Astro.url.searchParams.get("action") === "add";
           initialExpenses={expenses}
           initialSummary={summary}
           categoryFilter={categoryFilter}
+          currency={settings.currency}
           autoOpenAdd={autoOpenAdd}
           client:load
         />

@@ -14,6 +14,7 @@ import { MonthlySummary } from "@/components/expenses/MonthlySummary";
 import type {
   Category,
   CreateExpenseRequest,
+  Currency,
   Expense,
   ListExpensesResponse,
   MonthlySummaryEntry,
@@ -25,6 +26,7 @@ interface ExpensesManagerProps {
   initialExpenses: Expense[];
   initialSummary: MonthlySummaryEntry[];
   categoryFilter: Category | null;
+  currency: Currency;
   autoOpenAdd?: boolean;
 }
 
@@ -35,6 +37,7 @@ export default function ExpensesManager({
   initialExpenses,
   initialSummary,
   categoryFilter,
+  currency,
   autoOpenAdd,
 }: ExpensesManagerProps) {
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
@@ -145,7 +148,7 @@ export default function ExpensesManager({
     <div className="space-y-6">
       <div>
         <h2 className="mb-3 text-lg font-semibold text-white">This month&apos;s summary</h2>
-        <MonthlySummary entries={summary} />
+        <MonthlySummary entries={summary} currency={currency} />
       </div>
 
       <div>
@@ -171,6 +174,7 @@ export default function ExpensesManager({
         )}
         <ExpenseList
           expenses={expenses}
+          currency={currency}
           onEdit={openEditDialog}
           onDeleteRequest={openDeleteDialog}
           emptyMessage={categoryFilter ? "No expenses in this category." : "No expenses yet."}

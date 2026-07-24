@@ -53,3 +53,19 @@ export interface MonthlySummaryEntry {
 export interface MonthlySummaryResponse {
   summary: MonthlySummaryEntry[];
 }
+
+export const CURRENCIES = ["USD", "EUR", "GBP", "PLN", "JPY", "CAD", "AUD"] as const;
+
+export type Currency = (typeof CURRENCIES)[number];
+
+export interface UserSettings {
+  currency: Currency;
+}
+
+export interface UpdateSettingsRequest {
+  currency: Currency;
+}
+
+export interface SettingsResponse {
+  settings: UserSettings;
+}

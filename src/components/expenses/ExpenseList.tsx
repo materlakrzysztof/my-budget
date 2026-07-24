@@ -1,19 +1,18 @@
 import { Button } from "@/components/ui/button";
-import type { Expense } from "@/types";
+import { formatAmount } from "@/lib/format";
+import type { Currency, Expense } from "@/types";
 
 interface ExpenseListProps {
   expenses: Expense[];
+  currency: Currency;
   onEdit: (expense: Expense) => void;
   onDeleteRequest: (expense: Expense) => void;
   emptyMessage?: string;
 }
 
-function formatAmount(amount: string): string {
-  return `$${Number(amount).toFixed(2)}`;
-}
-
 export function ExpenseList({
   expenses,
+  currency,
   onEdit,
   onDeleteRequest,
   emptyMessage = "No expenses yet.",
@@ -30,7 +29,7 @@ export function ExpenseList({
           className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-3"
         >
           <div>
-            <p className="font-medium text-white">{formatAmount(expense.amount)}</p>
+            <p className="font-medium text-white">{formatAmount(expense.amount, currency)}</p>
             <p className="text-sm text-blue-100/60">
               {expense.date} &middot; {expense.categoryName}
             </p>
