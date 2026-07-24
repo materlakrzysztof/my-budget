@@ -232,10 +232,10 @@ No schema change — this is a query/UI-only feature.
 
 #### Automated
 
-- [ ] 1.1 Type checking passes
-- [ ] 1.2 Linting passes
-- [ ] 1.3 Unit tests pass
-- [ ] 1.4 Integration tests pass
+- [x] 1.1 Type checking passes
+- [x] 1.2 Linting passes
+- [x] 1.3 Unit tests pass
+- [x] 1.4 Integration tests pass
 
 ### Phase 2: UI — Entry Points & Filtered View
 

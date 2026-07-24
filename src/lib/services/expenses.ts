@@ -103,12 +103,18 @@ function mapWriteError(error: PostgrestError): never {
   throw error;
 }
 
-export async function listExpenses(supabase: SupabaseClient, userId: string): Promise<Expense[]> {
-  const { data, error } = await supabase
-    .from("expenses")
-    .select(EXPENSE_SELECT)
-    .eq("user_id", userId)
-    .order("date", { ascending: false });
+export async function listExpenses(
+  supabase: SupabaseClient,
+  userId: string,
+  filter?: { categoryId?: string },
+): Promise<Expense[]> {
+  let query = supabase.from("expenses").select(EXPENSE_SELECT).eq("user_id", userId);
+
+  if (filter?.categoryId) {
+    query = query.eq("category_id", filter.categoryId);
+  }
+
+  const { data, error } = await query.order("date", { ascending: false });
 
   if (error) throw error;
 
