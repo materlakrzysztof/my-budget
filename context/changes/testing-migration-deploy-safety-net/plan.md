@@ -380,26 +380,26 @@ Not applicable — this phase adds a test/CI gate, not a data migration.
 
 #### Automated
 
-- [x] 1.1 Local `supabase start` (or equivalent) completes with exit code 0 and reports both migrations applied
-- [x] 1.2 `npm run lint` passes
+- [x] 1.1 Local `supabase start` (or equivalent) completes with exit code 0 and reports both migrations applied — ac6e084
+- [x] 1.2 `npm run lint` passes — ac6e084
 
 #### Manual
 
-- [ ] 1.3 Push a branch; confirm the new `migration-safety` job appears and completes successfully in GitHub Actions
-- [ ] 1.4 Confirm a deliberately broken migration (scratch, uncommitted) fails the CLI non-zero, then revert
+- [x] 1.3 Push a branch; confirm the new `migration-safety` job appears and completes successfully in GitHub Actions
+- [x] 1.4 Confirm a deliberately broken migration (scratch, uncommitted) fails the CLI non-zero, then revert
 
 ### Phase 2: Schema-shape assertion suite
 
 #### Automated
 
-- [ ] 2.1 `npm run test:schema-safety` passes after `supabase start`/`db reset`
-- [ ] 2.2 `npm run lint` passes on the new files
+- [x] 2.1 `npm run test:schema-safety` passes after `supabase start`/`db reset`
+- [x] 2.2 `npm run lint` passes on the new files
 
 #### Manual
 
-- [ ] 2.3 Confirm suite fails when RLS is temporarily disabled on `expenses` (scratch, uncommitted), then revert
-- [ ] 2.4 Confirm suite fails when a policy is temporarily removed (scratch, uncommitted), then revert
-- [ ] 2.5 Confirm suite fails when a constraint is temporarily removed (scratch, uncommitted), then revert
+- [x] 2.3 Confirm suite fails when RLS is temporarily disabled on `expenses` (scratch, uncommitted), then revert
+- [x] 2.4 Confirm suite fails when a policy is temporarily removed (scratch, uncommitted), then revert
+- [x] 2.5 Confirm suite fails when a constraint is temporarily removed (scratch, uncommitted), then revert
 
 ### Phase 3: Wire into the job, enforce, and document
 
