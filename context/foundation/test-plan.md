@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
 >
-> Last updated: 2026-07-21
+> Last updated: 2026-07-24
 
 ## 1. Strategy
 
@@ -137,19 +137,81 @@ relevant rollout phase ships; before that, it reads "TBD."
 
 ### 6.1 Adding a unit test
 
-- TBD — see §3 Phase 1 (aggregation/ranking and date-attribution logic patterns land here).
+Runner is Vitest (`vitest.config.ts`), suite glob `src/**/*.test.ts`. Colocate
+the test next to the module under test — e.g. `src/lib/services/expenses.ts`
+→ `src/lib/services/expenses.test.ts`. Run locally with `npm run test:unit`;
+this is wired into CI (Phase 1). For a pure-logic pattern (ranking/aggregation
+with an independently-typed expected result, avoiding the oracle problem),
+follow `src/lib/services/expenses.test.ts`'s `mergeCategoriesWithTotals` block.
+For request-shape/boundary-value validation (zod schemas), follow the same
+file's `createExpenseSchema` block — amount edge cases (zero, negative, >2
+decimals), date edge cases (today/past accepted, future rejected), and
+`categoryId` presence/emptiness. For normalization and typed-error-shape
+patterns, see `src/lib/services/categories.test.ts` (`normalizeCategoryName`
+via `it.each`, `DuplicateCategoryError`'s constructed message). Note: there is
+deliberately no "date-to-month attribution" unit test — Risk #3's closure
+(§2) found no app-level function that derives "month" from a stored date in a
+way a unit test could target; don't invent one.
 
 ### 6.2 Adding an integration test
 
-- TBD — see §3 Phase 1 (RLS/ownership-check pattern) and Phase 2 (expense-create category-persistence pattern).
+Runner is a separate Vitest project (`vitest.integration.config.ts`), suite
+glob `tests/integration/**/*.test.ts`. This project's integration tests run
+against the **real** E2E Supabase project — no mocking, credentials loaded
+from `.dev.vars.e2e` (gitignored) via `tests/integration/env.ts` (fails loud
+if missing/incomplete). Use `tests/integration/supabase-client.ts`'s
+`signUpTestUser(prefix)` to create a real signed-up user + client; there is no
+per-test cleanup — accumulating test users on the E2E project is an accepted
+convention (`mailer_autoconfirm: true` on that project). Run locally with
+`npm run test:integration`; this is **not** wired into CI yet (deliberately
+deferred — would need new CI secrets for the E2E project). For the two-real-user
+RLS/ownership pattern, follow `tests/integration/cross-user-isolation.test.ts`:
+set up the "victim" through real service-layer calls, but issue the
+attacker's queries as **raw** `supabase.from(...)` calls with no `user_id`
+filter — using the service layer for the attacker side would only prove the
+app's own filter works, not that RLS itself blocks the read/write. For a
+cross-user foreign-key rejection pattern, follow
+`tests/integration/expense-category-validation.test.ts` (asserts
+`createExpense()` throws `CategoryOwnershipError` for a category owned by
+another user). Non-vacuity check: temporarily break the guard under test
+(comment out the RLS policy, or point the attacker at their own record) and
+confirm the test now fails, before trusting a green run.
 
 ### 6.3 Adding an e2e test
 
-- TBD — see §3 Phase 2 (extends the Playwright infra and conventions already established in `context/changes/account-signin-signout/`; follow `.claude/skills/10x-e2e/`).
+Runner is Playwright (`playwright.config.ts`), spec dir `tests/e2e/`, run
+locally with `npm run test:e2e`. Start from `tests/e2e/seed.spec.ts` — the
+exemplar every generated spec in this project follows — and
+`.claude/skills/10x-e2e/`. Conventions: role-based locators (`getByRole`,
+`getByLabel`) over CSS/XPath; each spec is independently runnable with its
+own setup/action/assertion and no shared state across specs; unique
+timestamp-suffixed test data (e.g. `` `e2e-exp-backdate-${Date.now()}@example.com` ``);
+wait for state, not time — see `tests/e2e/helpers.ts`'s hydration-wait
+helpers for React islands (retry-click-until-visible / fill-and-verify
+patterns) instead of `page.waitForTimeout()`; no dedicated cleanup step,
+matching the integration-layer convention of accumulating E2E-project test
+users. File naming: `<area>-<behavior>.spec.ts`. For a spec tied to a named
+risk, see `tests/e2e/expenses-backdated-attribution.spec.ts` (Risk #3).
 
 ### 6.4 Adding a test for a new API endpoint
 
-- TBD — see §3 Phase 1.
+There is deliberately no separate HTTP-level integration harness in this
+repo (Phase 2 evaluated and rejected one as disproportionate cost for the
+signal gained) — an endpoint's coverage splits across the three layers
+above instead. Request-shape/validation (zod, 400-class failures) → unit
+test directly on the schema, e.g. `src/lib/services/expenses.test.ts`'s
+`createExpenseSchema.safeParse` cases for missing/empty `categoryId`.
+Business-logic/DB rejection reachable via a direct service call (409-class
+failures) → integration test calling the service function directly,
+bypassing HTTP, e.g. `tests/integration/expense-category-validation.test.ts`.
+Full request→response HTTP contract, only when a failure mode genuinely
+needs the deployed shape (auth/cookie/handler crossing) → covered by the
+existing Playwright specs, which already exercise real API routes through
+the browser — don't add a bespoke route-level harness for this.
+`src/pages/api/expenses.ts`'s `POST` handler is a concrete example of a
+route whose failure modes split this way: 401 unauthenticated → 400 zod
+parse failure → domain errors (`FutureDateError`/`InvalidAmountError`) → 422
+→ `CategoryOwnershipError` → 409.
 
 ### 6.5 Adding a migration safety check
 
@@ -167,7 +229,15 @@ relevant rollout phase ships; before that, it reads "TBD."
 
 ### 6.6 Per-rollout-phase notes
 
-_None yet — filled in as phases ship._
+- **Phase 1**: attacker-side integration assertions must bypass the service
+  layer and issue raw Postgrest calls — routing them through the app's own
+  service functions would only prove the app's `user_id` filter works, and a
+  broken RLS policy would still pass the test vacuously.
+- **Phase 2**: one endpoint's failure modes split across two test layers by
+  necessity — the 400/zod path is reachable and provable with a pure unit
+  test, but the 409/foreign-key path only triggers through a real DB
+  round-trip, so it lives in the integration suite instead. Neither layer
+  alone covers the endpoint.
 
 ## 7. What We Deliberately Don't Test
 
