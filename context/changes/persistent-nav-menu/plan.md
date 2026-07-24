@@ -399,9 +399,9 @@ No schema or data changes.
 
 #### Automated
 
-- [x] 3.1 New spec passes: `npm run test:e2e -- nav-reachability`
-- [x] 3.2 Full e2e suite still passes: `npm run test:e2e` (13/13 green — also fixed 5 pre-existing specs broken by Phase 1's Topbar changes, see commit body)
+- [x] 3.1 New spec passes: `npm run test:e2e -- nav-reachability` — ab405e3
+- [x] 3.2 Full e2e suite still passes: `npm run test:e2e` (13/13 green — also fixed 5 pre-existing specs broken by Phase 1's Topbar changes, see commit body) — ab405e3
 
 #### Manual
 
-- [x] 3.3 Non-vacuity check: temporarily break a nav link, confirm the new spec fails, then restore
+- [x] 3.3 Non-vacuity check: temporarily break a nav link, confirm the new spec fails, then restore — ab405e3
