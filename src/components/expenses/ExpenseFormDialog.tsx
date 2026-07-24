@@ -72,7 +72,7 @@ export function ExpenseFormDialog({
 
     setSubmitting(true);
     try {
-      await onSubmit({ categoryId, amount: amount.trim(), date });
+      await onSubmit({ categoryId, name: null, amount: amount.trim(), date });
     } finally {
       setSubmitting(false);
     }

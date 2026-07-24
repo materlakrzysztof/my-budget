@@ -22,6 +22,7 @@ export interface Expense {
   id: string;
   categoryId: string;
   categoryName: string;
+  name: string | null;
   amount: string;
   date: string;
   createdAt: string;
@@ -29,6 +30,7 @@ export interface Expense {
 
 export interface CreateExpenseRequest {
   categoryId: string;
+  name: string | null;
   amount: string;
   date: string;
 }

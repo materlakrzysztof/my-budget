@@ -25,8 +25,19 @@ const dateSchema = z
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format")
   .refine((value) => value <= todayIsoDate(), "Date cannot be in the future");
 
+// Optional label. Blank or whitespace-only normalizes to null (not "") at this
+// boundary, so both the API route and any future caller get consistent
+// behavior. Downstream code checks `name !== null` only — never also "".
+const nameSchema = z
+  .string()
+  .trim()
+  .max(100, "Name must be at most 100 characters")
+  .optional()
+  .transform((value) => (value && value.length > 0 ? value : null));
+
 export const createExpenseSchema = z.object({
   categoryId: z.uuid(),
+  name: nameSchema,
   amount: amountSchema,
   date: dateSchema,
 });
@@ -64,13 +75,14 @@ export class ExpenseNotFoundError extends Error {
 interface ExpenseRow {
   id: string;
   category_id: string;
+  name: string | null;
   amount: string;
   date: string;
   created_at: string;
   categories: { name: string } | null;
 }
 
-const EXPENSE_SELECT = "id, category_id, amount, date, created_at, categories!expenses_user_category_fk(name)";
+const EXPENSE_SELECT = "id, category_id, name, amount, date, created_at, categories!expenses_user_category_fk(name)";
 
 function toExpense(row: ExpenseRow): Expense {
   if (!row.categories) {
@@ -85,6 +97,7 @@ function toExpense(row: ExpenseRow): Expense {
     id: row.id,
     categoryId: row.category_id,
     categoryName: row.categories.name,
+    name: row.name,
     amount: row.amount,
     date: row.date,
     createdAt: row.created_at,
@@ -122,7 +135,13 @@ export async function createExpense(
 ): Promise<Expense> {
   const { data, error } = await supabase
     .from("expenses")
-    .insert({ user_id: userId, category_id: input.categoryId, amount: input.amount, date: input.date })
+    .insert({
+      user_id: userId,
+      category_id: input.categoryId,
+      name: input.name,
+      amount: input.amount,
+      date: input.date,
+    })
     .select(EXPENSE_SELECT)
     .single();
 
@@ -139,7 +158,7 @@ export async function updateExpense(
 ): Promise<Expense> {
   const { data, error } = await supabase
     .from("expenses")
-    .update({ category_id: input.categoryId, amount: input.amount, date: input.date })
+    .update({ category_id: input.categoryId, name: input.name, amount: input.amount, date: input.date })
     .eq("id", expenseId)
     .eq("user_id", userId)
     .select(EXPENSE_SELECT)

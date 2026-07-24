@@ -32,6 +32,7 @@ describe("category attachment validation", () => {
     await expect(
       createExpense(userA.supabase, userA.userId, {
         categoryId: bCategoryId,
+        name: null,
         amount: "10.00",
         date: todayIsoDate(),
       }),
