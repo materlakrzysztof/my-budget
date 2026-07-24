@@ -1,10 +1,10 @@
 ---
 change_id: testing-migration-deploy-safety-net
 title: Testing migration deploy safety net
-status: impl_reviewed
+status: archived
 created: 2026-07-23
 updated: 2026-07-24
-archived_at: null
+archived_at: 2026-07-24T06:19:36Z
 ---
 
 ## Notes
