@@ -3,7 +3,7 @@ project: MyBudget
 version: 1
 status: draft
 created: 2026-07-21
-updated: 2026-07-21
+updated: 2026-07-24
 prd_version: 1
 main_goal: low-complexity
 top_blocker: capacity
@@ -29,9 +29,9 @@ A person managing their own household budget today tracks expenses in Excel — 
 
 | ID   | Change ID                    | Outcome (user can …)                                                                            | Prerequisites | PRD refs                                     | Status   |
 | ---- | ---------------------------- | ----------------------------------------------------------------------------------------------- | ------------- | -------------------------------------------- | -------- |
-| S-01 | `account-signin-signout`     | create an account and sign in / sign out                                                        | —             | FR-001, FR-002                               | ready    |
-| S-02 | `expense-categories`         | view default expense categories and add a new one (with a similar-name warning)                 | S-01          | FR-003, FR-005                               | proposed |
-| S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | proposed |
+| S-01 | `account-signin-signout`     | create an account and sign in / sign out                                                        | —             | FR-001, FR-002                               | done     |
+| S-02 | `expense-categories`         | view default expense categories and add a new one (with a similar-name warning)                 | S-01          | FR-003, FR-005                               | done     |
+| S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | done     |
 
 (No `## Streams` section — three items in one straight dependency chain don't need a separate navigation view; the table above already reads cleanly top to bottom.)
 
@@ -63,7 +63,7 @@ No standalone Foundations were needed for this roadmap. Auth, Frontend, and Depl
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Already implemented and verified end-to-end in production (`context/deployment/deploy-plan.md`: signup → email confirmation → signin → `/dashboard`). Listed first only to preserve PRD traceability for FR-001/FR-002 — expect a confirmation pass against the PRD wording, not new build work.
-- **Status:** ready
+- **Status:** done
 
 ### S-02: User can view and add expense categories
 
@@ -75,7 +75,7 @@ No standalone Foundations were needed for this roadmap. Auth, Frontend, and Depl
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** First real build slice — introduces the categories table and its RLS policy (per this repo's per-user-data convention). Sequenced before expense logging because FR-008 requires an existing category to select from when adding an expense.
-- **Status:** proposed
+- **Status:** done
 
 ### S-03: User can log an expense and see it in the monthly summary
 
@@ -87,15 +87,15 @@ No standalone Foundations were needed for this roadmap. Auth, Frontend, and Depl
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** This is the north star and the largest slice — it bundles FR-006/007/008/009 and both user stories because the PRD's own Primary Success Criterion and both Given/When/Then blocks treat "add expense" and "see it summarized" as one atomic outcome, not two independently valuable steps. Splitting further would be premature complexity for a 3-week solo, after-hours MVP.
-- **Status:** proposed
+- **Status:** done
 
 ## Backlog Handoff
 
 | Roadmap ID | Change ID                    | Suggested issue title                                                             | Ready for `/10x-plan` | Notes                                                                                              |
 | ---------- | ---------------------------- | --------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------------------------------------------------------- |
-| S-01       | `account-signin-signout`     | Confirm account creation and sign-in/out cover FR-001/FR-002                      | yes                   | Already implemented and verified in production — treat as a confirmation pass, not new build work. |
-| S-02       | `expense-categories`         | Build category viewing and creation with duplicate-name warning                   | no                    | Unblocks once S-01 is confirmed.                                                                   |
-| S-03       | `log-and-summarize-expenses` | Build expense logging (auto/backdated date + category) and ranked monthly summary | no                    | North star. Unblocks once S-02 ships. Run `/10x-plan log-and-summarize-expenses` after that.       |
+| S-01       | `account-signin-signout`     | Confirm account creation and sign-in/out cover FR-001/FR-002                      | done                  | Shipped and archived — see `## Done` below.                                                        |
+| S-02       | `expense-categories`         | Build category viewing and creation with duplicate-name warning                   | done                  | Shipped and archived — see `## Done` below.                                                        |
+| S-03       | `log-and-summarize-expenses` | Build expense logging (auto/backdated date + category) and ranked monthly summary | done                  | Shipped and archived — see `## Done` below.                                                        |
 
 ## Open Roadmap Questions
 
@@ -113,3 +113,7 @@ _None._ The PRD's own `## Open Questions` section was empty ("No open questions"
 - **CI auto-deploy-on-merge** — Why parked: named in `tech-stack.md` hints but not yet wired into `.github/workflows/ci.yml` (lint+build only today); not required by any PRD FR, and the `low-complexity` sequencing goal argues against adding CI/CD investment before the core product loop (S-02, S-03) ships.
 
 ## Done
+
+- **S-01: User can create an account and sign in / sign out** — Archived 2026-07-23 → `context/archive/2026-07-21-account-signin-signout/`. Lesson: —.
+- **S-02: User can view and add expense categories** — Archived 2026-07-24 → `context/archive/2026-07-21-expense-categories/`. Lesson: —.
+- **S-03: User can log an expense and see it in the monthly summary** — Archived 2026-07-24 → `context/archive/2026-07-22-log-and-summarize-expenses/`. Lesson: —.
