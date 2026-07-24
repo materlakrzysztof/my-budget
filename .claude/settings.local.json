@@ -82,7 +82,9 @@
       "Skill(10x-research)",
       "Skill(10x-research:*)",
       "Bash(echo \"EXIT:$?\")",
-      "PowerShell(Set-Clipboard \"/10x-health-check\")"
+      "PowerShell(Set-Clipboard \"/10x-health-check\")",
+      "PowerShell(Set-Clipboard \"/10x-implement testing-migration-deploy-safety-net phase 1\")",
+      "Bash(echo \"DIFF_EXIT=$?\")"
     ],
     "deny": [
       "Bash(rm -rf *)"
@@ -91,6 +93,20 @@
       "Bash(wget *)",
       "Bash(git push *)",
       "Bash(git push)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/eslint-fix-changed-file.mjs",
+            "timeout": 10000
+          }
+        ]
+      }
     ]
   }
 }
