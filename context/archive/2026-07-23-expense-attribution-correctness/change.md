@@ -1,10 +1,10 @@
 ---
 change_id: expense-attribution-correctness
 title: Expense attribution correctness
-status: impl_reviewed
+status: archived
 created: 2026-07-23
-updated: 2026-07-23
-archived_at: null
+updated: 2026-07-24
+archived_at: 2026-07-24T06:19:36Z
 ---
 
 ## Notes
