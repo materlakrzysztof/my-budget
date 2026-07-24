@@ -308,6 +308,22 @@ this suite's existing accumulate-test-users convention.
 
 - Skim the new spec once locally to confirm it fails if a nav link is removed (temporarily comment one out and re-run, then restore) — a non-vacuity check consistent with this project's integration-test convention (`context/foundation/test-plan.md` §6.2)
 
+### Addendum: pre-existing specs fixed alongside Phase 3
+
+Not originally in this phase's "Changes Required," but landed in the same
+commit (`ab405e3`) because Phase 1's Topbar changes broke them — flagged by
+`impl-review.md` finding F2:
+
+- `tests/e2e/expenses-add-and-summary.spec.ts`, `expenses-backdated-attribution.spec.ts`,
+  `expenses-delete-updates-summary.spec.ts`, `expenses-edit-updates-summary.spec.ts` —
+  each clicked a nav link literally named "Expenses," renamed to "Add Expense"
+  in Phase 1; updated to click the new label and rely on Phase 2's dialog
+  auto-open instead of the now-redundant `openAddExpenseDialog` helper call.
+- `tests/e2e/auth-happy-path.spec.ts` — its `getByText(email)` assertion on
+  `/dashboard` became ambiguous once Topbar (now global, Phase 1) added a
+  second email-bearing element on that page; scoped to `` `Welcome, ${email}` ``
+  to match only the page's own text.
+
 ---
 
 ## Testing Strategy
