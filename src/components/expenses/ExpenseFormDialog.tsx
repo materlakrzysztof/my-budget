@@ -41,9 +41,10 @@ export function ExpenseFormDialog({
   const [categoryId, setCategoryId] = useState(() =>
     mode === "edit" && editingExpense ? editingExpense.categoryId : (categories[0]?.id ?? ""),
   );
+  const [name, setName] = useState(() => (mode === "edit" && editingExpense ? (editingExpense.name ?? "") : ""));
   const [amount, setAmount] = useState(() => (mode === "edit" && editingExpense ? editingExpense.amount : ""));
   const [date, setDate] = useState(() => (mode === "edit" && editingExpense ? editingExpense.date : todayIsoDate()));
-  const [errors, setErrors] = useState<{ categoryId?: string; amount?: string; date?: string }>({});
+  const [errors, setErrors] = useState<{ categoryId?: string; name?: string; amount?: string; date?: string }>({});
   const [submitting, setSubmitting] = useState(false);
 
   function validate() {
@@ -51,6 +52,10 @@ export function ExpenseFormDialog({
 
     if (!categoryId) {
       next.categoryId = "Category is required";
+    }
+
+    if (name.trim().length > 100) {
+      next.name = "Name must be at most 100 characters";
     }
 
     if (!/^\d+(\.\d{1,2})?$/.test(amount.trim()) || Number(amount) <= 0) {
@@ -72,7 +77,7 @@ export function ExpenseFormDialog({
 
     setSubmitting(true);
     try {
-      await onSubmit({ categoryId, amount: amount.trim(), date });
+      await onSubmit({ categoryId, name: name.trim(), amount: amount.trim(), date });
     } finally {
       setSubmitting(false);
     }
@@ -114,6 +119,23 @@ export function ExpenseFormDialog({
               ))}
             </select>
             {errors.categoryId && <p className="mt-1 text-xs text-red-300">{errors.categoryId}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="expense-name" className="mb-1 block text-sm text-blue-100/80">
+              Name
+            </label>
+            <Input
+              id="expense-name"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
+              }}
+              placeholder="Optional label"
+              className={fieldClassName}
+            />
+            {errors.name && <p className="mt-1 text-xs text-red-300">{errors.name}</p>}
           </div>
 
           <div>

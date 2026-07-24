@@ -45,6 +45,7 @@ describe("cross-user isolation & summary exclusion", () => {
 
     const aExpense = await createExpense(userA.supabase, userA.userId, {
       categoryId: aCategoryId,
+      name: null,
       amount: aExpenseAmount,
       date: todayIsoDate(),
     });
@@ -131,11 +132,13 @@ describe("cross-user isolation & summary exclusion", () => {
       const bCategories = await listCategories(userB.supabase, userB.userId);
       await createExpense(userB.supabase, userB.userId, {
         categoryId: bCategories[0].id,
+        name: null,
         amount: "15.00",
         date: todayIsoDate(),
       });
       await createExpense(userB.supabase, userB.userId, {
         categoryId: bCategories[1].id,
+        name: null,
         amount: "20.00",
         date: todayIsoDate(),
       });

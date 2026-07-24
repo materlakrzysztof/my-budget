@@ -22,11 +22,13 @@ test("two expenses under two categories reconcile to their own category's total 
   await expect(page).toHaveURL(/\/expenses$/);
   await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
-  // First expense: Groceries, the larger amount.
+  // First expense: Groceries, the larger amount, with an optional name.
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Groceries" });
+  await expenseDialog(page, "add").getByLabel("Name").fill("Birthday dinner");
   await expenseDialog(page, "add").getByLabel("Amount").fill("40.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(expenseRowFor(page, "Groceries")).toContainText("$40.00");
+  await expect(expenseRowFor(page, "Groceries")).toContainText("Birthday dinner");
 
   // Second expense: Transport, the smaller amount.
   await page.getByRole("button", { name: "Add expense" }).click();

@@ -30,6 +30,7 @@ export function ExpenseList({
         >
           <div>
             <p className="font-medium text-white">{formatAmount(expense.amount, currency)}</p>
+            {expense.name !== null && <p className="text-sm text-blue-100/90">{expense.name}</p>}
             <p className="text-sm text-blue-100/60">
               {expense.date} &middot; {expense.categoryName}
             </p>

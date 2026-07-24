@@ -22,10 +22,12 @@ test("editing an expense's amount updates both the list and the summary total", 
   await expect(summaryRowFor(page, "Entertainment")).toContainText("$20.00");
 
   await expenseRowFor(page, "Entertainment").getByRole("button", { name: "Edit" }).click();
+  await expenseDialog(page, "edit").getByLabel("Name").fill("Movie night");
   await expenseDialog(page, "edit").getByLabel("Amount").fill("50.00");
   await expenseDialog(page, "edit").getByRole("button", { name: "Save changes" }).click();
 
   await expect(expenseRowFor(page, "Entertainment")).toContainText("$50.00");
+  await expect(expenseRowFor(page, "Entertainment")).toContainText("Movie night");
   await expect(expenseRowFor(page, "Entertainment")).not.toContainText("$20.00");
   await expect(summaryRowFor(page, "Entertainment")).toContainText("$50.00");
   await expect(summaryRowFor(page, "Entertainment")).not.toContainText("$70.00");
