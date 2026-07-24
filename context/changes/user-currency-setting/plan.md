@@ -284,11 +284,11 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Automated
 
-- [ ] 1.1 Migration applies cleanly
-- [ ] 1.2 Type checking passes
-- [ ] 1.3 Linting passes
-- [ ] 1.4 Unit tests pass
-- [ ] 1.5 Integration tests pass
+- [x] 1.1 Migration applies cleanly
+- [x] 1.2 Type checking passes
+- [x] 1.3 Linting passes
+- [x] 1.4 Unit tests pass
+- [x] 1.5 Integration tests pass
 
 ### Phase 2: API Route & Settings Page
 
