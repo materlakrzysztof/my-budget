@@ -273,8 +273,8 @@ because runtime secrets already live on the Worker.
 
 #### Automated
 
-- [x] 2.1 `prettier --check` passes on edited `*.md`
-- [x] 2.2 No "parked" / "not wired in" auto-deploy references remain in `context/foundation/`
+- [x] 2.1 `prettier --check` passes on edited `*.md` — 981d489
+- [x] 2.2 No "parked" / "not wired in" auto-deploy references remain in `context/foundation/` — 981d489
 
 #### Manual
 
