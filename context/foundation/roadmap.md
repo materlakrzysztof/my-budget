@@ -41,7 +41,7 @@ A person managing their own household budget today tracks expenses in Excel — 
 | S-01 | `account-signin-signout`     | create an account and sign in / sign out                                                        | —             | FR-001, FR-002                               | done     |
 | S-02 | `expense-categories`         | view default expense categories and add a new one (with a similar-name warning)                 | S-01          | FR-003, FR-005                               | done     |
 | S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | done     |
-| S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —   | FR-010, FR-014, US-03 | ready |
+| S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —   | FR-010, FR-014, US-03 | done |
 | S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                            | —             | FR-011, FR-014       | done    |
 | S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                           | —             | FR-012, FR-014, US-03 | done |
 | S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward     | —             | FR-013, FR-014, US-04 | done |
@@ -115,7 +115,7 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** North star and smallest slice here — no schema change, pure wiring of routes that already exist (`/dashboard`, `/expenses`, `/categories`). The one wrinkle: the nav's Settings destination has no real page yet until S-07 ships — land it as a minimal placeholder so the link isn't dead, and don't let this slice grow into building S-07's content early. Guardrail: must not remove or break any existing bookmarked route.
-- **Status:** ready
+- **Status:** done
 
 ### S-05: User can add a name/description to an expense
 
@@ -192,3 +192,4 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **S-06: User can click into a category and see its underlying expenses** — Archived 2026-07-25 → `context/archive/2026-07-24-category-expense-drilldown/`. Lesson: —.
 - **S-07: User can set a currency once and have it apply everywhere** — Archived 2026-07-25 → `context/archive/2026-07-24-user-currency-setting/`. Lesson: —.
 - **S-05: User can add a name/description to an expense** — Archived 2026-07-25 → `context/archive/2026-07-24-expense-name-description/`. Lesson: —.
+- **S-04: User can reach every core area through a persistent nav menu** — Archived 2026-07-25 → `context/archive/2026-07-24-persistent-nav-menu/`. Lesson: —.

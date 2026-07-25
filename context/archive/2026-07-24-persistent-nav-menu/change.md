@@ -1,10 +1,10 @@
 ---
 change_id: persistent-nav-menu
 title: Persistent nav menu across every authenticated page
-status: impl_reviewed
+status: archived
 created: 2026-07-24
-updated: 2026-07-24
-archived_at: null
+updated: 2026-07-25
+archived_at: 2026-07-25T12:35:33Z
 ---
 
 ## Notes
