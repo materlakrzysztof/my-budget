@@ -157,9 +157,13 @@ npx wrangler deploy
 
 Set `SUPABASE_URL` and `SUPABASE_KEY` as secrets in your Cloudflare dashboard or via `npx wrangler secret put`.
 
+Manual deploy is the fallback — merges to `main` deploy automatically (see CI below).
+
 ## CI
 
-GitHub Actions runs lint + unit tests + build on every push and PR to `main`. Configure `SUPABASE_URL` and `SUPABASE_KEY` as repository secrets in GitHub for the build step.
+GitHub Actions runs lint + unit tests + build + migration-safety on every push and PR to `main`. Configure `SUPABASE_URL` and `SUPABASE_KEY` as repository secrets in GitHub for the build step.
+
+On merge to `main`, a gated `deploy` job auto-publishes to Cloudflare Workers — only after the test jobs pass. It requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repository secrets. On pull requests the deploy job is skipped.
 
 ## License
 

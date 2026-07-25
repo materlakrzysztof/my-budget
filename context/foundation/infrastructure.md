@@ -96,7 +96,7 @@ Six months after deploying MyBudget on Cloudflare Pages, the solo developer trie
 1. Confirm the Cloudflare adapter is already configured: `@astrojs/cloudflare` is in `package.json` and `astro.config.mjs` sets `output: "server"` with the Cloudflare adapter (already true in this scaffold).
 2. Authenticate Wrangler: `npx wrangler login` (or set `CLOUDFLARE_API_TOKEN` for CI).
 3. Set production secrets: `npx wrangler secret put SUPABASE_URL` and `npx wrangler secret put SUPABASE_KEY`.
-4. Deploy: `npm run build && npx wrangler deploy` (or let the existing GitHub Actions auto-deploy-on-merge flow handle it, per `context/foundation/tech-stack.md`).
+4. Deploy: `npm run build && npx wrangler deploy` for a manual deploy — or just merge to `main`, which triggers the gated `deploy` job in `.github/workflows/ci.yml` to publish automatically after `ci` + `migration-safety` pass. CI auth uses the `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` GitHub repo secrets.
 5. Verify: `npx wrangler tail` to confirm the deployed Worker is serving requests and logging as expected.
 
 ## Out of Scope
@@ -104,5 +104,6 @@ Six months after deploying MyBudget on Cloudflare Pages, the solo developer trie
 The following were not evaluated in this research:
 
 - Docker image configuration
-- CI/CD pipeline setup
 - Production-scale architecture (multi-region, HA, DR)
+
+CI/CD pipeline setup (auto-deploy-on-merge) was subsequently delivered — see `context/changes/deploy-on-merge/` and the `deploy` job in `.github/workflows/ci.yml`.

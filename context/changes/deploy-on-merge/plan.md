@@ -258,8 +258,8 @@ because runtime secrets already live on the Worker.
 
 #### Automated
 
-- [x] 1.1 Workflow YAML valid and parses on push
-- [x] 1.2 `npm run build && npx wrangler deploy --dry-run` succeeds locally
+- [x] 1.1 Workflow YAML valid and parses on push — 4fc1445
+- [x] 1.2 `npm run build && npx wrangler deploy --dry-run` succeeds locally — 4fc1445
 - [ ] 1.3 On PR to `main`, `deploy` job is skipped while `ci` + `migration-safety` run
 - [ ] 1.4 On merge to `main`, `deploy` runs after green, `wrangler deploy` succeeds, smoke check 200
 
@@ -273,8 +273,8 @@ because runtime secrets already live on the Worker.
 
 #### Automated
 
-- [ ] 2.1 `prettier --check` passes on edited `*.md`
-- [ ] 2.2 No "parked" / "not wired in" auto-deploy references remain in `context/foundation/`
+- [x] 2.1 `prettier --check` passes on edited `*.md`
+- [x] 2.2 No "parked" / "not wired in" auto-deploy references remain in `context/foundation/`
 
 #### Manual
 

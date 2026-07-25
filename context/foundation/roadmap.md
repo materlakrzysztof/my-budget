@@ -36,30 +36,31 @@ A person managing their own household budget today tracks expenses in Excel — 
 
 ## At a glance
 
-| ID   | Change ID                    | Outcome (user can …)                                                                            | Prerequisites | PRD refs                                     | Status   |
-| ---- | ---------------------------- | ----------------------------------------------------------------------------------------------- | ------------- | -------------------------------------------- | -------- |
-| S-01 | `account-signin-signout`     | create an account and sign in / sign out                                                        | —             | FR-001, FR-002                               | done     |
-| S-02 | `expense-categories`         | view default expense categories and add a new one (with a similar-name warning)                 | S-01          | FR-003, FR-005                               | done     |
-| S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | done     |
-| S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —   | FR-010, FR-014, US-03 | done |
-| S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                            | —             | FR-011, FR-014       | done    |
-| S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                           | —             | FR-012, FR-014, US-03 | done |
-| S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward     | —             | FR-013, FR-014, US-04 | done |
+| ID   | Change ID                    | Outcome (user can …)                                                                                          | Prerequisites | PRD refs                                     | Status |
+| ---- | ---------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------- | -------------------------------------------- | ------ |
+| S-01 | `account-signin-signout`     | create an account and sign in / sign out                                                                      | —             | FR-001, FR-002                               | done   |
+| S-02 | `expense-categories`         | view default expense categories and add a new one (with a similar-name warning)                               | S-01          | FR-003, FR-005                               | done   |
+| S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary               | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | done   |
+| S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —             | FR-010, FR-014, US-03                        | done   |
+| S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                                          | —             | FR-011, FR-014                               | done   |
+| S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                                         | —             | FR-012, FR-014, US-03                        | done   |
+| S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward                   | —             | FR-013, FR-014, US-04                        | done   |
 
 (No `## Streams` section — S-01–S-03 are one straight chain and S-04–S-07 are four mutually independent slices with no shared prerequisite chain; neither group benefits from a separate navigation view beyond the table above.)
 
 ## Baseline
 
 What's already in place in the codebase as of `2026-07-21` for S-01–S-03 (auto-researched
-+ user-confirmed), refreshed `2026-07-24` for S-04+.
-The Foundations section below assumes these are present and does not re-scaffold them.
 
-- **Frontend:** present — Astro 6 SSR + React 19 islands, Tailwind 4, shadcn/ui (`src/components/ui/button.tsx`). Live and deployed. **2026-07-24 refresh:** `src/layouts/Layout.astro` renders no nav at all, and `/dashboard`, `/expenses`, `/categories` have zero `href` links between them — this is the concrete gap S-04 closes.
-- **Backend / API:** present for categories/expenses (`src/pages/api/{categories,expenses}.ts`) as of S-02/S-03; absent for settings/currency — no such endpoint exists yet (S-07 gap).
-- **Data:** present — `categories` and `expenses` tables exist (`supabase/migrations/2026072*`). **2026-07-24 refresh:** `expenses` has no name/description column (S-05 gap); no currency field exists anywhere, per-user or per-expense (S-07 gap).
-- **Auth:** present — full flow wired (`src/lib/supabase.ts`, `src/middleware.ts`, auth pages) and verified end-to-end in production (`context/deployment/deploy-plan.md`: signup → email confirmation → signin → protected `/dashboard`, live on Cloudflare Workers). Unchanged by v2.
-- **Deploy / infra:** present — Cloudflare Workers via `wrangler`, first deploy completed and verified live. CI (`.github/workflows/ci.yml`) runs lint+build+unit/integration tests+migration-safety (see `context/foundation/test-plan.md`). Auto-deploy-on-merge still not wired in (see `## Parked`).
-- **Observability:** absent — no app-level logging or error tracking beyond default `wrangler tail` log streaming. Unchanged by v2.
+- user-confirmed), refreshed `2026-07-24` for S-04+.
+  The Foundations section below assumes these are present and does not re-scaffold them.
+
+* **Frontend:** present — Astro 6 SSR + React 19 islands, Tailwind 4, shadcn/ui (`src/components/ui/button.tsx`). Live and deployed. **2026-07-24 refresh:** `src/layouts/Layout.astro` renders no nav at all, and `/dashboard`, `/expenses`, `/categories` have zero `href` links between them — this is the concrete gap S-04 closes.
+* **Backend / API:** present for categories/expenses (`src/pages/api/{categories,expenses}.ts`) as of S-02/S-03; absent for settings/currency — no such endpoint exists yet (S-07 gap).
+* **Data:** present — `categories` and `expenses` tables exist (`supabase/migrations/2026072*`). **2026-07-24 refresh:** `expenses` has no name/description column (S-05 gap); no currency field exists anywhere, per-user or per-expense (S-07 gap).
+* **Auth:** present — full flow wired (`src/lib/supabase.ts`, `src/middleware.ts`, auth pages) and verified end-to-end in production (`context/deployment/deploy-plan.md`: signup → email confirmation → signin → protected `/dashboard`, live on Cloudflare Workers). Unchanged by v2.
+* **Deploy / infra:** present — Cloudflare Workers via `wrangler`, first deploy completed and verified live. CI (`.github/workflows/ci.yml`) runs lint+build+unit/integration tests+migration-safety (see `context/foundation/test-plan.md`). Auto-deploy-on-merge is wired: a gated `deploy` job publishes to Cloudflare Workers on merge to `main`, only after `ci` + `migration-safety` pass (see `## Done`).
+* **Observability:** absent — no app-level logging or error tracking beyond default `wrangler tail` log streaming. Unchanged by v2.
 
 ## Foundations
 
@@ -155,15 +156,15 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 
 ## Backlog Handoff
 
-| Roadmap ID | Change ID                    | Suggested issue title                                                             | Ready for `/10x-plan` | Notes                                                                                              |
-| ---------- | ---------------------------- | --------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------------------------------------------------------- |
-| S-01       | `account-signin-signout`     | Confirm account creation and sign-in/out cover FR-001/FR-002                      | done                  | Shipped and archived — see `## Done` below.                                                        |
-| S-02       | `expense-categories`         | Build category viewing and creation with duplicate-name warning                   | done                  | Shipped and archived — see `## Done` below.                                                        |
-| S-03       | `log-and-summarize-expenses` | Build expense logging (auto/backdated date + category) and ranked monthly summary | done                  | Shipped and archived — see `## Done` below.                                                        |
-| S-04       | `persistent-nav-menu`        | Add a persistent nav menu (Dashboard/Expenses/Categories/Settings)                 | yes                   | North star of this iteration. Run `/10x-plan persistent-nav-menu`.                                 |
-| S-05       | `expense-name-description`   | Add optional name/description field to expense create/edit                        | yes                   | Independent of S-04/S-06/S-07 — can run in parallel.                                                |
-| S-06       | `category-expense-drilldown` | Add category-filtered expense list view                                           | yes                   | Independent of S-04/S-05/S-07 — can run in parallel.                                                |
-| S-07       | `user-currency-setting`      | Add per-user currency setting applied app-wide (relabel-only, no FX)              | yes                   | Independent of S-04/S-05/S-06 — can run in parallel. Needs its own settings page/route.             |
+| Roadmap ID | Change ID                    | Suggested issue title                                                             | Ready for `/10x-plan` | Notes                                                                                   |
+| ---------- | ---------------------------- | --------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------- |
+| S-01       | `account-signin-signout`     | Confirm account creation and sign-in/out cover FR-001/FR-002                      | done                  | Shipped and archived — see `## Done` below.                                             |
+| S-02       | `expense-categories`         | Build category viewing and creation with duplicate-name warning                   | done                  | Shipped and archived — see `## Done` below.                                             |
+| S-03       | `log-and-summarize-expenses` | Build expense logging (auto/backdated date + category) and ranked monthly summary | done                  | Shipped and archived — see `## Done` below.                                             |
+| S-04       | `persistent-nav-menu`        | Add a persistent nav menu (Dashboard/Expenses/Categories/Settings)                | yes                   | North star of this iteration. Run `/10x-plan persistent-nav-menu`.                      |
+| S-05       | `expense-name-description`   | Add optional name/description field to expense create/edit                        | yes                   | Independent of S-04/S-06/S-07 — can run in parallel.                                    |
+| S-06       | `category-expense-drilldown` | Add category-filtered expense list view                                           | yes                   | Independent of S-04/S-05/S-07 — can run in parallel.                                    |
+| S-07       | `user-currency-setting`      | Add per-user currency setting applied app-wide (relabel-only, no FX)              | yes                   | Independent of S-04/S-05/S-06 — can run in parallel. Needs its own settings page/route. |
 
 ## Open Roadmap Questions
 
@@ -178,7 +179,6 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **No payment reminders for upcoming bills in v1** — Why parked: PRD §Non-Goals — present in the original idea as a nice-to-have, not selected as an MVP Secondary criterion.
 - **No category editing (name/description) in v1 (FR-004, nice-to-have)** — Why parked: PRD §Non-Goals — default categories plus adding new ones cover MVP needs; demoted and deferred to v2.
 - **No CSV/Excel export in v1** — Why parked: PRD §Non-Goals — considered but dropped entirely so all effort goes to the core account/categories/expenses/summary flow.
-- **CI auto-deploy-on-merge** — Why parked: named in `tech-stack.md` hints but not yet wired into `.github/workflows/ci.yml` (lint+build+test today); not required by any PRD FR, and the `low-complexity` sequencing goal argues against adding CI/CD investment before the core product loop ships.
 - **Multi-currency / FX conversion** — Why parked: `prd.md` §Non-Goals — single currency label per account, relabel-only; no exchange-rate lookups, no per-expense currency, no historical conversion.
 - **Expense search/full-text search** — Why parked: `prd.md` §Non-Goals — S-06 adds category-filtered browsing only; keyword search across name/description is out of scope.
 - **Role/permission changes** — Why parked: `prd.md` §Non-Goals — auth and access control stay exactly as they are today.
@@ -193,3 +193,4 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **S-07: User can set a currency once and have it apply everywhere** — Archived 2026-07-25 → `context/archive/2026-07-24-user-currency-setting/`. Lesson: —.
 - **S-05: User can add a name/description to an expense** — Archived 2026-07-25 → `context/archive/2026-07-24-expense-name-description/`. Lesson: —.
 - **S-04: User can reach every core area through a persistent nav menu** — Archived 2026-07-25 → `context/archive/2026-07-24-persistent-nav-menu/`. Lesson: —.
+- **Infra: CI auto-deploy-on-merge to Cloudflare Workers** — 2026-07-25 → `context/changes/deploy-on-merge/`. Gated `deploy` job in `.github/workflows/ci.yml` publishes on merge to `main` after `ci` + `migration-safety` pass. Promoted out of `## Parked` (was: not tied to any PRD FR; deferred behind the low-complexity sequencing goal, now expired). Lesson: —.
