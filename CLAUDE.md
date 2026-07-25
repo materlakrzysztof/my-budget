@@ -45,11 +45,13 @@ Full server-side rendering (`output: "server"` in astro.config.mjs). All pages a
 - Env vars: `SUPABASE_URL`, `SUPABASE_KEY` (copy `.env.example` to `.env` for Node, or `.dev.vars` for Cloudflare local dev)
 - Local Supabase: `npx supabase start` (requires Docker)
 - Cloudflare local dev: secrets go in `.dev.vars` (gitignored)
-- Deploy: `npx wrangler deploy` (requires Cloudflare account + `wrangler` auth)
+- Deploy: merges to `main` auto-deploy via CI (see below); manual fallback is `npx wrangler deploy` (requires Cloudflare account + `wrangler` auth)
 
 ## CI
 
-GitHub Actions workflow (`.github/workflows/ci.yml`) runs lint + unit tests + build on every push and PR to `main`. Requires `SUPABASE_URL` and `SUPABASE_KEY` repository secrets for the build step.
+GitHub Actions workflow (`.github/workflows/ci.yml`) runs lint + unit tests + build + migration-safety on every push and PR to `main`. Requires `SUPABASE_URL` and `SUPABASE_KEY` repository secrets for the build step.
+
+A gated `deploy` job auto-deploys to Cloudflare Workers on merge to `main` (`needs: [ci, migration-safety]`, `if: github.ref == 'refs/heads/main'`) via `npx wrangler deploy`, followed by an HTTP 200 smoke check. It requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets; the job is skipped on pull requests.
 
 <!-- BEGIN @przeprogramowani/10x-cli -->
 
