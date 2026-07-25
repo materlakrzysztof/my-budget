@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
+import { listCategories } from "@/lib/services/categories";
 import {
   createExpense,
   createExpenseSchema,
@@ -26,12 +27,20 @@ export const GET: APIRoute = async (context) => {
     return json({ error: "Supabase is not configured" }, 500);
   }
 
+  // Resolve the requested category against the user's own categories, mirroring
+  // the SSR path in expenses.astro: an unrecognized/foreign id is treated as no
+  // filter (full list), not as a filter yielding an empty list. RLS + the
+  // user_id scope already make a foreign id safe; this keeps the API and SSR
+  // behavior identical for an invalid param.
   const category = context.url.searchParams.get("category");
-  const expenses = await listExpenses(
-    supabase,
-    context.locals.user.id,
-    category ? { categoryId: category } : undefined,
-  );
+  let filter: { categoryId: string } | undefined;
+  if (category) {
+    const categories = await listCategories(supabase, context.locals.user.id);
+    const owned = categories.find((c) => c.id === category);
+    filter = owned ? { categoryId: owned.id } : undefined;
+  }
+
+  const expenses = await listExpenses(supabase, context.locals.user.id, filter);
   return json({ expenses } satisfies ListExpensesResponse, 200);
 };
 

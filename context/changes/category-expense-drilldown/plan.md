@@ -247,12 +247,12 @@ No schema change — this is a query/UI-only feature.
 
 #### Manual
 
-- [x] 2.4 Clicking a category in the monthly summary navigates to `/expenses?category=<id>` and shows only that category's expenses
-- [x] 2.5 Clicking a category on the categories page does the same
-- [x] 2.6 The "Filtered by: <name>" banner shows the correct category name; "Clear filter" returns to the full unfiltered list
-- [x] 2.7 A category with zero expenses shows "No expenses in this category." with the banner still visible
-- [x] 2.8 Adding/editing/deleting an expense while filtered keeps the view correctly scoped after refresh
-- [x] 2.9 Visiting `/expenses` with no `category` param, or an unrecognized one, shows the full list with no banner
+- [x] 2.4 Clicking a category in the monthly summary navigates to `/expenses?category=<id>` and shows only that category's expenses — e2e (category-expense-drilldown.spec.ts)
+- [x] 2.5 Clicking a category on the categories page does the same — user-attested (no automated coverage)
+- [x] 2.6 The "Filtered by: <name>" banner shows the correct category name; "Clear filter" returns to the full unfiltered list — e2e (category-expense-drilldown.spec.ts)
+- [x] 2.7 A category with zero expenses shows "No expenses in this category." with the banner still visible — user-attested (no automated coverage)
+- [x] 2.8 Adding/editing/deleting an expense while filtered keeps the view correctly scoped after refresh — user-attested (no automated coverage)
+- [x] 2.9 Visiting `/expenses` with no `category` param, or an unrecognized one, shows the full list with no banner — e2e (category-expense-drilldown.spec.ts)
 
 ### Phase 3: Testing
 

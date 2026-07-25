@@ -1,7 +1,7 @@
 ---
 change_id: category-expense-drilldown
 title: Category expense drilldown
-status: implemented
+status: impl_reviewed
 created: 2026-07-24
 updated: 2026-07-25
 archived_at: null

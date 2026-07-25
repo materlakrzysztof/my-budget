@@ -60,9 +60,24 @@ describe("listExpenses category filtering", () => {
     const otherCategories = await listCategories(other.supabase, other.userId);
     otherCategoryId = otherCategories[0].id;
 
-    await createExpense(owner.supabase, owner.userId, { categoryId: ownerCatA, amount: "10.00", date: todayIsoDate() });
-    await createExpense(owner.supabase, owner.userId, { categoryId: ownerCatA, amount: "20.00", date: todayIsoDate() });
-    await createExpense(owner.supabase, owner.userId, { categoryId: ownerCatB, amount: "5.00", date: todayIsoDate() });
+    await createExpense(owner.supabase, owner.userId, {
+      categoryId: ownerCatA,
+      name: null,
+      amount: "10.00",
+      date: todayIsoDate(),
+    });
+    await createExpense(owner.supabase, owner.userId, {
+      categoryId: ownerCatA,
+      name: null,
+      amount: "20.00",
+      date: todayIsoDate(),
+    });
+    await createExpense(owner.supabase, owner.userId, {
+      categoryId: ownerCatB,
+      name: null,
+      amount: "5.00",
+      date: todayIsoDate(),
+    });
   });
 
   it("returns only the filtered category's expenses for the owning user", async () => {
