@@ -3,7 +3,7 @@ project: MyBudget
 version: 1
 status: draft
 created: 2026-07-21
-updated: 2026-07-24
+updated: 2026-07-25
 prd_version: 2
 main_goal: low-complexity
 top_blocker: capacity
@@ -42,7 +42,7 @@ A person managing their own household budget today tracks expenses in Excel — 
 | S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | done     |
 | S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —   | FR-001 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | ready |
 | S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                            | —             | FR-002 (prd-v2.md), FR-005 (prd-v2.md)       | ready    |
-| S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                           | —             | FR-003 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | ready |
+| S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                           | —             | FR-003 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | done |
 | S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward     | —             | FR-004 (prd-v2.md), FR-005 (prd-v2.md), US-02 (prd-v2.md) | ready |
 
 (No `## Streams` section — S-01–S-03 are one straight chain and S-04–S-07 are four mutually independent slices with no shared prerequisite chain; neither group benefits from a separate navigation view beyond the table above.)
@@ -138,7 +138,7 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** New route/view over existing `expenses`/`categories` tables — no schema change, just a filtered query. Guardrail: the existing monthly summary's per-category totals must keep reconciling exactly as before; verify the drill-down list's own sum matches the total already shown for that category.
-- **Status:** ready
+- **Status:** done
 
 ### S-07: User can set a currency once and have it apply everywhere
 
@@ -188,3 +188,4 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **S-01: User can create an account and sign in / sign out** — Archived 2026-07-23 → `context/archive/2026-07-21-account-signin-signout/`. Lesson: —.
 - **S-02: User can view and add expense categories** — Archived 2026-07-24 → `context/archive/2026-07-21-expense-categories/`. Lesson: —.
 - **S-03: User can log an expense and see it in the monthly summary** — Archived 2026-07-24 → `context/archive/2026-07-22-log-and-summarize-expenses/`. Lesson: —.
+- **S-06: User can click into a category and see its underlying expenses** — Archived 2026-07-25 → `context/archive/2026-07-24-category-expense-drilldown/`. Lesson: —.
