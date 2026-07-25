@@ -11,25 +11,26 @@ top_blocker: capacity
 
 # Roadmap: MyBudget
 
-> Derived from `context/foundation/prd.md` (v1, S-01–S-03 — all shipped, see `## Done`)
-> and `context/foundation/prd-v2.md` (v2, S-04+ — this iteration) + auto-researched
-> codebase baseline. `main_goal`/`top_blocker` above reflect the latest interview
-> (v2); both PRDs happened to land on the same answers.
+> Derived from `context/foundation/prd.md` — the consolidated PRD (v3) covering both
+> the v1 MVP (S-01–S-03, all shipped, see `## Done`) and the v2 iteration (S-04+).
+> The two source PRDs are archived under `context/foundation/archive/`
+> (`prd-v1-2026-07-20.md`, `prd-v2-2026-07-23.md`) + auto-researched codebase baseline.
+> `main_goal`/`top_blocker` above reflect the latest interview (v2).
 > Edit-in-place; archive when superseded.
 > Slices below are listed in dependency order. The "At a glance" table is the index.
-> **FR/US numbering is scoped per source PRD** — prd.md and prd-v2.md each restart
-> at FR-001/US-01. Every v2-sourced ref below is written `FR-NNN (prd-v2.md)` to
-> avoid collision with v1's own FR-001..FR-009.
+> **FR/US numbering follows the consolidated `prd.md`** — a single authoritative space
+> (v1 = FR-001..FR-009, v2 = FR-010..FR-014). What were `prd-v2.md` FR-001..FR-005 map
+> to FR-010..FR-014 respectively; v2 US-01/US-02 map to US-03/US-04.
 
 ## Vision recap
 
 A person managing their own household budget today tracks expenses in Excel — manually entering and categorizing every line item, with no automatic analysis and no way to see where the money went without extra, tedious work. MyBudget replaces that spreadsheet with structured expense entry, categorization, and a month-end summary, removing the manual friction that's the main reason people abandon spreadsheet-based budgeting after a few weeks.
 
-**v2 update (2026-07-24):** the MVP above shipped and is in daily use by its one real user. Four gaps only became visible from that day-to-day use — no persistent nav, no way to tell expenses apart beyond amount/category/date, no drill-down from a category total to its underlying expenses, and a hardcoded USD currency. `prd-v2.md` scopes closing those four gaps; S-04 onward below cover it.
+**v2 update (2026-07-24):** the MVP above shipped and is in daily use by its one real user. Four gaps only became visible from that day-to-day use — no persistent nav, no way to tell expenses apart beyond amount/category/date, no drill-down from a category total to its underlying expenses, and a hardcoded USD currency. The consolidated `prd.md` (v2 iteration, FR-010–FR-014) scopes closing those four gaps; S-04 onward below cover it.
 
 ## North star
 
-**S-04: User can reach every core area through a persistent nav menu** — this iteration's validation milestone (the smallest end-to-end slice whose success proves the value of fast post-MVP polish): no schema change, pure wiring of routes that already exist, and it closes the #1 gap named in `prd-v2.md`'s Problem Statement (discoverability). Placed first among S-04+ as its Prerequisites (none) allow.
+**S-04: User can reach every core area through a persistent nav menu** — this iteration's validation milestone (the smallest end-to-end slice whose success proves the value of fast post-MVP polish): no schema change, pure wiring of routes that already exist, and it closes the #1 gap named in `prd.md`'s Problem Statement (discoverability). Placed first among S-04+ as its Prerequisites (none) allow.
 
 > "North star" means the smallest end-to-end slice whose successful delivery would prove the point of the current iteration — placed as early as its Prerequisites allow, because everything else only matters if this works. (v1's original north star was S-03, above — already shipped; see `## Done`.)
 
@@ -40,10 +41,10 @@ A person managing their own household budget today tracks expenses in Excel — 
 | S-01 | `account-signin-signout`     | create an account and sign in / sign out                                                        | —             | FR-001, FR-002                               | done     |
 | S-02 | `expense-categories`         | view default expense categories and add a new one (with a similar-name warning)                 | S-01          | FR-003, FR-005                               | done     |
 | S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | done     |
-| S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —   | FR-001 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | ready |
-| S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                            | —             | FR-002 (prd-v2.md), FR-005 (prd-v2.md)       | done    |
-| S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                           | —             | FR-003 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | done |
-| S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward     | —             | FR-004 (prd-v2.md), FR-005 (prd-v2.md), US-02 (prd-v2.md) | done |
+| S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —   | FR-010, FR-014, US-03 | ready |
+| S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                            | —             | FR-011, FR-014       | done    |
+| S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                           | —             | FR-012, FR-014, US-03 | done |
+| S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward     | —             | FR-013, FR-014, US-04 | done |
 
 (No `## Streams` section — S-01–S-03 are one straight chain and S-04–S-07 are four mutually independent slices with no shared prerequisite chain; neither group benefits from a separate navigation view beyond the table above.)
 
@@ -108,7 +109,7 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 
 - **Outcome:** user can open a persistent nav menu from any authenticated page, linking to Dashboard, Add Expense, Categories, and Settings.
 - **Change ID:** `persistent-nav-menu`
-- **PRD refs:** FR-001 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md)
+- **PRD refs:** FR-010, FR-014, US-03
 - **Prerequisites:** —
 - **Parallel with:** S-05, S-06, S-07
 - **Blockers:** —
@@ -120,7 +121,7 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 
 - **Outcome:** user can optionally add a name/description when creating or editing an expense.
 - **Change ID:** `expense-name-description`
-- **PRD refs:** FR-002 (prd-v2.md), FR-005 (prd-v2.md)
+- **PRD refs:** FR-011, FR-014
 - **Prerequisites:** —
 - **Parallel with:** S-04, S-06, S-07
 - **Blockers:** —
@@ -132,7 +133,7 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 
 - **Outcome:** user can select a category (from the summary or categories page) and see the filtered list of expenses belonging to it.
 - **Change ID:** `category-expense-drilldown`
-- **PRD refs:** FR-003 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md)
+- **PRD refs:** FR-012, FR-014, US-03
 - **Prerequisites:** —
 - **Parallel with:** S-04, S-05, S-07
 - **Blockers:** —
@@ -144,7 +145,7 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 
 - **Outcome:** user can set their currency once in settings; all expense amounts, forms, and the monthly summary display and accept that currency going forward, with no conversion of previously logged amounts.
 - **Change ID:** `user-currency-setting`
-- **PRD refs:** FR-004 (prd-v2.md), FR-005 (prd-v2.md), US-02 (prd-v2.md)
+- **PRD refs:** FR-013, FR-014, US-04
 - **Prerequisites:** —
 - **Parallel with:** S-04, S-05, S-06
 - **Blockers:** —
@@ -178,10 +179,10 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **No category editing (name/description) in v1 (FR-004, nice-to-have)** — Why parked: PRD §Non-Goals — default categories plus adding new ones cover MVP needs; demoted and deferred to v2.
 - **No CSV/Excel export in v1** — Why parked: PRD §Non-Goals — considered but dropped entirely so all effort goes to the core account/categories/expenses/summary flow.
 - **CI auto-deploy-on-merge** — Why parked: named in `tech-stack.md` hints but not yet wired into `.github/workflows/ci.yml` (lint+build+test today); not required by any PRD FR, and the `low-complexity` sequencing goal argues against adding CI/CD investment before the core product loop ships.
-- **Multi-currency / FX conversion** — Why parked: `prd-v2.md` §Non-Goals — single currency label per account, relabel-only; no exchange-rate lookups, no per-expense currency, no historical conversion.
-- **Expense search/full-text search** — Why parked: `prd-v2.md` §Non-Goals — S-06 adds category-filtered browsing only; keyword search across name/description is out of scope.
-- **Role/permission changes** — Why parked: `prd-v2.md` §Non-Goals — auth and access control stay exactly as they are today.
-- **Redesign of the monthly summary itself** — Why parked: `prd-v2.md` §Non-Goals — the existing ranked category-summary view/logic is untouched; S-06 only adds a way to drill into a category's underlying expense list.
+- **Multi-currency / FX conversion** — Why parked: `prd.md` §Non-Goals — single currency label per account, relabel-only; no exchange-rate lookups, no per-expense currency, no historical conversion.
+- **Expense search/full-text search** — Why parked: `prd.md` §Non-Goals — S-06 adds category-filtered browsing only; keyword search across name/description is out of scope.
+- **Role/permission changes** — Why parked: `prd.md` §Non-Goals — auth and access control stay exactly as they are today.
+- **Redesign of the monthly summary itself** — Why parked: `prd.md` §Non-Goals — the existing ranked category-summary view/logic is untouched; S-06 only adds a way to drill into a category's underlying expense list.
 
 ## Done
 
