@@ -43,7 +43,7 @@ A person managing their own household budget today tracks expenses in Excel — 
 | S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —   | FR-001 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | ready |
 | S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                            | —             | FR-002 (prd-v2.md), FR-005 (prd-v2.md)       | ready    |
 | S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                           | —             | FR-003 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | done |
-| S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward     | —             | FR-004 (prd-v2.md), FR-005 (prd-v2.md), US-02 (prd-v2.md) | ready |
+| S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward     | —             | FR-004 (prd-v2.md), FR-005 (prd-v2.md), US-02 (prd-v2.md) | done |
 
 (No `## Streams` section — S-01–S-03 are one straight chain and S-04–S-07 are four mutually independent slices with no shared prerequisite chain; neither group benefits from a separate navigation view beyond the table above.)
 
@@ -150,7 +150,7 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Broadest touch surface of the four (every place an amount is entered or displayed) and the only one needing a new per-user settings surface. Guardrail is explicit and easy to violate by accident: relabel-only, no FX conversion of historical amounts, and the monthly summary total must still reconcile with the sum of individual expenses in the newly selected currency. Sequenced last among S-04–S-07 per the low-complexity bias (smallest slices first).
-- **Status:** ready
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -189,3 +189,4 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **S-02: User can view and add expense categories** — Archived 2026-07-24 → `context/archive/2026-07-21-expense-categories/`. Lesson: —.
 - **S-03: User can log an expense and see it in the monthly summary** — Archived 2026-07-24 → `context/archive/2026-07-22-log-and-summarize-expenses/`. Lesson: —.
 - **S-06: User can click into a category and see its underlying expenses** — Archived 2026-07-25 → `context/archive/2026-07-24-category-expense-drilldown/`. Lesson: —.
+- **S-07: User can set a currency once and have it apply everywhere** — Archived 2026-07-25 → `context/archive/2026-07-24-user-currency-setting/`. Lesson: —.

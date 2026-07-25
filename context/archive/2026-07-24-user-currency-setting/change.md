@@ -1,10 +1,10 @@
 ---
 change_id: user-currency-setting
 title: User currency setting
-status: impl_reviewed
+status: archived
 created: 2026-07-24
 updated: 2026-07-25
-archived_at: null
+archived_at: 2026-07-25T06:49:09Z
 ---
 
 ## Notes
