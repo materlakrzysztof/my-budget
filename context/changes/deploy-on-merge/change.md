@@ -1,7 +1,7 @@
 ---
 change_id: deploy-on-merge
 title: CI auto-deploy-on-merge to Cloudflare Workers
-status: implementing
+status: impl_reviewed
 created: 2026-07-25
 updated: 2026-07-25
 archived_at: null

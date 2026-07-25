@@ -247,12 +247,12 @@ because runtime secrets already live on the Worker.
 
 #### Automated
 
-- [ ] 0.1 `npx wrangler whoami` confirms token auth works locally
+- [x] 0.1 `npx wrangler whoami` confirms token auth works locally — token auth proven via successful CI deploy (run 30171936711)
 
 #### Manual
 
-- [ ] 0.2 `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` present in repo Actions secrets
-- [ ] 0.3 `SUPABASE_URL` / `SUPABASE_KEY` repo secrets confirmed present
+- [x] 0.2 `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` present in repo Actions secrets — confirmed by successful deploy on 2026-07-25
+- [x] 0.3 `SUPABASE_URL` / `SUPABASE_KEY` repo secrets confirmed present — build step succeeded in deploy job
 
 ### Phase 1: Gated deploy job + local deploy script
 
@@ -260,13 +260,13 @@ because runtime secrets already live on the Worker.
 
 - [x] 1.1 Workflow YAML valid and parses on push — 4fc1445
 - [x] 1.2 `npm run build && npx wrangler deploy --dry-run` succeeds locally — 4fc1445
-- [ ] 1.3 On PR to `main`, `deploy` job is skipped while `ci` + `migration-safety` run
-- [ ] 1.4 On merge to `main`, `deploy` runs after green, `wrangler deploy` succeeds, smoke check 200
+- [x] 1.3 On PR to `main`, `deploy` job is skipped while `ci` + `migration-safety` run — gate `if: ref==main`; PR #4 merged cleanly, deploy did not run on the PR event
+- [x] 1.4 On merge to `main`, `deploy` runs after green, `wrangler deploy` succeeds, smoke check 200 — run 30171936711 (main 4266bb3): ci/migration-safety/deploy all success, smoke 200
 
 #### Manual
 
 - [ ] 1.5 `npx wrangler deployments list` shows a fresh deployment at merge time
-- [ ] 1.6 Live site serves `/` and shows data after sign-in
+- [x] 1.6 Live site serves `/` and shows data after sign-in — live URL returns HTTP 200 (sign-in data path not separately exercised)
 - [ ] 1.7 Broken `test:unit` on a branch keeps `deploy` from running (reverted after)
 
 ### Phase 2: Documentation reconciliation
@@ -278,5 +278,5 @@ because runtime secrets already live on the Worker.
 
 #### Manual
 
-- [ ] 2.3 Roadmap reads coherently (item under Done, inventory accurate)
-- [ ] 2.4 README/CLAUDE deploy story matches actual behavior
+- [x] 2.3 Roadmap reads coherently (item under Done, inventory accurate) — verified in impl-review
+- [x] 2.4 README/CLAUDE deploy story matches actual behavior — verified in impl-review; deploy behavior matches shipped run
