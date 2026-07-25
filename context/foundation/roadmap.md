@@ -41,7 +41,7 @@ A person managing their own household budget today tracks expenses in Excel — 
 | S-02 | `expense-categories`         | view default expense categories and add a new one (with a similar-name warning)                 | S-01          | FR-003, FR-005                               | done     |
 | S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | done     |
 | S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —   | FR-001 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | ready |
-| S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                            | —             | FR-002 (prd-v2.md), FR-005 (prd-v2.md)       | ready    |
+| S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                            | —             | FR-002 (prd-v2.md), FR-005 (prd-v2.md)       | done    |
 | S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                           | —             | FR-003 (prd-v2.md), FR-005 (prd-v2.md), US-01 (prd-v2.md) | done |
 | S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward     | —             | FR-004 (prd-v2.md), FR-005 (prd-v2.md), US-02 (prd-v2.md) | done |
 
@@ -126,7 +126,7 @@ No standalone Foundations were needed for this roadmap, for either PRD version. 
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Smallest data change here — one additive optional column, no backfill needed. Keep it optional per PRD explicitly to avoid adding friction to every entry; resist scope creep into making it required.
-- **Status:** ready
+- **Status:** done
 
 ### S-06: User can click into a category and see its underlying expenses
 
@@ -190,3 +190,4 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **S-03: User can log an expense and see it in the monthly summary** — Archived 2026-07-24 → `context/archive/2026-07-22-log-and-summarize-expenses/`. Lesson: —.
 - **S-06: User can click into a category and see its underlying expenses** — Archived 2026-07-25 → `context/archive/2026-07-24-category-expense-drilldown/`. Lesson: —.
 - **S-07: User can set a currency once and have it apply everywhere** — Archived 2026-07-25 → `context/archive/2026-07-24-user-currency-setting/`. Lesson: —.
+- **S-05: User can add a name/description to an expense** — Archived 2026-07-25 → `context/archive/2026-07-24-expense-name-description/`. Lesson: —.
