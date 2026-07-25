@@ -300,10 +300,10 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Manual
 
-- [ ] 2.4 Visiting `/settings` for the first time shows "US Dollar (USD)" pre-selected
-- [ ] 2.5 Changing the currency and clicking Save persists it
-- [ ] 2.6 The "no conversion" help text is visible under the dropdown
-- [ ] 2.7 A save failure shows a visible error message
+- [x] 2.4 Visiting `/settings` for the first time shows "US Dollar (USD)" pre-selected
+- [x] 2.5 Changing the currency and clicking Save persists it
+- [x] 2.6 The "no conversion" help text is visible under the dropdown
+- [x] 2.7 A save failure shows a visible error message
 
 ### Phase 3: Currency Threading & Display
 
@@ -315,14 +315,14 @@ Purely additive new table; every existing user gets a `USD` row lazily created o
 
 #### Manual
 
-- [ ] 3.4 With the default USD currency, `/expenses` renders identically to before this change
-- [ ] 3.5 After changing currency to PLN, both the expense list and monthly summary show amounts labeled in PLN with unchanged underlying values
-- [ ] 3.6 Adding a new expense after changing currency shows it correctly labeled
+- [x] 3.4 With the default USD currency, `/expenses` renders identically to before this change
+- [x] 3.5 After changing currency to PLN, both the expense list and monthly summary show amounts labeled in PLN with unchanged underlying values
+- [x] 3.6 Adding a new expense after changing currency shows it correctly labeled
 
 ### Phase 4: Testing
 
 #### Automated
 
 - [x] 4.1 Unit tests pass — 09d4698
-- [ ] 4.2 Integration tests pass
-- [ ] 4.3 Full e2e suite passes
+- [x] 4.2 Integration tests pass
+- [x] 4.3 Full e2e suite passes

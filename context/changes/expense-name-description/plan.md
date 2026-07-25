@@ -228,15 +228,15 @@ Purely additive (`alter table ... add column`); existing rows get `null` automat
 
 #### Manual
 
-- [ ] 2.4 Adding an expense with a name shows it in the list immediately
-- [ ] 2.5 Adding an expense with a blank name behaves exactly as before
-- [ ] 2.6 Editing an existing (pre-change) expense shows an empty name field, and setting one persists on save
-- [ ] 2.7 Existing expenses without a name display unchanged
+- [x] 2.4 Adding an expense with a name shows it in the list immediately
+- [x] 2.5 Adding an expense with a blank name behaves exactly as before
+- [x] 2.6 Editing an existing (pre-change) expense shows an empty name field, and setting one persists on save
+- [x] 2.7 Existing expenses without a name display unchanged
 
 ### Phase 3: Testing
 
 #### Automated
 
 - [x] 3.1 Unit tests pass — 6e69b42
-- [ ] 3.2 Integration tests pass
-- [ ] 3.3 Full e2e suite passes
+- [x] 3.2 Integration tests pass
+- [x] 3.3 Full e2e suite passes

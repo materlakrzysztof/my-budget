@@ -247,17 +247,17 @@ No schema change — this is a query/UI-only feature.
 
 #### Manual
 
-- [ ] 2.4 Clicking a category in the monthly summary navigates to `/expenses?category=<id>` and shows only that category's expenses
-- [ ] 2.5 Clicking a category on the categories page does the same
-- [ ] 2.6 The "Filtered by: <name>" banner shows the correct category name; "Clear filter" returns to the full unfiltered list
-- [ ] 2.7 A category with zero expenses shows "No expenses in this category." with the banner still visible
-- [ ] 2.8 Adding/editing/deleting an expense while filtered keeps the view correctly scoped after refresh
-- [ ] 2.9 Visiting `/expenses` with no `category` param, or an unrecognized one, shows the full list with no banner
+- [x] 2.4 Clicking a category in the monthly summary navigates to `/expenses?category=<id>` and shows only that category's expenses
+- [x] 2.5 Clicking a category on the categories page does the same
+- [x] 2.6 The "Filtered by: <name>" banner shows the correct category name; "Clear filter" returns to the full unfiltered list
+- [x] 2.7 A category with zero expenses shows "No expenses in this category." with the banner still visible
+- [x] 2.8 Adding/editing/deleting an expense while filtered keeps the view correctly scoped after refresh
+- [x] 2.9 Visiting `/expenses` with no `category` param, or an unrecognized one, shows the full list with no banner
 
 ### Phase 3: Testing
 
 #### Automated
 
 - [x] 3.1 Unit tests pass — 1995c25
-- [ ] 3.2 Integration tests pass
-- [ ] 3.3 Full e2e suite passes
+- [x] 3.2 Integration tests pass
+- [x] 3.3 Full e2e suite passes
