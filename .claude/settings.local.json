@@ -1,0 +1,112 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(10x-init)",
+      "PowerShell(Set-Clipboard \"/10x-prd\")",
+      "PowerShell(Set-Clipboard \"/10x-tech-stack-selector\")",
+      "PowerShell(Set-Clipboard \"/10x-bootstrapper\")",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git status *)",
+      "Bash(git branch *)",
+      "Bash(git checkout *)",
+      "Bash(git stash *)",
+      "Read",
+      "Edit",
+      "Write",
+      "Bash(git check-ignore *)",
+      "Bash(echo \"ignore-check-exit:$?\")",
+      "Bash(xargs grep -l \"platformProxy\")",
+      "Bash(xargs grep -ln \"dev.vars\\\\|devVars\")",
+      "Bash(netstat -ano)",
+      "Bash(date +%s)",
+      "Bash(echo 'Testing with e2e-test-__CMDSUB_OUTPUT__@example.com')",
+      "Bash(echo 'Testing with __TRACKED_VAR__')",
+      "Bash(echo 'Signing up __TRACKED_VAR__')",
+      "Bash(echo 'Signing in __TRACKED_VAR__')",
+      "Bash(tasklist //FI \"PID eq 19492\")",
+      "Bash(grep -v '^$')",
+      "Bash(xargs -n1 dirname)",
+      "PowerShell(Set-Clipboard \"/10x-implement expense-categories phase 1\")",
+      "Bash(echo \"---exit code $?---\")",
+      "Bash(echo \"diff-exit:$?\")",
+      "Skill(10x-e2e)",
+      "Skill(10x-e2e:*)",
+      "Bash(echo \"---wrong password test---\")",
+      "Bash(echo \"--- retry example.com now ---\")",
+      "Bash(echo \"--- try a different domain ---\")",
+      "Bash(npm run *)",
+      "Bash(echo \"started pid $!\")",
+      "Read(//tmp/**)",
+      "Bash(date +%s%N)",
+      "Bash(kill %1)",
+      "Bash(pkill -f \"astro dev\")",
+      "Bash(echo \"exit:$?\")",
+      "Skill(10x-impl-review)",
+      "Skill(10x-impl-review:*)",
+      "PowerShell($bytes = Get-Content -Encoding Byte -TotalCount 8 -Path '.dev.vars.e2e'; \\($bytes | ForEach-Object { '{0:X2}' -f $_ }\\) -join ' ')",
+      "PowerShell($lines = Get-Content '.dev.vars.e2e'; $lines | ForEach-Object { $key = \\($_ -split '=',2\\)[0]; $hasQuote = $_ -match '\"'; \"$key \\(quoted=$hasQuote, len=$\\($_.Length\\)\\)\" })",
+      "Skill(10x-implement)",
+      "Skill(10x-implement:*)",
+      "Bash(clip.exe)",
+      "Bash(pbcopy)",
+      "Bash(xclip -selection clipboard)",
+      "Read(//c/Users/materlak/**)",
+      "Bash(env)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(echo 'User2 email: __TRACKED_VAR__')",
+      "Bash(echo \"--- /dashboard for user2 \\(should show user2's email, not user1's\\) ---\")",
+      "Bash(tasklist //FI \"IMAGENAME eq node.exe\")",
+      "Bash(taskkill *)",
+      "Bash(mkdir -p C:/Users/materlak/AppData/Local/Temp/claude/C--Sources-10x-budget/64ab466f-f16f-47f7-b9b9-e70a19327180/scratchpad)",
+      "Bash(cd C:/Users/materlak/AppData/Local/Temp/claude/C--Sources-10x-budget/64ab466f-f16f-47f7-b9b9-e70a19327180/scratchpad)",
+      "Bash(echo 'User1: __TRACKED_VAR__')",
+      "Bash(echo \"--- user1 /categories page: Groceries id ---\")",
+      "Bash(grep -oE '&quot;id&quot;:\\\\[0,&quot;[a-f0-9-]+&quot;\\\\],&quot;name&quot;:\\\\[0,&quot;Groceries' u1_page.html)",
+      "Bash(echo 'User2: __TRACKED_VAR__')",
+      "Bash(echo \"--- user2 /categories page: Groceries id ---\")",
+      "Bash(grep -oE '&quot;id&quot;:\\\\[0,&quot;[a-f0-9-]+&quot;\\\\],&quot;name&quot;:\\\\[0,&quot;Groceries' u2_page.html)",
+      "Bash(echo \"--- user2 /api/categories: Groceries id ---\")",
+      "Bash(echo \"--- add unique category ---\")",
+      "Bash(echo \"--- duplicate \\(case/whitespace variant\\) should 409 ---\")",
+      "Bash(echo \"--- re-fetch /categories page: should show Pets, not duplicate ---\")",
+      "Bash(grep -c \"Pets\" u1_page2.html)",
+      "PowerShell(Set-Clipboard \"/10x-implement expense-categories phase 4\")",
+      "Skill(10x-new)",
+      "Skill(10x-new:*)",
+      "Skill(10x-research)",
+      "Skill(10x-research:*)",
+      "Bash(echo \"EXIT:$?\")",
+      "PowerShell(Set-Clipboard \"/10x-health-check\")",
+      "PowerShell(Set-Clipboard \"/10x-implement testing-migration-deploy-safety-net phase 1\")",
+      "Bash(echo \"DIFF_EXIT=$?\")"
+    ],
+    "deny": [
+      "Bash(rm -rf *)"
+    ],
+    "ask": [
+      "Bash(wget *)",
+      "Bash(git push *)",
+      "Bash(git push)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/eslint-fix-changed-file.mjs",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  }
+}

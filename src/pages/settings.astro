@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { SettingsForm } from "@/components/settings/SettingsForm";
+import { createClient } from "@/lib/supabase";
+import { getOrCreateUserSettings } from "@/lib/services/settings";
+
+const { user } = Astro.locals;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const settings = supabase && user ? await getOrCreateUserSettings(supabase, user.id) : { currency: "USD" as const };
+---
+
+<Layout title="Settings">
+  <div class="bg-cosmic min-h-screen p-4">
+    <div class="mx-auto w-full max-w-2xl">
+      <div class="mt-8 rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+        <h1 class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+          Settings
+        </h1>
+        <SettingsForm initialSettings={settings} client:load />
+      </div>
+    </div>
+  </div>
+</Layout>

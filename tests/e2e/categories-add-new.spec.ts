@@ -1,0 +1,28 @@
+// risk: expense-categories plan.md Phase 4 #2 — FR-005 happy path: a new,
+// unique category is added via the CategoriesManager island and appears in
+// the list immediately, without a page reload.
+// seed: tests/e2e/seed.spec.ts
+import { test, expect } from "@playwright/test";
+import { signUpAndSignIn, waitForCategoriesFormHydration } from "./helpers";
+
+test("adding a new unique category appears in the list without a page reload", async ({ page }) => {
+  const email = `e2e-cat-add-${Date.now()}@example.com`;
+  const password = "TestPassword123!";
+  const categoryName = `E2E Category ${Date.now()}`;
+
+  await signUpAndSignIn(page, email, password);
+  await page.getByRole("link", { name: "Categories" }).click();
+  await expect(page).toHaveURL(/\/categories$/);
+  await waitForCategoriesFormHydration(page);
+
+  await page.getByLabel("Name").fill(categoryName);
+  await page.getByLabel("Description").fill("Created by an e2e test");
+  await page.getByRole("button", { name: "Add category" }).click();
+
+  // Appears in place: category list updates from the same /categories page.
+  await expect(page.getByText(categoryName, { exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/\/categories(\?.*)?$/);
+
+  // Form clears on success, ready for the next entry.
+  await expect(page.getByLabel("Name")).toHaveValue("");
+});

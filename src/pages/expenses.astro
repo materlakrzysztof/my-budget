@@ -1,0 +1,42 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ExpensesManager from "@/components/expenses/ExpensesManager";
+import { createClient } from "@/lib/supabase";
+import { listCategories } from "@/lib/services/categories";
+import { getMonthlySummary, listExpenses } from "@/lib/services/expenses";
+import { getOrCreateUserSettings } from "@/lib/services/settings";
+
+const { user } = Astro.locals;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const categories = supabase && user ? await listCategories(supabase, user.id) : [];
+const requestedCategoryId = Astro.url.searchParams.get("category");
+const categoryFilter = requestedCategoryId ? (categories.find((c) => c.id === requestedCategoryId) ?? null) : null;
+const expenses =
+  supabase && user
+    ? await listExpenses(supabase, user.id, categoryFilter ? { categoryId: categoryFilter.id } : undefined)
+    : [];
+const summary = supabase && user ? await getMonthlySummary(supabase, user.id) : [];
+const settings = supabase && user ? await getOrCreateUserSettings(supabase, user.id) : { currency: "USD" as const };
+const autoOpenAdd = Astro.url.searchParams.get("action") === "add";
+---
+
+<Layout title="Expenses">
+  <div class="bg-cosmic min-h-screen p-4">
+    <div class="mx-auto w-full max-w-2xl">
+      <div class="mt-8 rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+        <h1 class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+          Expenses
+        </h1>
+        <ExpensesManager
+          categories={categories}
+          initialExpenses={expenses}
+          initialSummary={summary}
+          categoryFilter={categoryFilter}
+          currency={settings.currency}
+          autoOpenAdd={autoOpenAdd}
+          client:load
+        />
+      </div>
+    </div>
+  </div>
+</Layout>

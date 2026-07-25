@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import CategoriesManager from "@/components/categories/CategoriesManager";
+import { createClient } from "@/lib/supabase";
+import { listCategories } from "@/lib/services/categories";
+
+const { user } = Astro.locals;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const categories = supabase && user ? await listCategories(supabase, user.id) : [];
+---
+
+<Layout title="Categories">
+  <div class="bg-cosmic min-h-screen p-4">
+    <div class="mx-auto w-full max-w-2xl">
+      <div class="mt-8 rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+        <h1 class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+          Categories
+        </h1>
+        <CategoriesManager initialCategories={categories} client:load />
+      </div>
+    </div>
+  </div>
+</Layout>
