@@ -258,30 +258,30 @@ The new migration only adds RLS policies; it is additive and safe on an existing
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly against a fresh local DB
-- [x] 1.2 Unit tests pass
-- [x] 1.3 Type checking passes
-- [x] 1.4 Linting passes
+- [x] 1.1 Migration applies cleanly against a fresh local DB — 78bebc9
+- [x] 1.2 Unit tests pass — 78bebc9
+- [x] 1.3 Type checking passes — 78bebc9
+- [x] 1.4 Linting passes — 78bebc9
 
 #### Manual
 
-- [x] 1.5 Migration on a DB with existing categories does not error or alter existing rows
+- [x] 1.5 Migration on a DB with existing categories does not error or alter existing rows — 78bebc9
 
 ### Phase 2: API Route
 
 #### Automated
 
-- [ ] 2.1 Type checking passes
-- [ ] 2.2 Linting passes
-- [ ] 2.3 Existing integration/unit suites still pass
+- [x] 2.1 Type checking passes
+- [x] 2.2 Linting passes
+- [x] 2.3 Existing integration/unit suites still pass
 
 #### Manual
 
-- [ ] 2.4 PATCH with a new name updates and returns the row (200)
-- [ ] 2.5 PATCH with a colliding name returns 409 + duplicate message
-- [ ] 2.6 PATCH with an unknown id returns 404
-- [ ] 2.7 DELETE on a category with no expenses returns 204
-- [ ] 2.8 DELETE on a category with expenses returns 409 + in-use message; expenses remain
+- [x] 2.4 PATCH with a new name updates and returns the row (200)
+- [x] 2.5 PATCH with a colliding name returns 409 + duplicate message
+- [x] 2.6 PATCH with an unknown id returns 404
+- [x] 2.7 DELETE on a category with no expenses returns 204
+- [x] 2.8 DELETE on a category with expenses returns 409 + in-use message; expenses remain
 
 ### Phase 3: Frontend Edit/Delete UX
 
