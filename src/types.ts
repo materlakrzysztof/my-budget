@@ -10,6 +10,8 @@ export interface CreateCategoryRequest {
   description: string;
 }
 
+export type UpdateCategoryRequest = CreateCategoryRequest;
+
 export interface CreateCategoryResponse {
   category: Category;
 }
