@@ -43,11 +43,19 @@ export default function CategoriesManager({ initialCategories }: CategoriesManag
     const url = target ? `/api/categories/${target.id}` : "/api/categories";
     const method = target ? "PATCH" : "POST";
 
-    const response = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(input),
-    });
+    let response: Response;
+    try {
+      response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      });
+    } catch {
+      setServerError(
+        target ? "Failed to update category. Please try again." : "Failed to create category. Please try again.",
+      );
+      return;
+    }
 
     if (response.status === 409) {
       const body = (await response.json()) as { error: string };
@@ -68,7 +76,13 @@ export default function CategoriesManager({ initialCategories }: CategoriesManag
   }
 
   async function handleDelete(id: string) {
-    const response = await fetch(`/api/categories/${id}`, { method: "DELETE" });
+    let response: Response;
+    try {
+      response = await fetch(`/api/categories/${id}`, { method: "DELETE" });
+    } catch {
+      setListError("Failed to delete category. Please try again.");
+      return;
+    }
 
     if (response.status === 409) {
       const body = (await response.json()) as { error: string };
@@ -76,8 +90,10 @@ export default function CategoriesManager({ initialCategories }: CategoriesManag
       return;
     }
 
-    if (!response.ok) {
-      throw new Error("Failed to delete category");
+    // 404 = already gone (e.g. deleted in another tab); treat as success.
+    if (!response.ok && response.status !== 404) {
+      setListError("Failed to delete category. Please try again.");
+      return;
     }
 
     setCategories((prev) => prev.filter((c) => c.id !== id));

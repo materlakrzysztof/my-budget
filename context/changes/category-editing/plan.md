@@ -250,6 +250,20 @@ The new migration only adds RLS policies; it is additive and safe on an existing
 - FK restrict constraint: `supabase/migrations/20260722090000_create_expenses.sql:10`
 - Roadmap parked item: `context/foundation/roadmap.md` §Parked (FR-004)
 
+## Addenda
+
+### A1 — Phase 3 form implemented as a shadcn Dialog modal (deviates from "What We're NOT Doing")
+
+**Date**: 2026-07-27 · **Commit**: 799e552 · **Recorded by**: /10x-impl-review
+
+The plan (Phase 3 §1 and "What We're NOT Doing") specified generalizing the inline `AddCategoryForm.tsx` into a shared create/edit form and explicitly excluded "a new shadcn Dialog component". During implementation, per user feedback in verification, the create/edit form was instead built as `src/components/categories/CategoryFormDialog.tsx` on the existing shadcn `Dialog`, and `CategoriesManager` was restructured around a `dialogMode` ("closed" | "add" | "edit") state machine. Rationale: match the existing expenses edit UX (`ExpenseFormDialog`) for app-wide consistency. No new shadcn component was installed (`src/components/ui/dialog.tsx` already existed).
+
+Scope notes:
+- The inline two-click delete confirm in `CategoryList.tsx` was **not** affected and remains as planned (no `window.confirm()`).
+- E2E specs (`categories-add-new.spec.ts`, `categories-duplicate-blocked.spec.ts`, `helpers.ts`) were updated to drive the modal.
+
+This addendum relaxes the "no shadcn Dialog" guardrail for this change only; the delete-confirm guardrail still holds.
+
 ## Progress
 
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles. See `references/progress-format.md`.
