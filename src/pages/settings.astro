@@ -26,7 +26,6 @@ const categories = supabase && user ? await listCategories(supabase, user.id) : 
         </section>
 
         <section class="mt-10 border-t border-white/10 pt-8">
-          <h2 class="mb-4 text-lg font-semibold text-white">Categories</h2>
           <CategoriesManager initialCategories={categories} client:load />
         </section>
       </div>

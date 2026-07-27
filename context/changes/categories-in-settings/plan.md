@@ -38,6 +38,7 @@ Verify by: opening `/settings` and adding/editing/deleting a category successful
 - No i18n/Polish string work (that's S-11, separate).
 - No new "Categories" nav affordance pointing at Settings — the link is removed, not repointed.
 - No deletion of the `categories.astro` file — it is repurposed as a redirect stub (route stays in the app for the redirect).
+  > **Addendum (impl, f58304e):** this changed during implementation. A page-file `return Astro.redirect(...)` stub crashed ESLint's `no-misused-promises` rule (top-level `.astro` return, no parent function node), so the 301 was moved to an Astro **config redirect** in `astro.config.mjs` and `categories.astro` was **deleted** (a config redirect can't coexist with a route file). Same 301 `/categories → /settings` contract, verified empirically.
 
 ## Implementation Approach
 
