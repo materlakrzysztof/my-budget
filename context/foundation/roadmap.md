@@ -3,7 +3,7 @@ project: MyBudget
 version: 1
 status: draft
 created: 2026-07-21
-updated: 2026-07-25
+updated: 2026-07-27
 prd_version: 2
 main_goal: low-complexity
 top_blocker: capacity
@@ -177,7 +177,6 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **No AI-based automatic expense categorization in v1** — Why parked: PRD §Non-Goals — deferred to v2; v1 uses manual category selection only (FR-008).
 - **No month-over-month trend analysis in v1** — Why parked: PRD §Non-Goals — deferred to v2; the monthly summary uses simple per-category sums for the current month only (FR-009).
 - **No payment reminders for upcoming bills in v1** — Why parked: PRD §Non-Goals — present in the original idea as a nice-to-have, not selected as an MVP Secondary criterion.
-- **No category editing (name/description) in v1 (FR-004, nice-to-have)** — Why parked: PRD §Non-Goals — default categories plus adding new ones cover MVP needs; demoted and deferred to v2.
 - **No CSV/Excel export in v1** — Why parked: PRD §Non-Goals — considered but dropped entirely so all effort goes to the core account/categories/expenses/summary flow.
 - **Multi-currency / FX conversion** — Why parked: `prd.md` §Non-Goals — single currency label per account, relabel-only; no exchange-rate lookups, no per-expense currency, no historical conversion.
 - **Expense search/full-text search** — Why parked: `prd.md` §Non-Goals — S-06 adds category-filtered browsing only; keyword search across name/description is out of scope.
@@ -193,4 +192,5 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **S-07: User can set a currency once and have it apply everywhere** — Archived 2026-07-25 → `context/archive/2026-07-24-user-currency-setting/`. Lesson: —.
 - **S-05: User can add a name/description to an expense** — Archived 2026-07-25 → `context/archive/2026-07-24-expense-name-description/`. Lesson: —.
 - **S-04: User can reach every core area through a persistent nav menu** — Archived 2026-07-25 → `context/archive/2026-07-24-persistent-nav-menu/`. Lesson: —.
+- **FR-004: User can edit a category's name/description and delete a category** — Archived 2026-07-27 → `context/archive/2026-07-26-category-editing/`. Promoted out of `## Parked` (was: nice-to-have deferred to v2). Lesson: —.
 - **Infra: CI auto-deploy-on-merge to Cloudflare Workers** — 2026-07-25 → `context/changes/deploy-on-merge/`. Gated `deploy` job in `.github/workflows/ci.yml` publishes on merge to `main` after `ci` + `migration-safety` pass. Promoted out of `## Parked` (was: not tied to any PRD FR; deferred behind the low-complexity sequencing goal, now expired). Lesson: —.
