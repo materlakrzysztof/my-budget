@@ -1,3 +1,4 @@
+import { colorForIndex } from "@/components/dashboard/SpendingDonut";
 import { formatAmount } from "@/lib/format";
 import type { Currency, MonthlySummaryEntry } from "@/types";
 
@@ -18,7 +19,7 @@ export function MonthlySummary({ entries, currency }: MonthlySummaryProps) {
       {entries
         .slice()
         .sort((a, b) => a.rank - b.rank)
-        .map((entry) => {
+        .map((entry, index) => {
           const widthPercent = maxTotal > 0 ? (Number(entry.total) / maxTotal) * 100 : 0;
 
           return (
@@ -27,8 +28,15 @@ export function MonthlySummary({ entries, currency }: MonthlySummaryProps) {
                 href={`/expenses?category=${entry.categoryId}`}
                 className="block rounded-lg border border-white/10 bg-white/5 px-4 py-3 transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
               >
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="font-medium text-white">{entry.categoryName}</span>
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <span className="flex items-center gap-2 font-medium text-white">
+                    <span
+                      aria-hidden="true"
+                      className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+                      style={{ backgroundColor: colorForIndex(index) }}
+                    />
+                    <span>{entry.categoryName}</span>
+                  </span>
                   <span className="text-sm text-blue-100/80">{formatAmount(entry.total, currency)}</span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
