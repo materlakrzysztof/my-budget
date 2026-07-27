@@ -33,27 +33,30 @@ export async function waitForAuthFormHydration(page: Page) {
 }
 
 /**
- * Unlike the auth forms' password toggle, the add-category form's submit
- * button is a real type="submit" inside a plain <form> with no method or
- * action — before hydration a click falls through to a *native* submit
- * (GET to the same URL), reloading the page. A retry-click probe like
- * `waitForAuthFormHydration` would therefore risk repeated full page
- * reloads under load. Instead, wait for the network to go idle (the
- * island's hydration script has loaded and run by then), then confirm
- * interactivity with a non-submitting check: a value typed into the Name
- * field must survive — an unhydrated island would otherwise overwrite it
- * back to "" on its first client-side render.
+ * The categories page's "Add category" button is a plain onClick handler
+ * inside the CategoriesManager island (client:load) — before hydration a click
+ * is a silent no-op, the same SSR/islands race waitForAuthFormHydration guards
+ * against. Retrying the click until the Add-category dialog actually opens both
+ * proves hydration and leaves the dialog open, ready for the caller to fill in
+ * the fields. Mirrors openAddExpenseDialog.
  */
-export async function waitForCategoriesFormHydration(page: Page) {
+export async function openAddCategoryDialog(page: Page) {
   await page.waitForLoadState("networkidle");
+  const addButton = page.getByRole("button", { name: "Add category" });
 
-  const nameInput = page.getByLabel("Name");
-  const probe = "hydration-probe";
   await expect(async () => {
-    await nameInput.fill(probe);
-    await expect(nameInput).toHaveValue(probe);
+    await addButton.click();
+    await expect(page.getByRole("dialog", { name: "Add category" })).toBeVisible({ timeout: 250 });
   }).toPass({ timeout: 5000 });
-  await nameInput.fill("");
+}
+
+/**
+ * Scopes to the add/edit category dialog by its title. This disambiguates the
+ * dialog's own submit button (labeled "Add category" in add mode) from the
+ * page-level button of the same name that opens the dialog in the first place.
+ */
+export function categoryDialog(page: Page, mode: "add" | "edit") {
+  return page.getByRole("dialog", { name: mode === "add" ? "Add category" : "Edit category" });
 }
 
 /**

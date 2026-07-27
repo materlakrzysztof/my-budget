@@ -4,7 +4,7 @@
 // (src/lib/services/categories.ts: normalizeCategoryName + DuplicateCategoryError).
 // seed: tests/e2e/seed.spec.ts
 import { test, expect } from "@playwright/test";
-import { signUpAndSignIn, waitForCategoriesFormHydration } from "./helpers";
+import { signUpAndSignIn, openAddCategoryDialog, categoryDialog } from "./helpers";
 
 test("a case/whitespace variant of an existing category name is blocked with an inline alert", async ({ page }) => {
   const email = `e2e-cat-dup-${Date.now()}@example.com`;
@@ -15,23 +15,28 @@ test("a case/whitespace variant of an existing category name is blocked with an 
   await signUpAndSignIn(page, email, password);
   await page.getByRole("link", { name: "Categories" }).click();
   await expect(page).toHaveURL(/\/categories$/);
-  await waitForCategoriesFormHydration(page);
 
   // Add the original category.
-  await page.getByLabel("Name").fill(baseName);
-  await page.getByLabel("Description").fill("Original category");
-  await page.getByRole("button", { name: "Add category" }).click();
+  await openAddCategoryDialog(page);
+  const addDialog = categoryDialog(page, "add");
+  await addDialog.getByLabel("Name").fill(baseName);
+  await addDialog.getByLabel("Description").fill("Original category");
+  await addDialog.getByRole("button", { name: "Add category" }).click();
   await expect(page.getByText(baseName, { exact: true })).toBeVisible();
 
   // Attempt a case/whitespace variant of the same name.
-  await page.getByLabel("Name").fill(duplicateVariant);
-  await page.getByLabel("Description").fill("Attempted duplicate");
-  await page.getByRole("button", { name: "Add category" }).click();
+  await openAddCategoryDialog(page);
+  const dupDialog = categoryDialog(page, "add");
+  await dupDialog.getByLabel("Name").fill(duplicateVariant);
+  await dupDialog.getByLabel("Description").fill("Attempted duplicate");
+  await dupDialog.getByRole("button", { name: "Add category" }).click();
 
-  const alert = page.getByRole("alert");
+  // The duplicate error surfaces inside the still-open dialog.
+  const alert = dupDialog.getByRole("alert");
   await expect(alert).toBeVisible();
   await expect(alert).toContainText(baseName);
 
   // Still only one row for this category — no duplicate was created.
+  await dupDialog.getByRole("button", { name: "Close" }).click();
   await expect(page.getByText(baseName, { exact: true })).toHaveCount(1);
 });

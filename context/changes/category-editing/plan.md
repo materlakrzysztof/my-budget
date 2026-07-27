@@ -271,32 +271,32 @@ The new migration only adds RLS policies; it is additive and safe on an existing
 
 #### Automated
 
-- [x] 2.1 Type checking passes
-- [x] 2.2 Linting passes
-- [x] 2.3 Existing integration/unit suites still pass
+- [x] 2.1 Type checking passes — ca3d59a
+- [x] 2.2 Linting passes — ca3d59a
+- [x] 2.3 Existing integration/unit suites still pass — ca3d59a
 
 #### Manual
 
-- [x] 2.4 PATCH with a new name updates and returns the row (200)
-- [x] 2.5 PATCH with a colliding name returns 409 + duplicate message
-- [x] 2.6 PATCH with an unknown id returns 404
-- [x] 2.7 DELETE on a category with no expenses returns 204
-- [x] 2.8 DELETE on a category with expenses returns 409 + in-use message; expenses remain
+- [x] 2.4 PATCH with a new name updates and returns the row (200) — ca3d59a
+- [x] 2.5 PATCH with a colliding name returns 409 + duplicate message — ca3d59a
+- [x] 2.6 PATCH with an unknown id returns 404 — ca3d59a
+- [x] 2.7 DELETE on a category with no expenses returns 204 — ca3d59a
+- [x] 2.8 DELETE on a category with expenses returns 409 + in-use message; expenses remain — ca3d59a
 
 ### Phase 3: Frontend Edit/Delete UX
 
 #### Automated
 
-- [ ] 3.1 Type checking passes
-- [ ] 3.2 Linting passes
-- [ ] 3.3 Production build succeeds
+- [x] 3.1 Type checking passes
+- [x] 3.2 Linting passes
+- [x] 3.3 Production build succeeds
 
 #### Manual
 
-- [ ] 3.4 Editing a name and saving updates the list without reload
-- [ ] 3.5 Editing only the description saves with no false duplicate warning
-- [ ] 3.6 Renaming to an existing name shows the duplicate alert; row unchanged
-- [ ] 3.7 Deleting a category with no expenses removes it after inline confirm
-- [ ] 3.8 Deleting a category with expenses shows in-use message; both survive
-- [ ] 3.9 Drill-down link still navigates to filtered expenses
-- [ ] 3.10 Editing works on a default (seeded) category
+- [x] 3.4 Editing a name and saving updates the list without reload
+- [x] 3.5 Editing only the description saves with no false duplicate warning
+- [x] 3.6 Renaming to an existing name shows the duplicate alert; row unchanged
+- [x] 3.7 Deleting a category with no expenses removes it after inline confirm
+- [x] 3.8 Deleting a category with expenses shows in-use message; both survive
+- [x] 3.9 Drill-down link still navigates to filtered expenses
+- [x] 3.10 Editing works on a default (seeded) category
