@@ -287,16 +287,16 @@ The new migration only adds RLS policies; it is additive and safe on an existing
 
 #### Automated
 
-- [x] 3.1 Type checking passes
-- [x] 3.2 Linting passes
-- [x] 3.3 Production build succeeds
+- [x] 3.1 Type checking passes — 799e552
+- [x] 3.2 Linting passes — 799e552
+- [x] 3.3 Production build succeeds — 799e552
 
 #### Manual
 
-- [x] 3.4 Editing a name and saving updates the list without reload
-- [x] 3.5 Editing only the description saves with no false duplicate warning
-- [x] 3.6 Renaming to an existing name shows the duplicate alert; row unchanged
-- [x] 3.7 Deleting a category with no expenses removes it after inline confirm
-- [x] 3.8 Deleting a category with expenses shows in-use message; both survive
-- [x] 3.9 Drill-down link still navigates to filtered expenses
-- [x] 3.10 Editing works on a default (seeded) category
+- [x] 3.4 Editing a name and saving updates the list without reload — 799e552
+- [x] 3.5 Editing only the description saves with no false duplicate warning — 799e552
+- [x] 3.6 Renaming to an existing name shows the duplicate alert; row unchanged — 799e552
+- [x] 3.7 Deleting a category with no expenses removes it after inline confirm — 799e552
+- [x] 3.8 Deleting a category with expenses shows in-use message; both survive — 799e552
+- [x] 3.9 Drill-down link still navigates to filtered expenses — 799e552
+- [x] 3.10 Editing works on a default (seeded) category — 799e552
