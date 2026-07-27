@@ -15,7 +15,11 @@ export const CATEGORY_COLORS = [
 ];
 
 export function colorForIndex(index: number): string {
-  return CATEGORY_COLORS[index % CATEGORY_COLORS.length];
+  if (index < CATEGORY_COLORS.length) return CATEGORY_COLORS[index];
+  // Beyond the curated palette, space hues by the golden angle so extra
+  // slices stay visually distinct instead of colliding via a modulo wrap.
+  const hue = (index * 137.508) % 360;
+  return `hsl(${hue.toFixed(1)}, 70%, 65%)`;
 }
 
 interface SpendingDonutProps {

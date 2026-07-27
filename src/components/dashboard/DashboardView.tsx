@@ -8,7 +8,7 @@ interface DashboardViewProps {
   currency: Currency;
 }
 
-export function DashboardView({ entries, currency }: DashboardViewProps) {
+export default function DashboardView({ entries, currency }: DashboardViewProps) {
   const spent = entries.filter((entry) => Number(entry.total) > 0);
 
   if (spent.length === 0) {
