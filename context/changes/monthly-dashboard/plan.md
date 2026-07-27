@@ -231,12 +231,12 @@ None — no schema or data changes. Purely presentational relocation.
 
 #### Automated
 
-- [x] 2.1 Linting passes, no unused imports/vars (`npm run lint`)
-- [x] 2.2 Type check + production build succeeds (`npm run build`)
-- [x] 2.3 Unit tests pass (`npm run test:unit`)
+- [x] 2.1 Linting passes, no unused imports/vars (`npm run lint`) — 07cfa66
+- [x] 2.2 Type check + production build succeeds (`npm run build`) — 07cfa66
+- [x] 2.3 Unit tests pass (`npm run test:unit`) — 07cfa66
 
 #### Manual
 
-- [x] 2.4 Expenses page no longer shows the summary; list/add/edit/delete/filter still work
-- [x] 2.5 Dashboard still renders correctly after the component relocation
-- [x] 2.6 No console errors on either page
+- [x] 2.4 Expenses page no longer shows the summary; list/add/edit/delete/filter still work — 07cfa66
+- [x] 2.5 Dashboard still renders correctly after the component relocation — 07cfa66
+- [x] 2.6 No console errors on either page — 07cfa66

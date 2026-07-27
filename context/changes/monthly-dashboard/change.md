@@ -1,7 +1,7 @@
 ---
 change_id: monthly-dashboard
 title: Monthly dashboard (per-category chart, total, per-category breakdown)
-status: implementing
+status: implemented
 created: 2026-07-27
 updated: 2026-07-27
 archived_at: null
