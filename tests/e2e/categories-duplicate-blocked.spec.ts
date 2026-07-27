@@ -13,8 +13,8 @@ test("a case/whitespace variant of an existing category name is blocked with an 
   const duplicateVariant = `  ${baseName.toUpperCase()}  `;
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Categories" }).click();
-  await expect(page).toHaveURL(/\/categories$/);
+  await page.getByRole("link", { name: "Settings" }).click();
+  await expect(page).toHaveURL(/\/settings$/);
 
   // Add the original category.
   await openAddCategoryDialog(page);

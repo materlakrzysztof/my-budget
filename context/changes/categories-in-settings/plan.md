@@ -184,25 +184,25 @@ No data migration. The only migration concern is external bookmarks/links to `/c
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npm run build`
-- [x] 1.2 Linting passes: `npm run lint`
-- [x] 1.3 Unit/integration suite passes: `npm run test`
+- [x] 1.1 Type checking passes: `npm run build` — f58304e
+- [x] 1.2 Linting passes: `npm run lint` — f58304e
+- [x] 1.3 Unit/integration suite passes: `npm run test` — f58304e
 
 #### Manual
 
-- [x] 1.4 `/settings` shows Currency then Categories sections; add/edit/delete all work in place
-- [x] 1.5 `/categories` returns 301 and lands on `/settings`
-- [x] 1.6 Top nav shows Dashboard / Add Expense / Settings / Sign out — no "Categories"
-- [x] 1.7 No console errors on `/settings`; both islands hydrate
+- [x] 1.4 `/settings` shows Currency then Categories sections; add/edit/delete all work in place — f58304e
+- [x] 1.5 `/categories` returns 301 and lands on `/settings` — f58304e
+- [x] 1.6 Top nav shows Dashboard / Add Expense / Settings / Sign out — no "Categories" — f58304e
+- [x] 1.7 No console errors on `/settings`; both islands hydrate — f58304e
 
 ### Phase 2: Update E2E suite for the new route contract
 
 #### Automated
 
-- [ ] 2.1 E2E suite passes: `npm run test:e2e`
-- [ ] 2.2 Linting passes: `npm run lint`
+- [x] 2.1 E2E suite passes: `npm run test:e2e`
+- [x] 2.2 Linting passes: `npm run lint`
 
 #### Manual
 
-- [ ] 2.3 Retargeted specs exercise the Categories section inside Settings, not a standalone page
-- [ ] 2.4 Redirect test fails if the 301 is removed (optional spot-check)
+- [x] 2.3 Retargeted specs exercise the Categories section inside Settings, not a standalone page
+- [x] 2.4 Redirect test fails if the 301 is removed (optional spot-check)
