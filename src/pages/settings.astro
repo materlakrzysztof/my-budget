@@ -1,12 +1,15 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { SettingsForm } from "@/components/settings/SettingsForm";
+import CategoriesManager from "@/components/categories/CategoriesManager";
 import { createClient } from "@/lib/supabase";
 import { getOrCreateUserSettings } from "@/lib/services/settings";
+import { listCategories } from "@/lib/services/categories";
 
 const { user } = Astro.locals;
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 const settings = supabase && user ? await getOrCreateUserSettings(supabase, user.id) : { currency: "USD" as const };
+const categories = supabase && user ? await listCategories(supabase, user.id) : [];
 ---
 
 <Layout title="Settings">
@@ -16,7 +19,16 @@ const settings = supabase && user ? await getOrCreateUserSettings(supabase, user
         <h1 class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
           Settings
         </h1>
-        <SettingsForm initialSettings={settings} client:load />
+
+        <section>
+          <h2 class="mb-4 text-lg font-semibold text-white">Currency</h2>
+          <SettingsForm initialSettings={settings} client:load />
+        </section>
+
+        <section class="mt-10 border-t border-white/10 pt-8">
+          <h2 class="mb-4 text-lg font-semibold text-white">Categories</h2>
+          <CategoriesManager initialCategories={categories} client:load />
+        </section>
       </div>
     </div>
   </div>
