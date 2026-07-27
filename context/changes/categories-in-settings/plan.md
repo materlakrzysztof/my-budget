@@ -199,10 +199,10 @@ No data migration. The only migration concern is external bookmarks/links to `/c
 
 #### Automated
 
-- [x] 2.1 E2E suite passes: `npm run test:e2e`
-- [x] 2.2 Linting passes: `npm run lint`
+- [x] 2.1 E2E suite passes: `npm run test:e2e` — 784186d
+- [x] 2.2 Linting passes: `npm run lint` — 784186d
 
 #### Manual
 
-- [x] 2.3 Retargeted specs exercise the Categories section inside Settings, not a standalone page
-- [x] 2.4 Redirect test fails if the 301 is removed (optional spot-check)
+- [x] 2.3 Retargeted specs exercise the Categories section inside Settings, not a standalone page — 784186d
+- [x] 2.4 Redirect test fails if the 301 is removed (optional spot-check) — 784186d
