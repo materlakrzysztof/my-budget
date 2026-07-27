@@ -10,21 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import { ExpenseList } from "@/components/expenses/ExpenseList";
 import { ExpenseFormDialog } from "@/components/expenses/ExpenseFormDialog";
-import { MonthlySummary } from "@/components/expenses/MonthlySummary";
-import type {
-  Category,
-  CreateExpenseRequest,
-  Currency,
-  Expense,
-  ListExpensesResponse,
-  MonthlySummaryEntry,
-  MonthlySummaryResponse,
-} from "@/types";
+import type { Category, CreateExpenseRequest, Currency, Expense, ListExpensesResponse } from "@/types";
 
 interface ExpensesManagerProps {
   categories: Category[];
   initialExpenses: Expense[];
-  initialSummary: MonthlySummaryEntry[];
   categoryFilter: Category | null;
   currency: Currency;
   autoOpenAdd?: boolean;
@@ -35,13 +25,11 @@ type DialogMode = "closed" | "add" | "edit";
 export default function ExpensesManager({
   categories,
   initialExpenses,
-  initialSummary,
   categoryFilter,
   currency,
   autoOpenAdd,
 }: ExpensesManagerProps) {
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
-  const [summary, setSummary] = useState<MonthlySummaryEntry[]>(initialSummary);
   const [dialogMode, setDialogMode] = useState<DialogMode>("closed");
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
@@ -62,16 +50,11 @@ export default function ExpensesManager({
     const expensesUrl = categoryFilter
       ? `/api/expenses?category=${encodeURIComponent(categoryFilter.id)}`
       : "/api/expenses";
-    const [expensesRes, summaryRes] = await Promise.all([fetch(expensesUrl), fetch("/api/expenses/summary")]);
+    const expensesRes = await fetch(expensesUrl);
 
     if (expensesRes.ok) {
       const { expenses: nextExpenses } = (await expensesRes.json()) as ListExpensesResponse;
       setExpenses(nextExpenses);
-    }
-
-    if (summaryRes.ok) {
-      const { summary: nextSummary } = (await summaryRes.json()) as MonthlySummaryResponse;
-      setSummary(nextSummary);
     }
   }
 
@@ -146,11 +129,6 @@ export default function ExpensesManager({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="mb-3 text-lg font-semibold text-white">This month&apos;s summary</h2>
-        <MonthlySummary entries={summary} currency={currency} />
-      </div>
-
       <div>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white">Expenses</h2>

@@ -1,5 +1,5 @@
 import { formatAmount } from "@/lib/format";
-import { MonthlySummary } from "@/components/expenses/MonthlySummary";
+import { MonthlySummary } from "@/components/dashboard/MonthlySummary";
 import { SpendingDonut } from "@/components/dashboard/SpendingDonut";
 import type { Currency, MonthlySummaryEntry } from "@/types";
 

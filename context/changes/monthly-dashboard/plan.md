@@ -215,28 +215,28 @@ None — no schema or data changes. Purely presentational relocation.
 
 #### Automated
 
-- [x] 1.1 Linting passes (`npm run lint`)
-- [x] 1.2 Type check + production build succeeds (`npm run build`)
-- [x] 1.3 Unit tests pass (`npm run test:unit`)
+- [x] 1.1 Linting passes (`npm run lint`) — 1d32c28
+- [x] 1.2 Type check + production build succeeds (`npm run build`) — 1d32c28
+- [x] 1.3 Unit tests pass (`npm run test:unit`) — 1d32c28
 
 #### Manual
 
-- [x] 1.4 `/dashboard` shows donut, correct headline total, and per-category list
-- [x] 1.5 Headline total equals the sum of per-category amounts (reconciles with Expenses)
-- [x] 1.6 Zero-spend categories are absent from donut and list
-- [x] 1.7 Empty state shows with a working add-expense link when no expenses this month
-- [x] 1.8 Each per-category row links to that category's filtered expenses
+- [x] 1.4 `/dashboard` shows donut, correct headline total, and per-category list — 1d32c28
+- [x] 1.5 Headline total equals the sum of per-category amounts (reconciles with Expenses) — 1d32c28
+- [x] 1.6 Zero-spend categories are absent from donut and list — 1d32c28
+- [x] 1.7 Empty state shows with a working add-expense link when no expenses this month — 1d32c28
+- [x] 1.8 Each per-category row links to that category's filtered expenses — 1d32c28
 
 ### Phase 2: Absorb the summary (remove from Expenses)
 
 #### Automated
 
-- [ ] 2.1 Linting passes, no unused imports/vars (`npm run lint`)
-- [ ] 2.2 Type check + production build succeeds (`npm run build`)
-- [ ] 2.3 Unit tests pass (`npm run test:unit`)
+- [x] 2.1 Linting passes, no unused imports/vars (`npm run lint`)
+- [x] 2.2 Type check + production build succeeds (`npm run build`)
+- [x] 2.3 Unit tests pass (`npm run test:unit`)
 
 #### Manual
 
-- [ ] 2.4 Expenses page no longer shows the summary; list/add/edit/delete/filter still work
-- [ ] 2.5 Dashboard still renders correctly after the component relocation
-- [ ] 2.6 No console errors on either page
+- [x] 2.4 Expenses page no longer shows the summary; list/add/edit/delete/filter still work
+- [x] 2.5 Dashboard still renders correctly after the component relocation
+- [x] 2.6 No console errors on either page
