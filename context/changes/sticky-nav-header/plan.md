@@ -218,17 +218,17 @@ None — no data or schema involved.
 
 #### Automated
 
-- [x] 1.1 Type checking passes (`npm run build`)
-- [x] 1.2 Linting passes (`npm run lint`)
-- [x] 1.3 Formatting is clean (`npx prettier --check src/layouts/Layout.astro src/components/Topbar.astro`)
+- [x] 1.1 Type checking passes (`npm run build`) — e6b3d5b
+- [x] 1.2 Linting passes (`npm run lint`) — e6b3d5b
+- [x] 1.3 Formatting is clean (`npx prettier --check src/layouts/Layout.astro src/components/Topbar.astro`) — e6b3d5b
 
 #### Manual
 
-- [x] 1.4 Header stays pinned to top while scrolling on /dashboard, /expenses, /settings
-- [x] 1.5 Content scrolls underneath and stays legible through frosted background
-- [x] 1.6 No padding gap appears above the pinned header
-- [x] 1.7 Header spans full width without horizontal overflow
-- [x] 1.8 Open dialogs (expense/category) fully cover the header (z-40 below z-50)
-- [x] 1.9 Header pins and remains usable on a mobile-width viewport
-- [x] 1.10 Config-error Banner scrolls away without hiding the pinned nav
-- [x] 1.11 Active-link highlighting still reflects the current route
+- [x] 1.4 Header stays pinned to top while scrolling on /dashboard, /expenses, /settings — e6b3d5b
+- [x] 1.5 Content scrolls underneath and stays legible through frosted background — e6b3d5b
+- [x] 1.6 No padding gap appears above the pinned header — e6b3d5b
+- [x] 1.7 Header spans full width without horizontal overflow — e6b3d5b
+- [x] 1.8 Open dialogs (expense/category) fully cover the header (z-40 below z-50) — e6b3d5b
+- [x] 1.9 Header pins and remains usable on a mobile-width viewport — e6b3d5b
+- [x] 1.10 Config-error Banner scrolls away without hiding the pinned nav — e6b3d5b
+- [x] 1.11 Active-link highlighting still reflects the current route — e6b3d5b
