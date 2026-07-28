@@ -1,7 +1,7 @@
 ---
 change_id: sticky-nav-header
 title: Sticky navigation header (Topbar pins to top on scroll)
-status: implemented
+status: impl_reviewed
 created: 2026-07-27
 updated: 2026-07-28
 archived_at: null
