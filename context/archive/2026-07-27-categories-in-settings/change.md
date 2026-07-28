@@ -1,10 +1,10 @@
 ---
 change_id: categories-in-settings
 title: Move category management into Settings (+ redirect)
-status: impl_reviewed
+status: archived
 created: 2026-07-27
-updated: 2026-07-27
-archived_at: null
+updated: 2026-07-28
+archived_at: 2026-07-28T12:53:43Z
 ---
 
 ## Notes
