@@ -261,29 +261,29 @@ bookmarks break.
 
 #### Automated
 
-- [ ] 1.1 Type checking passes (`npm run build`)
-- [ ] 1.2 Linting passes (`npm run lint`)
-- [ ] 1.3 Formatting is clean (`npm run format`)
+- [x] 1.1 Type checking passes (`npm run build`)
+- [x] 1.2 Linting passes (`npm run lint`)
+- [x] 1.3 Formatting is clean (`npm run format`)
 
 #### Manual
 
-- [ ] 1.4 Logged out, `/` renders the landing (no redirect)
-- [ ] 1.5 Logged in, `/` redirects to `/dashboard` with no content flash
-- [ ] 1.6 Unauthenticated `/dashboard`, `/expenses`, `/settings` still redirect to `/auth/signin`
-- [ ] 1.7 Browser tab title on `/` shows MyBudget branding, not "10x Astro Starter"
+- [x] 1.4 Logged out, `/` renders the landing (no redirect)
+- [x] 1.5 Logged in, `/` redirects to `/dashboard` with no content flash
+- [x] 1.6 Unauthenticated `/dashboard`, `/expenses`, `/settings` still redirect to `/auth/signin`
+- [x] 1.7 Browser tab title on `/` shows MyBudget branding, not "10x Astro Starter"
 
 ### Phase 2: Product landing content
 
 #### Automated
 
-- [ ] 2.1 Type checking passes (`npm run build`)
-- [ ] 2.2 Linting passes (`npm run lint`)
-- [ ] 2.3 Formatting is clean (`npm run format`)
+- [x] 2.1 Type checking passes (`npm run build`)
+- [x] 2.2 Linting passes (`npm run lint`)
+- [x] 2.3 Formatting is clean (`npm run format`)
 
 #### Manual
 
-- [ ] 2.4 `/` shows a MyBudget hero with primary "Sign up" + secondary "Sign in" linking to correct routes
-- [ ] 2.5 Three feature cards describe only shipped capabilities (no AI/free-text mention)
-- [ ] 2.6 No remaining "10x Astro Starter" / generic-starter copy on the page
-- [ ] 2.7 Layout is legible on both mobile and desktop
-- [ ] 2.8 Cosmic styling (orbs, star field, gradient hero) renders as before
+- [x] 2.4 `/` shows a MyBudget hero with primary "Sign up" + secondary "Sign in" linking to correct routes
+- [x] 2.5 Three feature cards describe only shipped capabilities (no AI/free-text mention)
+- [x] 2.6 No remaining "10x Astro Starter" / generic-starter copy on the page
+- [x] 2.7 Layout is legible on both mobile and desktop
+- [x] 2.8 Cosmic styling (orbs, star field, gradient hero) renders as before

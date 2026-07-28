@@ -30,23 +30,23 @@
       <h1
         class="mb-6 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 bg-clip-text text-5xl leading-tight font-bold text-transparent sm:text-6xl lg:text-7xl"
       >
-        10x Astro Starter
+        MyBudget
       </h1>
       <p class="mb-10 max-w-2xl text-lg text-blue-100/70 sm:text-xl">
-        A production-ready starter with authentication, modern tooling, and a cosmic developer experience.
+        Keep every expense in view, understand where your money goes, and make your monthly budget easier to manage.
       </p>
       <div class="flex flex-col gap-4 sm:flex-row">
         <a
-          href="/auth/signin"
+          href="/auth/signup"
           class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-purple-500"
         >
-          Sign In
+          Sign up
         </a>
         <a
-          href="/auth/signup"
+          href="/auth/signin"
           class="inline-flex items-center justify-center rounded-lg border border-white/20 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-white/10"
         >
-          Sign Up
+          Sign in
         </a>
       </div>
     </div>
@@ -66,12 +66,13 @@
           stroke-linejoin="round"
           class="mb-4 text-purple-300"
         >
-          <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 7v10"></path>
+          <path d="M15 9.5c0-1.1-1.3-2-3-2s-3 .9-3 2 1.3 2 3 2 3 .9 3 2-1.3 2-3 2-3-.9-3-2"></path>
         </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">Authentication Ready</h3>
+        <h3 class="mb-2 text-lg font-semibold text-white">Track every expense</h3>
         <p class="text-sm leading-relaxed text-blue-100/60">
-          Built-in Supabase auth with sign in, sign up, and protected routes out of the box.
+          Log purchases as they happen and organize them into categories that make sense for your life.
         </p>
       </div>
 
@@ -88,13 +89,12 @@
           stroke-linejoin="round"
           class="mb-4 text-purple-300"
         >
-          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-          <polyline points="2 17 12 22 22 17"></polyline>
-          <polyline points="2 12 12 17 22 12"></polyline>
+          <path d="M3 3v18h18"></path>
+          <path d="m7 15 4-4 3 3 5-7"></path>
         </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">Modern Stack</h3>
+        <h3 class="mb-2 text-lg font-semibold text-white">See your month clearly</h3>
         <p class="text-sm leading-relaxed text-blue-100/60">
-          Astro 5, React 19, Tailwind 4, and TypeScript — the latest tools, ready to go.
+          View your monthly spending total and category breakdown in one focused dashboard.
         </p>
       </div>
 
@@ -111,12 +111,13 @@
           stroke-linejoin="round"
           class="mb-4 text-purple-300"
         >
-          <polyline points="16 18 22 12 16 6"></polyline>
-          <polyline points="8 6 2 12 8 18"></polyline>
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M8 12h8"></path>
+          <path d="M12 8v8"></path>
         </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">Developer Experience</h3>
+        <h3 class="mb-2 text-lg font-semibold text-white">Use your currency</h3>
         <p class="text-sm leading-relaxed text-blue-100/60">
-          ESLint, Prettier, and pre-commit hooks keep your codebase clean from day one.
+          Set the currency you use, so every amount is displayed in the way that feels familiar.
         </p>
       </div>
     </div>
