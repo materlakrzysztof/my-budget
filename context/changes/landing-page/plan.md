@@ -24,8 +24,8 @@ strings later.
 - **`/` is public** — `src/middleware.ts:4` lists only `/dashboard`, `/expenses`,
   `/settings` as `PROTECTED_ROUTES`. Middleware resolves the user onto
   `context.locals.user` for **every** request (including `/`), then redirects
-  *unauthenticated* users away from protected routes. There is **no** redirect for
-  *authenticated* users hitting `/` today — they see the boilerplate landing with the
+  _unauthenticated_ users away from protected routes. There is **no** redirect for
+  _authenticated_ users hitting `/` today — they see the boilerplate landing with the
   Topbar showing their email.
 - **The dashboard exists** — `monthly-dashboard` shipped (`src/pages/dashboard.astro`
   live at `/dashboard`), so the authed redirect has a real target.
@@ -169,6 +169,7 @@ while keeping the existing cosmic scaffolding (background, orbs, star field, her
 layout, card grid). Communicate what the app does to an unauthenticated visitor.
 
 **Contract**: Content deltas within the existing structure:
+
 - **Hero**: headline names/positions MyBudget (personal budget / expense tracking);
   subcopy is a one–two line English value statement; CTAs become a **primary** "Sign
   up" button (`/auth/signup`, filled purple style) and a **secondary** "Sign in"
@@ -261,29 +262,29 @@ bookmarks break.
 
 #### Automated
 
-- [x] 1.1 Type checking passes (`npm run build`)
-- [x] 1.2 Linting passes (`npm run lint`)
-- [x] 1.3 Formatting is clean (`npm run format`)
+- [x] 1.1 Type checking passes (`npm run build`) — 91ea8f1
+- [x] 1.2 Linting passes (`npm run lint`) — 91ea8f1
+- [x] 1.3 Formatting is clean (`npm run format`) — 91ea8f1
 
 #### Manual
 
-- [x] 1.4 Logged out, `/` renders the landing (no redirect)
-- [x] 1.5 Logged in, `/` redirects to `/dashboard` with no content flash
-- [x] 1.6 Unauthenticated `/dashboard`, `/expenses`, `/settings` still redirect to `/auth/signin`
-- [x] 1.7 Browser tab title on `/` shows MyBudget branding, not "10x Astro Starter"
+- [x] 1.4 Logged out, `/` renders the landing (no redirect) — 91ea8f1
+- [x] 1.5 Logged in, `/` redirects to `/dashboard` with no content flash — 91ea8f1
+- [x] 1.6 Unauthenticated `/dashboard`, `/expenses`, `/settings` still redirect to `/auth/signin` — 91ea8f1
+- [x] 1.7 Browser tab title on `/` shows MyBudget branding, not "10x Astro Starter" — 91ea8f1
 
 ### Phase 2: Product landing content
 
 #### Automated
 
-- [x] 2.1 Type checking passes (`npm run build`)
-- [x] 2.2 Linting passes (`npm run lint`)
-- [x] 2.3 Formatting is clean (`npm run format`)
+- [x] 2.1 Type checking passes (`npm run build`) — 91ea8f1
+- [x] 2.2 Linting passes (`npm run lint`) — 91ea8f1
+- [x] 2.3 Formatting is clean (`npm run format`) — 91ea8f1
 
 #### Manual
 
-- [x] 2.4 `/` shows a MyBudget hero with primary "Sign up" + secondary "Sign in" linking to correct routes
-- [x] 2.5 Three feature cards describe only shipped capabilities (no AI/free-text mention)
-- [x] 2.6 No remaining "10x Astro Starter" / generic-starter copy on the page
-- [x] 2.7 Layout is legible on both mobile and desktop
-- [x] 2.8 Cosmic styling (orbs, star field, gradient hero) renders as before
+- [x] 2.4 `/` shows a MyBudget hero with primary "Sign up" + secondary "Sign in" linking to correct routes — 91ea8f1
+- [x] 2.5 Three feature cards describe only shipped capabilities (no AI/free-text mention) — 91ea8f1
+- [x] 2.6 No remaining "10x Astro Starter" / generic-starter copy on the page — 91ea8f1
+- [x] 2.7 Layout is legible on both mobile and desktop — 91ea8f1
+- [x] 2.8 Cosmic styling (orbs, star field, gradient hero) renders as before — 91ea8f1
