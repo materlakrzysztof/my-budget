@@ -1,7 +1,7 @@
 ---
 change_id: landing-page
 title: Public landing page (+ authed redirect to dashboard)
-status: implemented
+status: impl_reviewed
 created: 2026-07-27
 updated: 2026-07-28
 archived_at: null
