@@ -33,7 +33,7 @@ MyBudget is a live personal expense tracker in daily use by one household budget
 
 | ID   | Change ID                   | Outcome (user can …)                                             | Prerequisites | PRD refs                | Status   |
 | ---- | --------------------------- | ---------------------------------------------------------------- | ------------- | ----------------------- | -------- |
-| S-08 | monthly-dashboard           | see a monthly dashboard: per-category chart, total, per-category | —             | FR-015, FR-016, FR-017, US-05 | ready    |
+| S-08 | monthly-dashboard           | see a monthly dashboard: per-category chart, total, per-category | —             | FR-015, FR-016, FR-017, US-05 | done     |
 | S-09 | dashboard-month-comparison  | see current vs previous month (hidden when no history)           | S-08          | FR-018, US-05           | proposed |
 | S-10 | dashboard-quick-add         | start adding an expense in one click from the dashboard          | S-08          | FR-019                  | proposed |
 | S-11 | polish-ui                   | see the entire UI in Polish (message-key layer)                  | —             | FR-020                  | ready    |
@@ -241,3 +241,4 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **FR-004: User can edit a category's name/description and delete a category** — Archived 2026-07-27 → `context/archive/2026-07-26-category-editing/`. Promoted out of `## Parked` (was: nice-to-have deferred to v2). Lesson: —.
 - **Infra: CI auto-deploy-on-merge to Cloudflare Workers** — 2026-07-25 → `context/changes/deploy-on-merge/`. Gated `deploy` job in `.github/workflows/ci.yml` publishes on merge to `main` after `ci` + `migration-safety` pass. Lesson: —.
 - **S-14: user manages categories (add/edit/delete) from within Settings; the old standalone category route redirects to the new location.** — Archived 2026-07-28 → `context/archive/2026-07-27-categories-in-settings/`. Lesson: —.
+- **S-08: user can open a monthly dashboard and see this month's spending as a per-category chart, a headline total, and per-category totals; the existing flat summary is absorbed here.** — Archived 2026-07-28 → `context/archive/2026-07-27-monthly-dashboard/`. Lesson: —.
