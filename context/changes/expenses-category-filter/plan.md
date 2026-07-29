@@ -297,23 +297,23 @@ deep-links and bookmarks continue to work unchanged.
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npm run build`
-- [x] 1.2 Linting passes: `npm run lint`
-- [x] 1.3 Existing unit tests pass: `npm run test:unit`
+- [x] 1.1 Type checking passes: `npm run build` — 6dc7ea1
+- [x] 1.2 Linting passes: `npm run lint` — 6dc7ea1
+- [x] 1.3 Existing unit tests pass: `npm run test:unit` — 6dc7ea1
 
 #### Manual
 
-- [ ] 1.4 Selecting a category filters in place and URL becomes `?category=<id>`
-- [ ] 1.5 Selecting "All categories" shows all and URL resets to `/expenses`
-- [ ] 1.6 Deep-link `/expenses?category=<id>` renders filtered list with picker preselected
-- [ ] 1.7 Empty states show correct message; banner removed; CRUD refreshes filtered list
+- [x] 1.4 Selecting a category filters in place and URL becomes `?category=<id>` — 6dc7ea1
+- [x] 1.5 Selecting "All categories" shows all and URL resets to `/expenses` — 6dc7ea1
+- [x] 1.6 Deep-link `/expenses?category=<id>` renders filtered list with picker preselected — 6dc7ea1
+- [x] 1.7 Empty states show correct message; banner removed; CRUD refreshes filtered list — 6dc7ea1
 
 ### Phase 2: E2E coverage
 
 #### Automated
 
-- [ ] 2.1 New spec passes: `npm run test:e2e`
-- [ ] 2.2 Lint stays green: `npm run lint`
+- [x] 2.1 New spec passes: `npm run test:e2e`
+- [x] 2.2 Lint stays green: `npm run lint`
 
 #### Manual
 
