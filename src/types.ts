@@ -58,6 +58,26 @@ export interface MonthlySummaryResponse {
   summary: MonthlySummaryEntry[];
 }
 
+export interface CategoryDelta {
+  categoryId: string;
+  categoryName: string;
+  current: string;
+  previous: string;
+  changeAmount: string;
+  changePercent: number | null;
+  status: "changed" | "new" | "dropped";
+  rank: number;
+}
+
+export interface MonthlyComparison {
+  currentTotal: string;
+  previousTotal: string;
+  totalChangeAmount: string;
+  totalChangePercent: number | null;
+  categories: CategoryDelta[];
+  comparisonAvailable: boolean;
+}
+
 export const CURRENCIES = ["USD", "EUR", "GBP", "PLN", "JPY", "CAD", "AUD"] as const;
 
 export type Currency = (typeof CURRENCIES)[number];

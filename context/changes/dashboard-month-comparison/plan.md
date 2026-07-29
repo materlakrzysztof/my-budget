@@ -346,9 +346,9 @@ None — no schema or data changes.
 
 #### Automated
 
-- [ ] 1.1 Linting passes: `npm run lint`
-- [ ] 1.2 Type check + production build succeeds: `npm run build`
-- [ ] 1.3 Unit tests pass: `npm run test:unit`
+- [x] 1.1 Linting passes: `npm run lint`
+- [x] 1.2 Type check + production build succeeds: `npm run build`
+- [x] 1.3 Unit tests pass: `npm run test:unit`
 
 ### Phase 2: Dashboard wiring + comparison UI
 
