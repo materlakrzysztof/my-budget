@@ -216,32 +216,41 @@ export function mergeCategoriesWithTotals(
     .map((entry, index) => ({ ...entry, rank: index + 1 }));
 }
 
+async function fetchMonthTotals(
+  supabase: SupabaseClient,
+  userId: string,
+  referenceDate: Date,
+): Promise<{ categoryId: string; total: string }[]> {
+  const monthStart = `${referenceDate.getUTCFullYear()}-${String(referenceDate.getUTCMonth() + 1).padStart(2, "0")}-01`;
+
+  const { data, error } = await supabase
+    .from("monthly_category_summary")
+    .select("category_id, total")
+    .eq("user_id", userId)
+    .eq("month", monthStart);
+
+  if (error) throw error;
+
+  return (data as { category_id: string; total: string }[]).map((t) => ({ categoryId: t.category_id, total: t.total }));
+}
+
+async function fetchCategories(supabase: SupabaseClient, userId: string): Promise<{ id: string; name: string }[]> {
+  const { data, error } = await supabase.from("categories").select("id, name").eq("user_id", userId);
+  if (error) throw error;
+  return data;
+}
+
 export async function getMonthlySummary(
   supabase: SupabaseClient,
   userId: string,
   referenceDate: Date = new Date(),
 ): Promise<MonthlySummaryEntry[]> {
-  const monthStart = `${referenceDate.getUTCFullYear()}-${String(referenceDate.getUTCMonth() + 1).padStart(2, "0")}-01`;
-
-  const [categoriesResult, totalsResult] = await Promise.all([
-    supabase.from("categories").select("id, name").eq("user_id", userId),
-    supabase
-      .from("monthly_category_summary")
-      .select("category_id, total")
-      .eq("user_id", userId)
-      .eq("month", monthStart),
+  const [categories, totals] = await Promise.all([
+    fetchCategories(supabase, userId),
+    fetchMonthTotals(supabase, userId, referenceDate),
   ]);
 
-  if (categoriesResult.error) throw categoriesResult.error;
-  if (totalsResult.error) throw totalsResult.error;
-
-  const categories = categoriesResult.data as { id: string; name: string }[];
-  const totals = totalsResult.data as { category_id: string; total: string }[];
-
-  return mergeCategoriesWithTotals(
-    categories,
-    totals.map((t) => ({ categoryId: t.category_id, total: t.total })),
-  );
+  return mergeCategoriesWithTotals(categories, totals);
 }
 
 // Uses Date.UTC's field normalization (month -1 rolls back into December of
@@ -305,10 +314,14 @@ export async function getMonthlyComparison(
 ): Promise<MonthlyComparison> {
   const previousReferenceDate = previousMonthReferenceDate(referenceDate);
 
-  const [current, previous] = await Promise.all([
-    getMonthlySummary(supabase, userId, referenceDate),
-    getMonthlySummary(supabase, userId, previousReferenceDate),
+  const [categories, currentTotals, previousTotals] = await Promise.all([
+    fetchCategories(supabase, userId),
+    fetchMonthTotals(supabase, userId, referenceDate),
+    fetchMonthTotals(supabase, userId, previousReferenceDate),
   ]);
+
+  const current = mergeCategoriesWithTotals(categories, currentTotals);
+  const previous = mergeCategoriesWithTotals(categories, previousTotals);
 
   return computeComparison(current, previous);
 }

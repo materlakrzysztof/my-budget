@@ -3,7 +3,7 @@ id: dashboard-month-comparison
 title: Dashboard month-over-month comparison
 roadmap_ref: S-09
 prd_refs: [FR-018, US-05]
-status: implemented
+status: impl_reviewed
 created: 2026-07-29
 updated: 2026-07-29
 ---

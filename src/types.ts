@@ -58,6 +58,8 @@ export interface MonthlySummaryResponse {
   summary: MonthlySummaryEntry[];
 }
 
+export type ComparisonStatus = "changed" | "new" | "dropped";
+
 export interface CategoryDelta {
   categoryId: string;
   categoryName: string;
@@ -65,7 +67,7 @@ export interface CategoryDelta {
   previous: string;
   changeAmount: string;
   changePercent: number | null;
-  status: "changed" | "new" | "dropped";
+  status: ComparisonStatus;
   rank: number;
 }
 

@@ -1,13 +1,13 @@
 import { colorForIndex } from "@/components/dashboard/SpendingDonut";
 import { DeltaBadge } from "@/components/dashboard/DeltaBadge";
 import { formatAmount } from "@/lib/format";
-import type { Currency, MonthlySummaryEntry } from "@/types";
+import type { ComparisonStatus, Currency, MonthlySummaryEntry } from "@/types";
 
 interface MonthlySummaryEntryWithDelta extends MonthlySummaryEntry {
   delta?: {
     changeAmount: string;
     changePercent: number | null;
-    status: "changed" | "new" | "dropped";
+    status: ComparisonStatus;
   };
 }
 

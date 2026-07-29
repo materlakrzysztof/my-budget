@@ -1,11 +1,11 @@
 import { formatAmount } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import type { Currency } from "@/types";
+import type { ComparisonStatus, Currency } from "@/types";
 
 interface DeltaBadgeProps {
   changeAmount: string;
   changePercent: number | null;
-  status: "changed" | "new" | "dropped";
+  status: ComparisonStatus;
   currency: Currency;
   label?: string;
 }
