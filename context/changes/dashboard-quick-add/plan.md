@@ -332,7 +332,7 @@ None — no schema or data changes.
 
 #### Manual
 
-- [x] 2.5 Header "Add expense" opens the dialog in place; save updates dashboard without reload — a2293ff
+- [x] 2.5 Header "Add expense" opens the dialog in place; save updates dashboard without reload — a2293ff — DEVIATION: this plan's Current State Analysis was stale — `DashboardView` had already moved to `comparison: MonthlyComparison` props under the separately-shipped `dashboard-month-comparison` change, not the `entries` shape this plan describes. The post-add refresh re-fetches `GET /api/expenses/summary` for authoritative current-month totals (per the "cannot drift" guardrail), but rebuilds the previous-month side of the comparison from already-held browser state and recomputes deltas/ranks client-side via the new `src/lib/comparison.ts` (extracted so it's Supabase/zod-free and bundle-safe) rather than re-fetching a server-computed comparison — accepted as a scoped trade-off since a new month-parameterized endpoint was out of scope ("No new API endpoint"). Residual risk: if previous-month data changes elsewhere (e.g. another tab) between page load and the add, the delta badge can lag until the next full page load. See impl-review F1.
 - [x] 2.6 Empty-state CTA opens the same in-place dialog — a2293ff
 - [x] 2.7 No categories → button disabled with a hint linking to category management — N/A: unreachable in current product (listCategories re-seeds the 8 defaults whenever a user has none); guard removed as dead code, not implemented — a2293ff
 - [x] 2.8 Validation failure shows inline; dialog stays open — a2293ff

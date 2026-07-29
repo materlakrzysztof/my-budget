@@ -50,16 +50,21 @@ export default function DashboardView({ comparison: initialComparison, currency,
     // patch `entries` locally, so the total/donut/breakdown and delta badges
     // can't drift from what a server render would show (see plan's
     // "Post-add refresh source of truth" guardrail).
-    const response = await fetch("/api/expenses/summary");
-    if (response.ok) {
-      const { summary } = (await response.json()) as MonthlySummaryResponse;
-      const previousEntries: MonthlySummaryEntry[] = comparison.categories.map((entry) => ({
-        categoryId: entry.categoryId,
-        categoryName: entry.categoryName,
-        total: entry.previous,
-        rank: 0,
-      }));
-      setComparison(computeComparison(summary, previousEntries));
+    try {
+      const response = await fetch("/api/expenses/summary");
+      if (response.ok) {
+        const { summary } = (await response.json()) as MonthlySummaryResponse;
+        const previousEntries: MonthlySummaryEntry[] = comparison.categories.map((entry) => ({
+          categoryId: entry.categoryId,
+          categoryName: entry.categoryName,
+          total: entry.previous,
+          rank: 0,
+        }));
+        setComparison(computeComparison(summary, previousEntries));
+      }
+    } catch {
+      // The expense was already created; a failed refresh just means the
+      // dashboard shows stale totals until the next reload.
     }
 
     closeAddDialog();
