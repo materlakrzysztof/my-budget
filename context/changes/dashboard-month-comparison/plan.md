@@ -354,15 +354,15 @@ None — no schema or data changes.
 
 #### Automated
 
-- [x] 2.1 Linting passes: `npm run lint`
-- [x] 2.2 Type check + production build succeeds: `npm run build`
-- [x] 2.3 Unit tests pass: `npm run test:unit`
-- [x] 2.4 E2E passes: `npm run test:e2e` (dashboard comparison spec)
+- [x] 2.1 Linting passes: `npm run lint` — dcebf4c
+- [x] 2.2 Type check + production build succeeds: `npm run build` — dcebf4c
+- [x] 2.3 Unit tests pass: `npm run test:unit` — dcebf4c
+- [x] 2.4 E2E passes: `npm run test:e2e` (dashboard comparison spec) — dcebf4c
 
 #### Manual
 
-- [x] 2.5 Both-month data shows total + per-category deltas
-- [x] 2.6 Increase = red ↑, decrease = green ↓; meaning clear without color
-- [x] 2.7 `new` category tagged (no percentage); `dropped` category shows a row
-- [x] 2.8 With no prior-month spend, the comparison is fully hidden
-- [x] 2.9 Total delta reconciles with per-category deltas
+- [x] 2.5 Both-month data shows total + per-category deltas — dcebf4c
+- [x] 2.6 Increase = red ↑, decrease = green ↓; meaning clear without color — dcebf4c
+- [x] 2.7 `new` category tagged (no percentage); `dropped` category shows a row — dcebf4c
+- [x] 2.8 With no prior-month spend, the comparison is fully hidden — dcebf4c
+- [x] 2.9 Total delta reconciles with per-category deltas — dcebf4c
