@@ -30,7 +30,7 @@ test("account creation, sign-in, and sign-out survive as one real flow", async (
   await page.getByRole("button", { name: "Sign in" }).click();
 
   // Signed in: Topbar shows the user's email and a way into the protected area.
-  await expect(page).toHaveURL("/");
+  await expect(page).toHaveURL(/\/(|dashboard)$/);
   await expect(page.getByText(email)).toBeVisible();
 
   // Reach the protected /dashboard.

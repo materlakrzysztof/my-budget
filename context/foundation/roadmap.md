@@ -37,8 +37,8 @@ MyBudget is a live personal expense tracker in daily use by one household budget
 | S-09 | dashboard-month-comparison  | see current vs previous month (hidden when no history)           | S-08          | FR-018, US-05           | proposed |
 | S-10 | dashboard-quick-add         | start adding an expense in one click from the dashboard          | S-08          | FR-019                  | proposed |
 | S-11 | polish-ui                   | see the entire UI in Polish (message-key layer)                  | —             | FR-020                  | ready    |
-| S-12 | landing-page                | (visitor) see a public landing page; authed users go to dashboard| —             | FR-021                  | ready    |
-| S-13 | sticky-nav-header           | keep the nav header visible while scrolling                      | —             | FR-022                  | ready    |
+| S-12 | landing-page                | (visitor) see a public landing page; authed users go to dashboard| —             | FR-021                  | done     |
+| S-13 | sticky-nav-header           | keep the nav header visible while scrolling                      | —             | FR-022                  | done     |
 | S-14 | categories-in-settings      | manage categories from Settings (old route redirects)            | —             | FR-023                  | done     |
 | S-15 | expenses-category-filter    | filter the expenses list via an in-page category picker          | —             | FR-024                  | ready    |
 | S-16 | add-expense-dialog          | add an expense through a modal/dialog                            | —             | FR-025                  | ready    |
@@ -118,7 +118,7 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** introduces a message-key layer touching all existing views — mechanical but broad; sequencing this early lets later slices adopt keys from the start (a soft preference, not a hard prerequisite).
-- **Status:** ready
+- **Status:** done
 
 ### S-12: Landing page
 
@@ -130,7 +130,7 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** adds a public route + an auth-aware redirect; must not break the existing auth redirect behavior (guardrail).
-- **Status:** ready
+- **Status:** done
 
 ### S-13: Sticky nav header
 
@@ -142,7 +142,7 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** layout change to the shared header; low risk, must remain usable on mobile.
-- **Status:** ready
+- **Status:** done
 
 ### S-14: Category management in Settings
 
@@ -199,13 +199,13 @@ None for this iteration. Every application layer is already present (see `## Bas
 
 | Roadmap ID | Change ID                  | Suggested issue title                                  | Ready for `/10x-plan` | Notes                                  |
 | ---------- | -------------------------- | ------------------------------------------------------ | --------------------- | -------------------------------------- |
-| S-08       | monthly-dashboard          | Monthly dashboard: per-category chart, total, breakdown | yes                   | Run `/10x-plan monthly-dashboard`      |
+| S-08       | monthly-dashboard          | Monthly dashboard: per-category chart, total, breakdown | no                    | Done — archived 2026-07-28             |
 | S-09       | dashboard-month-comparison | Dashboard: month-over-month comparison                 | no                    | Needs S-08 first                       |
 | S-10       | dashboard-quick-add        | Dashboard: one-click add expense                       | no                    | Needs S-08 first                       |
 | S-11       | polish-ui                  | Polish UI via message-key layer                        | yes                   | Run `/10x-plan polish-ui`              |
-| S-12       | landing-page               | Public landing page + authed redirect to dashboard     | yes                   | Run `/10x-plan landing-page`           |
-| S-13       | sticky-nav-header          | Sticky navigation header                               | yes                   | Run `/10x-plan sticky-nav-header`      |
-| S-14       | categories-in-settings     | Move category management into Settings (+ redirect)    | yes                   | Run `/10x-plan categories-in-settings` |
+| S-12       | landing-page               | Public landing page + authed redirect to dashboard     | no                    | Done — archived 2026-07-28             |
+| S-13       | sticky-nav-header          | Sticky navigation header                               | no                    | Done — archived 2026-07-28             |
+| S-14       | categories-in-settings     | Move category management into Settings (+ redirect)    | no                    | Done — archived 2026-07-28             |
 | S-15       | expenses-category-filter   | In-page category filter on the expenses list           | yes                   | Run `/10x-plan expenses-category-filter` |
 | S-16       | add-expense-dialog         | Add-expense modal/dialog                               | yes                   | Run `/10x-plan add-expense-dialog`     |
 | S-17       | ai-assisted-expense-entry  | AI-assisted expense entry from free text               | no                    | Blocked — resolve AI Open Questions    |
@@ -242,3 +242,5 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **Infra: CI auto-deploy-on-merge to Cloudflare Workers** — 2026-07-25 → `context/changes/deploy-on-merge/`. Gated `deploy` job in `.github/workflows/ci.yml` publishes on merge to `main` after `ci` + `migration-safety` pass. Lesson: —.
 - **S-14: user manages categories (add/edit/delete) from within Settings; the old standalone category route redirects to the new location.** — Archived 2026-07-28 → `context/archive/2026-07-27-categories-in-settings/`. Lesson: —.
 - **S-08: user can open a monthly dashboard and see this month's spending as a per-category chart, a headline total, and per-category totals; the existing flat summary is absorbed here.** — Archived 2026-07-28 → `context/archive/2026-07-27-monthly-dashboard/`. Lesson: —.
+- **S-12: an unauthenticated visitor sees a public landing page describing app capabilities; authenticated users visiting `/` are redirected to `/dashboard`.** — Archived 2026-07-28 → `context/archive/2026-07-28-landing-page/`. Lesson: redirect guards must exit before rendering page markup.
+- **S-13: navigation header stays pinned to the top while scrolling on all pages, preserving readability and dialog layering.** — Archived 2026-07-28 → `context/archive/2026-07-28-sticky-nav-header/`. Lesson: —.
