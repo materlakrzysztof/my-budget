@@ -312,9 +312,9 @@ deep-links and bookmarks continue to work unchanged.
 
 #### Automated
 
-- [x] 2.1 New spec passes: `npm run test:e2e`
-- [x] 2.2 Lint stays green: `npm run lint`
+- [x] 2.1 New spec passes: `npm run test:e2e` — f53d273
+- [x] 2.2 Lint stays green: `npm run lint` — f53d273
 
 #### Manual
 
-- [ ] 2.3 Spec is stable across repeated local runs (state-based waits, unique ids)
+- [x] 2.3 Spec is stable across repeated local runs (state-based waits, unique ids) — f53d273
