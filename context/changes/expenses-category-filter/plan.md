@@ -297,9 +297,9 @@ deep-links and bookmarks continue to work unchanged.
 
 #### Automated
 
-- [ ] 1.1 Type checking passes: `npm run build`
-- [ ] 1.2 Linting passes: `npm run lint`
-- [ ] 1.3 Existing unit tests pass: `npm run test:unit`
+- [x] 1.1 Type checking passes: `npm run build`
+- [x] 1.2 Linting passes: `npm run lint`
+- [x] 1.3 Existing unit tests pass: `npm run test:unit`
 
 #### Manual
 

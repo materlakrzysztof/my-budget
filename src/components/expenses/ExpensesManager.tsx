@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,7 +17,7 @@ import type { Category, CreateExpenseRequest, Currency, Expense, ListExpensesRes
 interface ExpensesManagerProps {
   categories: Category[];
   initialExpenses: Expense[];
-  categoryFilter: Category | null;
+  initialCategoryId: string | null;
   currency: Currency;
   autoOpenAdd?: boolean;
 }
@@ -26,11 +27,12 @@ type DialogMode = "closed" | "add" | "edit";
 export default function ExpensesManager({
   categories,
   initialExpenses,
-  categoryFilter,
+  initialCategoryId,
   currency,
   autoOpenAdd,
 }: ExpensesManagerProps) {
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(initialCategoryId);
   const [dialogMode, setDialogMode] = useState<DialogMode>("closed");
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
@@ -48,16 +50,21 @@ export default function ExpensesManager({
     }
   }, [autoOpenAdd]);
 
-  async function refresh() {
-    const expensesUrl = categoryFilter
-      ? `/api/expenses?category=${encodeURIComponent(categoryFilter.id)}`
-      : "/api/expenses";
+  async function refresh(categoryId: string | null = selectedCategoryId) {
+    const expensesUrl = categoryId ? `/api/expenses?category=${encodeURIComponent(categoryId)}` : "/api/expenses";
     const expensesRes = await fetch(expensesUrl);
 
     if (expensesRes.ok) {
       const { expenses: nextExpenses } = (await expensesRes.json()) as ListExpensesResponse;
       setExpenses(nextExpenses);
     }
+  }
+
+  async function handleCategoryFilterChange(e: ChangeEvent<HTMLSelectElement>) {
+    const nextId = e.target.value || null;
+    setSelectedCategoryId(nextId);
+    await refresh(nextId);
+    window.history.replaceState(null, "", nextId ? `/expenses?category=${nextId}` : "/expenses");
   }
 
   function openAddDialog() {
@@ -149,22 +156,32 @@ export default function ExpensesManager({
             Add expense
           </Button>
         </div>
-        {categoryFilter && (
-          <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-blue-100/80">
-            <span>
-              Filtered by: <span className="font-medium text-white">{categoryFilter.name}</span>
-            </span>
-            <a href="/expenses" className="font-medium text-purple-300 underline-offset-2 hover:underline">
-              Clear filter
-            </a>
-          </div>
-        )}
+        <div className="mb-3">
+          <label htmlFor="expense-category-filter" className="mb-1 block text-sm text-blue-100/80">
+            Filter by category
+          </label>
+          <select
+            id="expense-category-filter"
+            value={selectedCategoryId ?? ""}
+            onChange={handleCategoryFilterChange}
+            className="h-9 w-full max-w-xs rounded-md border border-white/20 bg-white/10 px-3 py-1 text-base text-white shadow-xs outline-none focus-visible:border-purple-400 focus-visible:ring-purple-400"
+          >
+            <option value="" className="text-black">
+              All categories
+            </option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id} className="text-black">
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <ExpenseList
           expenses={expenses}
           currency={currency}
           onEdit={openEditDialog}
           onDeleteRequest={openDeleteDialog}
-          emptyMessage={categoryFilter ? "No expenses in this category." : "No expenses yet."}
+          emptyMessage={selectedCategoryId != null ? "No expenses in this category." : "No expenses yet."}
         />
       </div>
 

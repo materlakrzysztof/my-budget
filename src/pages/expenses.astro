@@ -29,7 +29,7 @@ const autoOpenAdd = Astro.url.searchParams.get("action") === "add";
         <ExpensesManager
           categories={categories}
           initialExpenses={expenses}
-          categoryFilter={categoryFilter}
+          initialCategoryId={categoryFilter?.id ?? null}
           currency={settings.currency}
           autoOpenAdd={autoOpenAdd}
           client:load

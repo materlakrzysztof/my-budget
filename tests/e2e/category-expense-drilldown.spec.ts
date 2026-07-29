@@ -54,8 +54,8 @@ test("clicking a summary category drills into its filtered expenses and reconcil
   await summaryRowFor(page, "Groceries").getByRole("link").click();
   await expect(page).toHaveURL(/\/expenses\?category=/);
 
-  // Filtered view: banner names the category, and only its expenses show.
-  await expect(page.getByText("Filtered by:")).toContainText("Groceries");
+  // Filtered view: picker preselected to the category, and only its expenses show.
+  await expect(page.getByLabel("Filter by category")).toHaveValue(/.+/);
   await expect(expenseRowFor(page, "Groceries")).toHaveCount(2);
   await expect(expenseRowFor(page, "Transport")).toHaveCount(0);
 
@@ -65,8 +65,8 @@ test("clicking a summary category drills into its filtered expenses and reconcil
   expect(filteredSum).toBeCloseTo(65, 2);
 
   // Clear filter returns to the full, unfiltered list.
-  await page.getByRole("link", { name: "Clear filter" }).click();
+  await page.getByLabel("Filter by category").selectOption({ label: "All categories" });
   await expect(page).toHaveURL(/\/expenses$/);
-  await expect(page.getByText("Filtered by:")).toHaveCount(0);
+  await expect(page.getByLabel("Filter by category")).toHaveValue("");
   await expect(expenseRowFor(page, "Transport")).toHaveCount(1);
 });
