@@ -325,15 +325,15 @@ None — no schema or data changes.
 
 #### Automated
 
-- [x] 2.1 Linting passes: `npm run lint`
-- [x] 2.2 Type check + production build succeeds: `npm run build`
-- [x] 2.3 Unit tests pass: `npm run test:unit`
-- [x] 2.4 E2E passes: `npm run test:e2e` (dashboard quick-add spec)
+- [x] 2.1 Linting passes: `npm run lint` — a2293ff
+- [x] 2.2 Type check + production build succeeds: `npm run build` — a2293ff
+- [x] 2.3 Unit tests pass: `npm run test:unit` — a2293ff
+- [x] 2.4 E2E passes: `npm run test:e2e` (dashboard quick-add spec) — a2293ff
 
 #### Manual
 
-- [x] 2.5 Header "Add expense" opens the dialog in place; save updates dashboard without reload
-- [x] 2.6 Empty-state CTA opens the same in-place dialog
-- [x] 2.7 No categories → button disabled with a hint linking to category management — N/A: unreachable in current product (listCategories re-seeds the 8 defaults whenever a user has none); guard removed as dead code, not implemented
-- [x] 2.8 Validation failure shows inline; dialog stays open
-- [x] 2.9 Expenses page add/edit/delete unchanged
+- [x] 2.5 Header "Add expense" opens the dialog in place; save updates dashboard without reload — a2293ff
+- [x] 2.6 Empty-state CTA opens the same in-place dialog — a2293ff
+- [x] 2.7 No categories → button disabled with a hint linking to category management — N/A: unreachable in current product (listCategories re-seeds the 8 defaults whenever a user has none); guard removed as dead code, not implemented — a2293ff
+- [x] 2.8 Validation failure shows inline; dialog stays open — a2293ff
+- [x] 2.9 Expenses page add/edit/delete unchanged — a2293ff
