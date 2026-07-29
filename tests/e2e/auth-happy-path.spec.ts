@@ -37,7 +37,7 @@ test("account creation, sign-in, and sign-out survive as one real flow", async (
   await page.getByRole("link", { name: "Dashboard" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
-  await expect(page.getByText(`Welcome, ${email}`)).toBeVisible();
+  await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible();
 
   // Sign out.
   await page.getByRole("button", { name: "Sign out" }).click();

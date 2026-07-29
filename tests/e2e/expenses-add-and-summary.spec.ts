@@ -37,6 +37,9 @@ test("two expenses under two categories reconcile to their own category's total 
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(expenseRowFor(page, "Transport")).toContainText("$15.00");
 
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
+
   // Each category's own total in the summary — not mixed, not summed together.
   await expect(summaryRowFor(page, "Groceries")).toContainText("$40.00");
   await expect(summaryRowFor(page, "Transport")).toContainText("$15.00");
@@ -65,6 +68,8 @@ test("two expenses under two categories reconcile to their own category's total 
   await page.goto("/expenses");
   await expect(expenseRowFor(page, "Groceries")).toContainText("PLN 40.00");
   await expect(expenseRowFor(page, "Transport")).toContainText("PLN 15.00");
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
   await expect(summaryRowFor(page, "Groceries")).toContainText("PLN 40.00");
   await expect(summaryRowFor(page, "Transport")).toContainText("PLN 15.00");
 });

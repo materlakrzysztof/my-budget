@@ -19,7 +19,12 @@ test("editing an expense's amount updates both the list and the summary total", 
   await expenseDialog(page, "add").getByLabel("Amount").fill("20.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(expenseRowFor(page, "Entertainment")).toContainText("$20.00");
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
   await expect(summaryRowFor(page, "Entertainment")).toContainText("$20.00");
+
+  await page.goto("/expenses");
+  await expect(page).toHaveURL(/\/expenses$/);
 
   await expenseRowFor(page, "Entertainment").getByRole("button", { name: "Edit" }).click();
   await expenseDialog(page, "edit").getByLabel("Name").fill("Movie night");
@@ -29,6 +34,8 @@ test("editing an expense's amount updates both the list and the summary total", 
   await expect(expenseRowFor(page, "Entertainment")).toContainText("$50.00");
   await expect(expenseRowFor(page, "Entertainment")).toContainText("Movie night");
   await expect(expenseRowFor(page, "Entertainment")).not.toContainText("$20.00");
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
   await expect(summaryRowFor(page, "Entertainment")).toContainText("$50.00");
   await expect(summaryRowFor(page, "Entertainment")).not.toContainText("$70.00");
 });

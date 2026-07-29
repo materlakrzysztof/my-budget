@@ -27,7 +27,12 @@ test("deleting an expense via the confirmation dialog updates the list and the s
   await expenseDialog(page, "add").getByLabel("Amount").fill("45.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(expenseRowFor(page, "Utilities").filter({ hasText: "$45.00" })).toBeVisible();
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
   await expect(summaryRowFor(page, "Utilities")).toContainText("$75.00");
+
+  await page.goto("/expenses");
+  await expect(page).toHaveURL(/\/expenses$/);
 
   const targetRow = expenseRowFor(page, "Utilities").filter({ hasText: "$45.00" });
   await targetRow.getByRole("button", { name: "Delete" }).click();
@@ -38,6 +43,8 @@ test("deleting an expense via the confirmation dialog updates the list and the s
 
   await expect(expenseRowFor(page, "Utilities").filter({ hasText: "$45.00" })).toHaveCount(0);
   await expect(expenseRowFor(page, "Utilities").filter({ hasText: "$30.00" })).toBeVisible();
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
   await expect(summaryRowFor(page, "Utilities")).toContainText("$30.00");
   await expect(summaryRowFor(page, "Utilities")).not.toContainText("$75.00");
 });

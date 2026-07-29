@@ -39,7 +39,7 @@ test("authenticated user can reach every core area via nav from any protected pa
   await expect(page).toHaveURL(/\/settings$/);
   await page.getByRole("button", { name: "Sign out" }).click();
   await expect(page).toHaveURL("/");
-  await expect(page.getByRole("link", { name: "Sign in", exact: true })).toBeVisible();
+  await expect(page.getByRole("navigation").getByRole("link", { name: "Sign in" })).toBeVisible();
 });
 
 test("authenticated user can reach every core area via nav from any protected page (mobile)", async ({ page }) => {
@@ -74,5 +74,5 @@ test("authenticated user can reach every core area via nav from any protected pa
   await expect(page).toHaveURL(/\/settings$/);
   await page.getByRole("button", { name: "Sign out" }).click();
   await expect(page).toHaveURL("/");
-  await expect(page.getByRole("link", { name: "Sign in", exact: true })).toBeVisible();
+  await expect(page.getByRole("navigation").getByRole("link", { name: "Sign in" })).toBeVisible();
 });

@@ -26,9 +26,13 @@ test("a backdated expense does not affect the current month's summary total", as
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Housing" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("25.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
   await expect(summaryRowFor(page, "Housing")).toContainText("$25.00");
 
   // Backdated expense (two months ago), same category, larger amount.
+  await page.goto("/expenses");
+  await expect(page).toHaveURL(/\/expenses$/);
   await page.getByRole("button", { name: "Add expense" }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Housing" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("99.00");
@@ -38,6 +42,8 @@ test("a backdated expense does not affect the current month's summary total", as
   // The backdated entry lands in the list, but the current month's summary
   // total for Housing stays exactly the today-dated amount — never the sum.
   await expect(page.getByText(backdatedDate)).toBeVisible();
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
   await expect(summaryRowFor(page, "Housing")).toContainText("$25.00");
   await expect(summaryRowFor(page, "Housing")).not.toContainText("$124.00");
 });

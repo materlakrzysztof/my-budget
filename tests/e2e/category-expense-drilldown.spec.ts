@@ -42,8 +42,13 @@ test("clicking a summary category drills into its filtered expenses and reconcil
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(expenseRowFor(page, "Transport")).toHaveCount(1);
 
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
+
   // The summary's Groceries total is the reconciliation reference.
   await expect(summaryRowFor(page, "Groceries")).toContainText("$65.00");
+  const summaryText = (await summaryRowFor(page, "Groceries").textContent()) ?? "";
+  const summaryTotal = Number(/\$(\d+\.\d{2})/.exec(summaryText)?.[1] ?? "0");
 
   // Drill down by clicking the Groceries summary row.
   await summaryRowFor(page, "Groceries").getByRole("link").click();
@@ -56,8 +61,6 @@ test("clicking a summary category drills into its filtered expenses and reconcil
 
   // Reconciliation guardrail: filtered rows' sum === the summary's category total.
   const filteredSum = sumDollarAmounts(await expenseRowFor(page, "Groceries").allTextContents());
-  const summaryText = (await summaryRowFor(page, "Groceries").textContent()) ?? "";
-  const summaryTotal = Number(/\$(\d+\.\d{2})/.exec(summaryText)?.[1] ?? "0");
   expect(filteredSum).toBeCloseTo(summaryTotal, 2);
   expect(filteredSum).toBeCloseTo(65, 2);
 
