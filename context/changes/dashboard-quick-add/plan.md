@@ -313,13 +313,13 @@ None — no schema or data changes.
 
 #### Automated
 
-- [ ] 1.1 Linting passes: `npm run lint`
-- [ ] 1.2 Type check + production build succeeds: `npm run build`
-- [ ] 1.3 Unit tests pass: `npm run test:unit`
+- [x] 1.1 Linting passes: `npm run lint`
+- [x] 1.2 Type check + production build succeeds: `npm run build`
+- [x] 1.3 Unit tests pass: `npm run test:unit`
 
 #### Manual
 
-- [ ] 1.4 Expenses page add flow (success + validation failure) behaves exactly as before
+- [x] 1.4 Expenses page add flow (success + validation failure) behaves exactly as before
 
 ### Phase 2: Dashboard in-place quick-add
 

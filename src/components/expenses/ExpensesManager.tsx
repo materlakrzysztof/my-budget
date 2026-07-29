@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { ExpenseList } from "@/components/expenses/ExpenseList";
 import { ExpenseFormDialog } from "@/components/expenses/ExpenseFormDialog";
+import { useCreateExpense } from "@/components/hooks/useCreateExpense";
 import type { Category, CreateExpenseRequest, Currency, Expense, ListExpensesResponse } from "@/types";
 
 interface ExpensesManagerProps {
@@ -35,6 +36,7 @@ export default function ExpensesManager({
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
   const hasAutoOpened = useRef(false);
+  const { createExpense } = useCreateExpense();
 
   useEffect(() => {
     if (autoOpenAdd && !hasAutoOpened.current) {
@@ -88,11 +90,20 @@ export default function ExpensesManager({
 
   async function handleFormSubmit(input: CreateExpenseRequest) {
     const target = dialogMode === "edit" ? editingExpense : null;
-    const url = target ? `/api/expenses/${target.id}` : "/api/expenses";
-    const method = target ? "PATCH" : "POST";
 
-    const response = await fetch(url, {
-      method,
+    if (!target) {
+      const result = await createExpense(input);
+      if (!result.ok) {
+        setServerError(result.error);
+        return;
+      }
+      closeFormDialog();
+      await refresh();
+      return;
+    }
+
+    const response = await fetch(`/api/expenses/${target.id}`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
     });
@@ -104,9 +115,7 @@ export default function ExpensesManager({
     }
 
     if (!response.ok) {
-      setServerError(
-        target ? "Failed to update expense. Please try again." : "Failed to create expense. Please try again.",
-      );
+      setServerError("Failed to update expense. Please try again.");
       return;
     }
 
