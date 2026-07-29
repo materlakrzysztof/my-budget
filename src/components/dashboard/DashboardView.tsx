@@ -1,15 +1,80 @@
-import { formatAmount } from "@/lib/format";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useCreateExpense } from "@/components/hooks/useCreateExpense";
+import { ExpenseFormDialog } from "@/components/expenses/ExpenseFormDialog";
 import { DeltaBadge } from "@/components/dashboard/DeltaBadge";
 import { MonthlySummary } from "@/components/dashboard/MonthlySummary";
 import { SpendingDonut } from "@/components/dashboard/SpendingDonut";
-import type { Currency, MonthlyComparison } from "@/types";
+import { computeComparison } from "@/lib/comparison";
+import { formatAmount } from "@/lib/format";
+import type {
+  Category,
+  CreateExpenseRequest,
+  Currency,
+  MonthlyComparison,
+  MonthlySummaryEntry,
+  MonthlySummaryResponse,
+} from "@/types";
 
 interface DashboardViewProps {
   comparison: MonthlyComparison;
   currency: Currency;
+  categories: Category[];
 }
 
-export default function DashboardView({ comparison, currency }: DashboardViewProps) {
+export default function DashboardView({ comparison: initialComparison, currency, categories }: DashboardViewProps) {
+  const [comparison, setComparison] = useState(initialComparison);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const { createExpense } = useCreateExpense();
+
+  function openAddDialog() {
+    setServerError(null);
+    setDialogOpen(true);
+  }
+
+  function closeAddDialog() {
+    setDialogOpen(false);
+    setServerError(null);
+  }
+
+  async function handleAddExpense(input: CreateExpenseRequest) {
+    const result = await createExpense(input);
+    if (!result.ok) {
+      setServerError(result.error);
+      return;
+    }
+
+    // Re-fetch the authoritative current-month summary and recompute the
+    // comparison against the previous month already held in state — never
+    // patch `entries` locally, so the total/donut/breakdown and delta badges
+    // can't drift from what a server render would show (see plan's
+    // "Post-add refresh source of truth" guardrail).
+    const response = await fetch("/api/expenses/summary");
+    if (response.ok) {
+      const { summary } = (await response.json()) as MonthlySummaryResponse;
+      const previousEntries: MonthlySummaryEntry[] = comparison.categories.map((entry) => ({
+        categoryId: entry.categoryId,
+        categoryName: entry.categoryName,
+        total: entry.previous,
+        rank: 0,
+      }));
+      setComparison(computeComparison(summary, previousEntries));
+    }
+
+    closeAddDialog();
+  }
+
+  const addExpenseButton = (
+    <Button
+      type="button"
+      onClick={openAddDialog}
+      className="rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
+    >
+      Add expense
+    </Button>
+  );
+
   const currentEntries = comparison.categories.map((entry) => ({
     categoryId: entry.categoryId,
     categoryName: entry.categoryName,
@@ -22,12 +87,16 @@ export default function DashboardView({ comparison, currency }: DashboardViewPro
     return (
       <div className="space-y-3 text-center">
         <p className="text-blue-100/70">No expenses this month yet.</p>
-        <a
-          href="/expenses?action=add"
-          className="inline-block rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
-        >
-          Add an expense
-        </a>
+        <div className="flex justify-center">{addExpenseButton}</div>
+        <ExpenseFormDialog
+          open={dialogOpen}
+          mode="add"
+          categories={categories}
+          editingExpense={null}
+          onSubmit={handleAddExpense}
+          onClose={closeAddDialog}
+          serverError={serverError}
+        />
       </div>
     );
   }
@@ -70,9 +139,22 @@ export default function DashboardView({ comparison, currency }: DashboardViewPro
       </div>
 
       <div>
-        <h2 className="mb-3 text-lg font-semibold text-white">By category</h2>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold text-white">By category</h2>
+          {addExpenseButton}
+        </div>
         <MonthlySummary entries={breakdownEntries} currency={currency} />
       </div>
+
+      <ExpenseFormDialog
+        open={dialogOpen}
+        mode="add"
+        categories={categories}
+        editingExpense={null}
+        onSubmit={handleAddExpense}
+        onClose={closeAddDialog}
+        serverError={serverError}
+      />
     </div>
   );
 }

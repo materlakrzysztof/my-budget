@@ -313,27 +313,27 @@ None — no schema or data changes.
 
 #### Automated
 
-- [x] 1.1 Linting passes: `npm run lint`
-- [x] 1.2 Type check + production build succeeds: `npm run build`
-- [x] 1.3 Unit tests pass: `npm run test:unit`
+- [x] 1.1 Linting passes: `npm run lint` — 9d58554
+- [x] 1.2 Type check + production build succeeds: `npm run build` — 9d58554
+- [x] 1.3 Unit tests pass: `npm run test:unit` — 9d58554
 
 #### Manual
 
-- [x] 1.4 Expenses page add flow (success + validation failure) behaves exactly as before
+- [x] 1.4 Expenses page add flow (success + validation failure) behaves exactly as before — 9d58554
 
 ### Phase 2: Dashboard in-place quick-add
 
 #### Automated
 
-- [ ] 2.1 Linting passes: `npm run lint`
-- [ ] 2.2 Type check + production build succeeds: `npm run build`
-- [ ] 2.3 Unit tests pass: `npm run test:unit`
-- [ ] 2.4 E2E passes: `npm run test:e2e` (dashboard quick-add spec)
+- [x] 2.1 Linting passes: `npm run lint`
+- [x] 2.2 Type check + production build succeeds: `npm run build`
+- [x] 2.3 Unit tests pass: `npm run test:unit`
+- [x] 2.4 E2E passes: `npm run test:e2e` (dashboard quick-add spec)
 
 #### Manual
 
-- [ ] 2.5 Header "Add expense" opens the dialog in place; save updates dashboard without reload
-- [ ] 2.6 Empty-state CTA opens the same in-place dialog
-- [ ] 2.7 No categories → button disabled with a hint linking to category management
-- [ ] 2.8 Validation failure shows inline; dialog stays open
-- [ ] 2.9 Expenses page add/edit/delete unchanged
+- [x] 2.5 Header "Add expense" opens the dialog in place; save updates dashboard without reload
+- [x] 2.6 Empty-state CTA opens the same in-place dialog
+- [x] 2.7 No categories → button disabled with a hint linking to category management — N/A: unreachable in current product (listCategories re-seeds the 8 defaults whenever a user has none); guard removed as dead code, not implemented
+- [x] 2.8 Validation failure shows inline; dialog stays open
+- [x] 2.9 Expenses page add/edit/delete unchanged
