@@ -1,9 +1,18 @@
 import { colorForIndex } from "@/components/dashboard/SpendingDonut";
+import { DeltaBadge } from "@/components/dashboard/DeltaBadge";
 import { formatAmount } from "@/lib/format";
 import type { Currency, MonthlySummaryEntry } from "@/types";
 
+interface MonthlySummaryEntryWithDelta extends MonthlySummaryEntry {
+  delta?: {
+    changeAmount: string;
+    changePercent: number | null;
+    status: "changed" | "new" | "dropped";
+  };
+}
+
 interface MonthlySummaryProps {
-  entries: MonthlySummaryEntry[];
+  entries: MonthlySummaryEntryWithDelta[];
   currency: Currency;
 }
 
@@ -37,7 +46,17 @@ export function MonthlySummary({ entries, currency }: MonthlySummaryProps) {
                     />
                     <span>{entry.categoryName}</span>
                   </span>
-                  <span className="text-sm text-blue-100/80">{formatAmount(entry.total, currency)}</span>
+                  <span className="flex items-center gap-2 text-sm text-blue-100/80">
+                    <span>{formatAmount(entry.total, currency)}</span>
+                    {entry.delta && (
+                      <DeltaBadge
+                        changeAmount={entry.delta.changeAmount}
+                        changePercent={entry.delta.changePercent}
+                        status={entry.delta.status}
+                        currency={currency}
+                      />
+                    )}
+                  </span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
                   <div className="h-full rounded-full bg-purple-500" style={{ width: `${widthPercent}%` }} />
