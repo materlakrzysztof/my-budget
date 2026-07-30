@@ -447,7 +447,7 @@ trigger with no data fetching until interaction.
 
 - [x] 2.4 Topbar "Add Expense" opens the dialog in place from the dashboard (no URL change); Escape closes it — 9d2ce96
 - [x] 2.5 Category select populated from `GET /api/categories` — 9d2ce96
-- [x] 2.6 Zero-category account sees the Settings hint with submit disabled — 9d2ce96
+- [x] 2.6 Zero-category account sees the Settings hint with submit disabled — 9d2ce96 — DEVIATION: implemented as a separate minimal `Dialog` (title + hint + "Go to Settings" link) rather than `ExpenseFormDialog` with a disabled submit button — `ExpenseFormDialog` isn't rendered in this branch at all, so there's no form/submit to disable. Functionally equivalent (no path to submit either way). See impl-review F3.
 - [x] 2.7 New "Expenses" nav link reaches `/expenses`; nav still reaches Dashboard, Settings, Sign out — 9d2ce96
 
 ### Phase 3: Reflect on current page + tests

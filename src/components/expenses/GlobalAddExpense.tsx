@@ -24,15 +24,15 @@ export default function GlobalAddExpense() {
     setServerError(null);
     setOpen(true);
     if (!hasFetchedCategories.current) {
-      hasFetchedCategories.current = true;
       try {
         const response = await fetch("/api/categories");
-        const { categories: fetched } = response.ok
-          ? ((await response.json()) as ListCategoriesResponse)
-          : { categories: [] };
-        setCategories(fetched);
+        if (response.ok) {
+          const { categories: fetched } = (await response.json()) as ListCategoriesResponse;
+          hasFetchedCategories.current = true;
+          setCategories(fetched);
+        }
       } catch {
-        setCategories([]);
+        // Transient failure — leave hasFetchedCategories false so the next open retries.
       }
     }
   }, []);
@@ -94,6 +94,7 @@ export default function GlobalAddExpense() {
         </Dialog>
       ) : (
         <ExpenseFormDialog
+          key={categories === null ? "loading" : "loaded"}
           open={open}
           mode="add"
           categories={categories ?? []}
