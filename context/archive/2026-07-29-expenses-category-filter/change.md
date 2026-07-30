@@ -3,9 +3,10 @@ id: expenses-category-filter
 title: Category filter on expenses list
 roadmap_ref: S-15
 prd_refs: [FR-024]
-status: impl_reviewed
+status: archived
 created: 2026-07-29
-updated: 2026-07-29
+updated: 2026-07-30
+archived_at: 2026-07-30T05:01:44Z
 ---
 
 # Category filter on expenses list

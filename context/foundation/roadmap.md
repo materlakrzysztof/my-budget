@@ -40,7 +40,7 @@ MyBudget is a live personal expense tracker in daily use by one household budget
 | S-12 | landing-page                | (visitor) see a public landing page; authed users go to dashboard| —             | FR-021                  | done     |
 | S-13 | sticky-nav-header           | keep the nav header visible while scrolling                      | —             | FR-022                  | done     |
 | S-14 | categories-in-settings      | manage categories from Settings (old route redirects)            | —             | FR-023                  | done     |
-| S-15 | expenses-category-filter    | filter the expenses list via an in-page category picker          | —             | FR-024                  | ready    |
+| S-15 | expenses-category-filter    | filter the expenses list via an in-page category picker          | —             | FR-024                  | done     |
 | S-16 | add-expense-dialog          | add an expense through a modal/dialog                            | —             | FR-025                  | ready    |
 | S-17 | ai-assisted-expense-entry   | parse free text into reviewable expenses before saving           | S-16          | FR-026, FR-027, FR-028, US-06 | blocked  |
 
@@ -166,7 +166,7 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** builds on the existing URL-based drill-down (`?category=`); low risk, additive affordance.
-- **Status:** ready
+- **Status:** done
 
 ### S-16: Add-expense dialog
 
@@ -242,6 +242,7 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **Infra: CI auto-deploy-on-merge to Cloudflare Workers** — 2026-07-25 → `context/changes/deploy-on-merge/`. Gated `deploy` job in `.github/workflows/ci.yml` publishes on merge to `main` after `ci` + `migration-safety` pass. Lesson: —.
 - **S-09: user can see the current month's spending compared against the previous month (total, and per-category where available); the comparison is hidden when there is no prior-month history.** — Archived 2026-07-30 → `context/archive/2026-07-29-dashboard-month-comparison/`. Lesson: —.
 - **S-10: user can start adding an expense in one click from the dashboard.** — Archived 2026-07-30 → `context/archive/2026-07-29-dashboard-quick-add/`. Lesson: —.
+- **S-15: user filters the expenses list by choosing a category from an in-page picker.** — Archived 2026-07-30 → `context/archive/2026-07-29-expenses-category-filter/`. Lesson: —.
 - **S-14: user manages categories (add/edit/delete) from within Settings; the old standalone category route redirects to the new location.** — Archived 2026-07-28 → `context/archive/2026-07-27-categories-in-settings/`. Lesson: —.
 - **S-08: user can open a monthly dashboard and see this month's spending as a per-category chart, a headline total, and per-category totals; the existing flat summary is absorbed here.** — Archived 2026-07-28 → `context/archive/2026-07-27-monthly-dashboard/`. Lesson: —.
 - **S-12: an unauthenticated visitor sees a public landing page describing app capabilities; authenticated users visiting `/` are redirected to `/dashboard`.** — Archived 2026-07-28 → `context/archive/2026-07-28-landing-page/`. Lesson: redirect guards must exit before rendering page markup.
