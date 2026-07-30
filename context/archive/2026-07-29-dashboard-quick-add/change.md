@@ -3,9 +3,10 @@ id: dashboard-quick-add
 title: Dashboard quick-add expense
 roadmap_ref: S-10
 prd_refs: [FR-019]
-status: impl_reviewed
+status: archived
 created: 2026-07-29
-updated: 2026-07-29
+updated: 2026-07-30
+archived_at: 2026-07-30T04:56:20Z
 ---
 
 # Dashboard quick-add expense
