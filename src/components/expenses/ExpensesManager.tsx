@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +12,7 @@ import {
 import { ExpenseList } from "@/components/expenses/ExpenseList";
 import { ExpenseFormDialog, fieldClassName } from "@/components/expenses/ExpenseFormDialog";
 import { useCreateExpense } from "@/components/hooks/useCreateExpense";
+import { onExpenseCreated } from "@/lib/expense-events";
 import { cn } from "@/lib/utils";
 import type { Category, CreateExpenseRequest, Currency, Expense, ListExpensesResponse } from "@/types";
 
@@ -52,30 +53,39 @@ export default function ExpensesManager({
     }
   }, [autoOpenAdd]);
 
-  async function refresh(categoryId: string | null = selectedCategoryId): Promise<boolean> {
-    const requestId = ++filterRequestSeq.current;
-    const expensesUrl = categoryId ? `/api/expenses?category=${encodeURIComponent(categoryId)}` : "/api/expenses";
+  const refresh = useCallback(
+    async (categoryId: string | null = selectedCategoryId): Promise<boolean> => {
+      const requestId = ++filterRequestSeq.current;
+      const expensesUrl = categoryId ? `/api/expenses?category=${encodeURIComponent(categoryId)}` : "/api/expenses";
 
-    try {
-      const expensesRes = await fetch(expensesUrl);
-      if (requestId !== filterRequestSeq.current) return false;
+      try {
+        const expensesRes = await fetch(expensesUrl);
+        if (requestId !== filterRequestSeq.current) return false;
 
-      if (!expensesRes.ok) {
-        setServerError("Failed to refresh expenses. Please try again.");
+        if (!expensesRes.ok) {
+          setServerError("Failed to refresh expenses. Please try again.");
+          return true;
+        }
+
+        const { expenses: nextExpenses } = (await expensesRes.json()) as ListExpensesResponse;
+        setExpenses(nextExpenses);
+        setServerError(null);
+        return true;
+      } catch {
+        if (requestId === filterRequestSeq.current) {
+          setServerError("Failed to refresh expenses. Please try again.");
+        }
         return true;
       }
+    },
+    [selectedCategoryId],
+  );
 
-      const { expenses: nextExpenses } = (await expensesRes.json()) as ListExpensesResponse;
-      setExpenses(nextExpenses);
-      setServerError(null);
-      return true;
-    } catch {
-      if (requestId === filterRequestSeq.current) {
-        setServerError("Failed to refresh expenses. Please try again.");
-      }
-      return true;
-    }
-  }
+  useEffect(() => {
+    return onExpenseCreated(() => {
+      void refresh();
+    });
+  }, [refresh]);
 
   async function handleCategoryFilterChange(e: ChangeEvent<HTMLSelectElement>) {
     const nextId = e.target.value || null;

@@ -19,8 +19,7 @@ test("clicking a summary category drills into its filtered expenses and reconcil
   const password = "TestPassword123!";
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Add Expense" }).click();
-  await expect(page).toHaveURL(/\/expenses$/);
+  await page.goto("/expenses?action=add");
   await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
   // Two Groceries expenses ($40 + $25 = $65) and one Transport ($15) — so the
@@ -30,13 +29,13 @@ test("clicking a summary category drills into its filtered expenses and reconcil
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(expenseRowFor(page, "Groceries")).toHaveCount(1);
 
-  await page.getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("button", { name: "Add expense", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Groceries" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("25.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(expenseRowFor(page, "Groceries")).toHaveCount(2);
 
-  await page.getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("button", { name: "Add expense", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Transport" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("15.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();

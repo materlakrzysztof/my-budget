@@ -18,8 +18,7 @@ test("two expenses under two categories reconcile to their own category's total 
   const password = "TestPassword123!";
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Add Expense" }).click();
-  await expect(page).toHaveURL(/\/expenses$/);
+  await page.goto("/expenses?action=add");
   await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
   // First expense: Groceries, the larger amount, with an optional name.
@@ -31,7 +30,7 @@ test("two expenses under two categories reconcile to their own category's total 
   await expect(expenseRowFor(page, "Groceries")).toContainText("Birthday dinner");
 
   // Second expense: Transport, the smaller amount.
-  await page.getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("button", { name: "Add expense", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Transport" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("15.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();

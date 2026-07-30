@@ -92,7 +92,7 @@ export async function signUpAndSignIn(page: Page, email: string, password: strin
  */
 export async function openAddExpenseDialog(page: Page) {
   await page.waitForLoadState("networkidle");
-  const addButton = page.getByRole("button", { name: "Add expense" });
+  const addButton = page.getByRole("button", { name: "Add expense", exact: true });
 
   await expect(async () => {
     await addButton.click();

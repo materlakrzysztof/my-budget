@@ -11,8 +11,7 @@ test("deleting an expense via the confirmation dialog updates the list and the s
   const password = "TestPassword123!";
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Add Expense" }).click();
-  await expect(page).toHaveURL(/\/expenses$/);
+  await page.goto("/expenses?action=add");
   await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
   // Two expenses in the same category so the total is only meaningful if
@@ -22,7 +21,7 @@ test("deleting an expense via the confirmation dialog updates the list and the s
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(expenseRowFor(page, "Utilities").filter({ hasText: "$30.00" })).toBeVisible();
 
-  await page.getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("button", { name: "Add expense", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Utilities" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("45.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();

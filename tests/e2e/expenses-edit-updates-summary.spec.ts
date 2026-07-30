@@ -11,8 +11,7 @@ test("editing an expense's amount updates both the list and the summary total", 
   const password = "TestPassword123!";
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Add Expense" }).click();
-  await expect(page).toHaveURL(/\/expenses$/);
+  await page.goto("/expenses?action=add");
   await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Entertainment" });

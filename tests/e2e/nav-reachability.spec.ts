@@ -28,11 +28,14 @@ test("authenticated user can reach every core area via nav from any protected pa
   await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Your categories" })).toBeVisible();
 
-  await page.getByRole("link", { name: "Add Expense" }).click();
+  await page.getByRole("button", { name: "Add Expense" }).click();
   await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
-  await expect(page).toHaveURL(/\/expenses$/);
+  await expect(page).toHaveURL(/\/settings$/);
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog", { name: "Add expense" })).not.toBeVisible();
+
+  await page.getByRole("link", { name: "Expenses" }).click();
+  await expect(page).toHaveURL(/\/expenses$/);
 
   // Sign out from a non-Dashboard page.
   await page.getByRole("link", { name: "Settings" }).click();
@@ -63,11 +66,14 @@ test("authenticated user can reach every core area via nav from any protected pa
   await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Your categories" })).toBeVisible();
 
-  await page.getByRole("link", { name: "Add Expense" }).click();
+  await page.getByRole("button", { name: "Add Expense" }).click();
   await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
-  await expect(page).toHaveURL(/\/expenses$/);
+  await expect(page).toHaveURL(/\/settings$/);
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog", { name: "Add expense" })).not.toBeVisible();
+
+  await page.getByRole("link", { name: "Expenses" }).click();
+  await expect(page).toHaveURL(/\/expenses$/);
 
   // Sign out from a non-Dashboard page.
   await page.getByRole("link", { name: "Settings" }).click();

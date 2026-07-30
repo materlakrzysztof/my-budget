@@ -27,7 +27,7 @@ test("dashboard quick-add opens the dialog in place from both the empty state an
 
   // Empty state: no expenses yet this month — the CTA opens the dialog in place.
   await expect(page.getByText("No expenses this month yet.")).toBeVisible();
-  const emptyStateButton = page.getByRole("button", { name: "Add expense" });
+  const emptyStateButton = page.getByRole("button", { name: "Add expense", exact: true });
   await expect(async () => {
     await emptyStateButton.click();
     await expect(expenseDialog(page, "add")).toBeVisible({ timeout: 250 });
@@ -43,7 +43,7 @@ test("dashboard quick-add opens the dialog in place from both the empty state an
   await expect(summaryRowFor(page, "Groceries")).toContainText("$25.00");
 
   // Header button (now visible since the month has spend) opens the same dialog.
-  const headerButton = page.getByRole("button", { name: "Add expense" });
+  const headerButton = page.getByRole("button", { name: "Add expense", exact: true });
   await headerButton.click();
   await expect(expenseDialog(page, "add")).toBeVisible();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Transport" });

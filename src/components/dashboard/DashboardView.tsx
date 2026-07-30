@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useCreateExpense } from "@/components/hooks/useCreateExpense";
 import { ExpenseFormDialog } from "@/components/expenses/ExpenseFormDialog";
@@ -6,6 +6,7 @@ import { DeltaBadge } from "@/components/dashboard/DeltaBadge";
 import { MonthlySummary } from "@/components/dashboard/MonthlySummary";
 import { SpendingDonut } from "@/components/dashboard/SpendingDonut";
 import { computeComparison } from "@/lib/comparison";
+import { onExpenseCreated } from "@/lib/expense-events";
 import { formatAmount } from "@/lib/format";
 import type {
   Category,
@@ -28,6 +29,34 @@ export default function DashboardView({ comparison: initialComparison, currency,
   const [serverError, setServerError] = useState<string | null>(null);
   const { createExpense } = useCreateExpense();
 
+  // Re-fetch the authoritative current-month summary and recompute the
+  // comparison against the previous month already held in state — never
+  // patch `entries` locally, so the total/donut/breakdown and delta badges
+  // can't drift from what a server render would show (see plan's
+  // "Post-add refresh source of truth" guardrail).
+  async function refreshSummary() {
+    try {
+      const response = await fetch("/api/expenses/summary");
+      if (response.ok) {
+        const { summary } = (await response.json()) as MonthlySummaryResponse;
+        setComparison((prev) => {
+          const previousEntries: MonthlySummaryEntry[] = prev.categories.map((entry) => ({
+            categoryId: entry.categoryId,
+            categoryName: entry.categoryName,
+            total: entry.previous,
+            rank: 0,
+          }));
+          return computeComparison(summary, previousEntries);
+        });
+      }
+    } catch {
+      // The expense was already created; a failed refresh just means the
+      // dashboard shows stale totals until the next reload.
+    }
+  }
+
+  useEffect(() => onExpenseCreated(() => void refreshSummary()), []);
+
   function openAddDialog() {
     setServerError(null);
     setDialogOpen(true);
@@ -45,28 +74,7 @@ export default function DashboardView({ comparison: initialComparison, currency,
       return;
     }
 
-    // Re-fetch the authoritative current-month summary and recompute the
-    // comparison against the previous month already held in state — never
-    // patch `entries` locally, so the total/donut/breakdown and delta badges
-    // can't drift from what a server render would show (see plan's
-    // "Post-add refresh source of truth" guardrail).
-    try {
-      const response = await fetch("/api/expenses/summary");
-      if (response.ok) {
-        const { summary } = (await response.json()) as MonthlySummaryResponse;
-        const previousEntries: MonthlySummaryEntry[] = comparison.categories.map((entry) => ({
-          categoryId: entry.categoryId,
-          categoryName: entry.categoryName,
-          total: entry.previous,
-          rank: 0,
-        }));
-        setComparison(computeComparison(summary, previousEntries));
-      }
-    } catch {
-      // The expense was already created; a failed refresh just means the
-      // dashboard shows stale totals until the next reload.
-    }
-
+    await refreshSummary();
     closeAddDialog();
   }
 

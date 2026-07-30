@@ -27,8 +27,7 @@ test("dashboard shows the month-over-month comparison only once the previous mon
 
   // Current-month-only expense (Groceries) — previous month still has no
   // spend, so the comparison stays hidden.
-  await page.getByRole("link", { name: "Add Expense" }).click();
-  await expect(page).toHaveURL(/\/expenses$/);
+  await page.goto("/expenses?action=add");
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Groceries" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("50.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
@@ -44,20 +43,20 @@ test("dashboard shows the month-over-month comparison only once the previous mon
   await page.goto("/expenses");
   await expect(page).toHaveURL(/\/expenses$/);
 
-  await page.getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("button", { name: "Add expense", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Groceries" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("30.00");
   await expenseDialog(page, "add").getByLabel("Date").fill(lastMonth);
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
   await expect(page.getByText(lastMonth)).toBeVisible();
 
-  await page.getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("button", { name: "Add expense", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Housing" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("80.00");
   await expenseDialog(page, "add").getByLabel("Date").fill(lastMonth);
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
 
-  await page.getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("button", { name: "Add expense", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Transport" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("20.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();

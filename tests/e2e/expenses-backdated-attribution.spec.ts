@@ -18,8 +18,7 @@ test("a backdated expense does not affect the current month's summary total", as
   const backdatedDate = isoDateMonthsAgo(2);
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Add Expense" }).click();
-  await expect(page).toHaveURL(/\/expenses$/);
+  await page.goto("/expenses?action=add");
   await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
   // Today-dated expense in Housing.
@@ -33,7 +32,7 @@ test("a backdated expense does not affect the current month's summary total", as
   // Backdated expense (two months ago), same category, larger amount.
   await page.goto("/expenses");
   await expect(page).toHaveURL(/\/expenses$/);
-  await page.getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("button", { name: "Add expense", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Housing" });
   await expenseDialog(page, "add").getByLabel("Amount").fill("99.00");
   await expenseDialog(page, "add").getByLabel("Date").fill(backdatedDate);
