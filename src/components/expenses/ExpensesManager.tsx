@@ -10,8 +10,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ExpenseList } from "@/components/expenses/ExpenseList";
-import { ExpenseFormDialog } from "@/components/expenses/ExpenseFormDialog";
+import { ExpenseFormDialog, fieldClassName } from "@/components/expenses/ExpenseFormDialog";
 import { useCreateExpense } from "@/components/hooks/useCreateExpense";
+import { cn } from "@/lib/utils";
 import type { Category, CreateExpenseRequest, Currency, Expense, ListExpensesResponse } from "@/types";
 
 interface ExpensesManagerProps {
@@ -38,6 +39,7 @@ export default function ExpensesManager({
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
   const hasAutoOpened = useRef(false);
+  const filterRequestSeq = useRef(0);
   const { createExpense } = useCreateExpense();
 
   useEffect(() => {
@@ -50,21 +52,38 @@ export default function ExpensesManager({
     }
   }, [autoOpenAdd]);
 
-  async function refresh(categoryId: string | null = selectedCategoryId) {
+  async function refresh(categoryId: string | null = selectedCategoryId): Promise<boolean> {
+    const requestId = ++filterRequestSeq.current;
     const expensesUrl = categoryId ? `/api/expenses?category=${encodeURIComponent(categoryId)}` : "/api/expenses";
-    const expensesRes = await fetch(expensesUrl);
 
-    if (expensesRes.ok) {
+    try {
+      const expensesRes = await fetch(expensesUrl);
+      if (requestId !== filterRequestSeq.current) return false;
+
+      if (!expensesRes.ok) {
+        setServerError("Failed to refresh expenses. Please try again.");
+        return true;
+      }
+
       const { expenses: nextExpenses } = (await expensesRes.json()) as ListExpensesResponse;
       setExpenses(nextExpenses);
+      setServerError(null);
+      return true;
+    } catch {
+      if (requestId === filterRequestSeq.current) {
+        setServerError("Failed to refresh expenses. Please try again.");
+      }
+      return true;
     }
   }
 
   async function handleCategoryFilterChange(e: ChangeEvent<HTMLSelectElement>) {
     const nextId = e.target.value || null;
     setSelectedCategoryId(nextId);
-    await refresh(nextId);
-    window.history.replaceState(null, "", nextId ? `/expenses?category=${nextId}` : "/expenses");
+    const applied = await refresh(nextId);
+    if (applied) {
+      window.history.replaceState(null, "", nextId ? `/expenses?category=${encodeURIComponent(nextId)}` : "/expenses");
+    }
   }
 
   function openAddDialog() {
@@ -156,6 +175,14 @@ export default function ExpensesManager({
             Add expense
           </Button>
         </div>
+        {serverError && dialogMode === "closed" && !deleteTarget && (
+          <p
+            role="alert"
+            className="mb-3 flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-900/30 px-3 py-2 text-sm text-red-300"
+          >
+            {serverError}
+          </p>
+        )}
         <div className="mb-3">
           <label htmlFor="expense-category-filter" className="mb-1 block text-sm text-blue-100/80">
             Filter by category
@@ -164,7 +191,10 @@ export default function ExpensesManager({
             id="expense-category-filter"
             value={selectedCategoryId ?? ""}
             onChange={handleCategoryFilterChange}
-            className="h-9 w-full max-w-xs rounded-md border border-white/20 bg-white/10 px-3 py-1 text-base text-white shadow-xs outline-none focus-visible:border-purple-400 focus-visible:ring-purple-400"
+            className={cn(
+              "h-9 w-full max-w-xs rounded-md border px-3 py-1 text-base shadow-xs outline-none",
+              fieldClassName,
+            )}
           >
             <option value="" className="text-black">
               All categories

@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import type { Category, CreateExpenseRequest, Expense } from "@/types";
 
-const fieldClassName =
+export const fieldClassName =
   "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-purple-400 focus-visible:ring-purple-400";
 
 function todayIsoDate(): string {
