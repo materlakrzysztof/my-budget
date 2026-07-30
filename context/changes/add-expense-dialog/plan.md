@@ -426,14 +426,14 @@ trigger with no data fetching until interaction.
 
 #### Automated
 
-- [ ] 1.1 Type checking passes: `npm run build`
-- [ ] 1.2 Linting passes: `npm run lint`
-- [ ] 1.3 Unit tests pass, including the new hook test: `npm run test`
+- [x] 1.1 Type checking passes: `npm run build` — N/A: already shipped via `dashboard-quick-add` (merged before this plan's implementation started); re-verified green on current tree, no changes needed
+- [x] 1.2 Linting passes: `npm run lint` — N/A: same as 1.1, re-verified green
+- [x] 1.3 Unit tests pass, including the new hook test: `npm run test:unit` — N/A: `src/components/hooks/useCreateExpense.ts` + `.test.ts` already exist and pass; contract is `createExpense(input): Promise<{ok:true,expense}|{ok:false,error}>` rather than the plan's `{createExpense, serverError, resetError}` shape, and `ExpensesManager.tsx` is already repointed to it — accepted as the shared-hook goal being already met (see plan mismatch resolved at implementation start)
 
 #### Manual
 
-- [ ] 1.4 Adding an expense on `/expenses` still works; server error surfaces in the dialog
-- [ ] 1.5 Edit and delete on `/expenses` are unaffected
+- [x] 1.4 Adding an expense on `/expenses` still works; server error surfaces in the dialog
+- [x] 1.5 Edit and delete on `/expenses` are unaffected
 
 ### Phase 2: Global add-expense island + Topbar unification
 
