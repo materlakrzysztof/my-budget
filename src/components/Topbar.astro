@@ -1,4 +1,6 @@
 ---
+import GlobalAddExpense from "@/components/expenses/GlobalAddExpense";
+
 const { user } = Astro.locals;
 const pathname = Astro.url.pathname;
 
@@ -21,9 +23,10 @@ function linkClass(active: boolean) {
           <a href="/dashboard" class:list={linkClass(pathname === "/dashboard")}>
             Dashboard
           </a>
-          <a href="/expenses?action=add" class:list={linkClass(pathname === "/expenses")}>
-            Add Expense
+          <a href="/expenses" class:list={linkClass(pathname === "/expenses")}>
+            Expenses
           </a>
+          <GlobalAddExpense client:load />
           <a href="/settings" class:list={linkClass(pathname === "/settings")}>
             Settings
           </a>

@@ -426,29 +426,29 @@ trigger with no data fetching until interaction.
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npm run build` — N/A: already shipped via `dashboard-quick-add` (merged before this plan's implementation started); re-verified green on current tree, no changes needed
-- [x] 1.2 Linting passes: `npm run lint` — N/A: same as 1.1, re-verified green
-- [x] 1.3 Unit tests pass, including the new hook test: `npm run test:unit` — N/A: `src/components/hooks/useCreateExpense.ts` + `.test.ts` already exist and pass; contract is `createExpense(input): Promise<{ok:true,expense}|{ok:false,error}>` rather than the plan's `{createExpense, serverError, resetError}` shape, and `ExpensesManager.tsx` is already repointed to it — accepted as the shared-hook goal being already met (see plan mismatch resolved at implementation start)
+- [x] 1.1 Type checking passes: `npm run build` — N/A: already shipped via `dashboard-quick-add` (merged before this plan's implementation started); re-verified green on current tree, no changes needed — ca6b4a9
+- [x] 1.2 Linting passes: `npm run lint` — N/A: same as 1.1, re-verified green — ca6b4a9
+- [x] 1.3 Unit tests pass, including the new hook test: `npm run test:unit` — N/A: `src/components/hooks/useCreateExpense.ts` + `.test.ts` already exist and pass; contract is `createExpense(input): Promise<{ok:true,expense}|{ok:false,error}>` rather than the plan's `{createExpense, serverError, resetError}` shape, and `ExpensesManager.tsx` is already repointed to it — accepted as the shared-hook goal being already met (see plan mismatch resolved at implementation start) — ca6b4a9
 
 #### Manual
 
-- [x] 1.4 Adding an expense on `/expenses` still works; server error surfaces in the dialog
-- [x] 1.5 Edit and delete on `/expenses` are unaffected
+- [x] 1.4 Adding an expense on `/expenses` still works; server error surfaces in the dialog — ca6b4a9
+- [x] 1.5 Edit and delete on `/expenses` are unaffected — ca6b4a9
 
 ### Phase 2: Global add-expense island + Topbar unification
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npm run build`
-- [ ] 2.2 Linting passes: `npm run lint`
-- [ ] 2.3 Unit tests pass: `npm run test`
+- [x] 2.1 Type checking passes: `npm run build`
+- [x] 2.2 Linting passes: `npm run lint`
+- [x] 2.3 Unit tests pass: `npm run test:unit`
 
 #### Manual
 
-- [ ] 2.4 Topbar "Add Expense" opens the dialog in place from the dashboard (no URL change); Escape closes it
-- [ ] 2.5 Category select populated from `GET /api/categories`
-- [ ] 2.6 Zero-category account sees the Settings hint with submit disabled
-- [ ] 2.7 New "Expenses" nav link reaches `/expenses`; nav still reaches Dashboard, Settings, Sign out
+- [x] 2.4 Topbar "Add Expense" opens the dialog in place from the dashboard (no URL change); Escape closes it
+- [x] 2.5 Category select populated from `GET /api/categories`
+- [x] 2.6 Zero-category account sees the Settings hint with submit disabled
+- [x] 2.7 New "Expenses" nav link reaches `/expenses`; nav still reaches Dashboard, Settings, Sign out
 
 ### Phase 3: Reflect on current page + tests
 
