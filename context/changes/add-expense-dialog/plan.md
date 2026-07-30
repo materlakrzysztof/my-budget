@@ -454,13 +454,13 @@ trigger with no data fetching until interaction.
 
 #### Automated
 
-- [x] 3.1 Type checking passes: `npm run build`
-- [x] 3.2 Linting passes: `npm run lint`
-- [x] 3.3 Unit tests pass: `npm run test:unit`
-- [x] 3.4 Full e2e suite passes, including migrated specs and the new global-dialog spec: `npm run test:e2e` — also required fixing a Topbar "Add Expense"/page-local "Add expense" name collision (case-insensitive substring match) across specs from sibling changes that landed after this plan was authored (dashboard-quick-add, dashboard-month-comparison, expenses-category-filter, category-expense-drilldown) plus the shared `helpers.ts` — added `exact: true` to page-local button locators
+- [x] 3.1 Type checking passes: `npm run build` — 30ff7b4
+- [x] 3.2 Linting passes: `npm run lint` — 30ff7b4
+- [x] 3.3 Unit tests pass: `npm run test:unit` — 30ff7b4
+- [x] 3.4 Full e2e suite passes, including migrated specs and the new global-dialog spec: `npm run test:e2e` — also required fixing a Topbar "Add Expense"/page-local "Add expense" name collision (case-insensitive substring match) across specs from sibling changes that landed after this plan was authored (dashboard-quick-add, dashboard-month-comparison, expenses-category-filter, category-expense-drilldown) plus the shared `helpers.ts` — added `exact: true` to page-local button locators — 30ff7b4
 
 #### Manual
 
-- [x] 3.5 Add from dashboard via Topbar → summary updates in place, no reload
-- [x] 3.6 Add from `/expenses` via Topbar → list updates in place
-- [x] 3.7 Add from `/settings` via Topbar → dialog closes, page stays with no error
+- [x] 3.5 Add from dashboard via Topbar → summary updates in place, no reload — 30ff7b4
+- [x] 3.6 Add from `/expenses` via Topbar → list updates in place — 30ff7b4
+- [x] 3.7 Add from `/settings` via Topbar → dialog closes, page stays with no error — 30ff7b4
