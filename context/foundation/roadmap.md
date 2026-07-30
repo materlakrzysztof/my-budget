@@ -41,7 +41,7 @@ MyBudget is a live personal expense tracker in daily use by one household budget
 | S-13 | sticky-nav-header           | keep the nav header visible while scrolling                      | —             | FR-022                  | done     |
 | S-14 | categories-in-settings      | manage categories from Settings (old route redirects)            | —             | FR-023                  | done     |
 | S-15 | expenses-category-filter    | filter the expenses list via an in-page category picker          | —             | FR-024                  | done     |
-| S-16 | add-expense-dialog          | add an expense through a modal/dialog                            | —             | FR-025                  | ready    |
+| S-16 | add-expense-dialog          | add an expense through a modal/dialog                            | —             | FR-025                  | done     |
 | S-17 | ai-assisted-expense-entry   | parse free text into reviewable expenses before saving           | S-16          | FR-026, FR-027, FR-028, US-06 | blocked  |
 
 ## Streams
@@ -178,7 +178,7 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** reworks the add-expense entry into a dialog (a pattern already used for category/expense editing); low risk. It is the prerequisite for the AI free-text mode (S-17).
-- **Status:** ready
+- **Status:** done
 
 ### S-17: AI-assisted expense entry
 
@@ -247,3 +247,4 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **S-08: user can open a monthly dashboard and see this month's spending as a per-category chart, a headline total, and per-category totals; the existing flat summary is absorbed here.** — Archived 2026-07-28 → `context/archive/2026-07-27-monthly-dashboard/`. Lesson: —.
 - **S-12: an unauthenticated visitor sees a public landing page describing app capabilities; authenticated users visiting `/` are redirected to `/dashboard`.** — Archived 2026-07-28 → `context/archive/2026-07-28-landing-page/`. Lesson: redirect guards must exit before rendering page markup.
 - **S-13: navigation header stays pinned to the top while scrolling on all pages, preserving readability and dialog layering.** — Archived 2026-07-28 → `context/archive/2026-07-28-sticky-nav-header/`. Lesson: —.
+- **S-16: user can add an expense through a modal/dialog, unifying the entry point.** — Archived 2026-07-30 → `context/archive/2026-07-29-add-expense-dialog/`. Lesson: —.

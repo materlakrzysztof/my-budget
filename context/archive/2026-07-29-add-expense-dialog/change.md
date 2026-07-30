@@ -3,9 +3,10 @@ id: add-expense-dialog
 title: Add-expense dialog (global entry point)
 roadmap_ref: S-16
 prd_refs: [FR-025]
-status: impl_reviewed
+status: archived
 created: 2026-07-29
 updated: 2026-07-30
+archived_at: 2026-07-30T08:38:56Z
 ---
 
 # Add-expense dialog (global entry point)
