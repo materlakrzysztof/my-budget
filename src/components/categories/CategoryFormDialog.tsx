@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { t } from "@/i18n";
 import type { Category, CreateCategoryRequest } from "@/types";
 
 const fieldClassName =
@@ -45,11 +46,11 @@ export function CategoryFormDialog({
     const next: typeof errors = {};
 
     if (!name.trim()) {
-      next.name = "Name is required";
+      next.name = t("category.validation.nameRequired");
     }
 
     if (!description.trim()) {
-      next.description = "Description is required";
+      next.description = t("category.validation.descriptionRequired");
     }
 
     setErrors(next);
@@ -78,16 +79,18 @@ export function CategoryFormDialog({
     >
       <DialogContent className="border-white/10 bg-slate-900 text-white">
         <DialogHeader>
-          <DialogTitle className="text-white">{mode === "add" ? "Add category" : "Edit category"}</DialogTitle>
+          <DialogTitle className="text-white">
+            {mode === "add" ? t("category.addButton") : t("category.editTitle")}
+          </DialogTitle>
           <DialogDescription className="sr-only">
-            {mode === "add" ? "Add a new category" : "Edit an existing category"}
+            {mode === "add" ? t("category.addDialogDescription") : t("category.editDialogDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
             <label htmlFor="category-name" className="mb-1 block text-sm text-blue-100/80">
-              Name
+              {t("common.nameLabel")}
             </label>
             <Input
               id="category-name"
@@ -96,7 +99,7 @@ export function CategoryFormDialog({
                 setName(e.target.value);
                 if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
               }}
-              placeholder="e.g. Groceries"
+              placeholder={t("category.namePlaceholder")}
               className={fieldClassName}
             />
             {errors.name && <p className="mt-1 text-xs text-red-300">{errors.name}</p>}
@@ -104,7 +107,7 @@ export function CategoryFormDialog({
 
           <div>
             <label htmlFor="category-description" className="mb-1 block text-sm text-blue-100/80">
-              Description
+              {t("category.descriptionLabel")}
             </label>
             <Textarea
               id="category-description"
@@ -113,7 +116,7 @@ export function CategoryFormDialog({
                 setDescription(e.target.value);
                 if (errors.description) setErrors((prev) => ({ ...prev, description: undefined }));
               }}
-              placeholder="What belongs in this category?"
+              placeholder={t("category.descriptionPlaceholder")}
               className={fieldClassName}
             />
             {errors.description && <p className="mt-1 text-xs text-red-300">{errors.description}</p>}
@@ -134,7 +137,7 @@ export function CategoryFormDialog({
               disabled={submitting}
               className="w-full rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
             >
-              {submitting ? "Saving..." : mode === "add" ? "Add category" : "Save changes"}
+              {submitting ? t("common.saving") : mode === "add" ? t("category.addButton") : t("common.saveChanges")}
             </Button>
           </DialogFooter>
         </form>

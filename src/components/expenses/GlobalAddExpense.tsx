@@ -11,6 +11,7 @@ import {
 import { ExpenseFormDialog } from "@/components/expenses/ExpenseFormDialog";
 import { useCreateExpense } from "@/components/hooks/useCreateExpense";
 import { dispatchExpenseCreated, onOpenAddExpense } from "@/lib/expense-events";
+import { t } from "@/i18n";
 import type { Category, CreateExpenseRequest, ListCategoriesResponse } from "@/types";
 
 export default function GlobalAddExpense() {
@@ -68,7 +69,7 @@ export default function GlobalAddExpense() {
         onClick={openDialog}
         className="text-purple-300 transition-colors hover:text-purple-100 hover:underline"
       >
-        Add Expense
+        {t("expense.addButton")}
       </button>
 
       {hasNoCategories ? (
@@ -80,14 +81,12 @@ export default function GlobalAddExpense() {
         >
           <DialogContent className="border-white/10 bg-slate-900 text-white">
             <DialogHeader>
-              <DialogTitle className="text-white">Add expense</DialogTitle>
-              <DialogDescription className="text-blue-100/70">
-                Create a category first before adding an expense.
-              </DialogDescription>
+              <DialogTitle className="text-white">{t("expense.addButton")}</DialogTitle>
+              <DialogDescription className="text-blue-100/70">{t("expense.needsCategoryFirst")}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
               <Button asChild className="w-full rounded-lg bg-purple-600 px-4 py-2 font-medium text-white">
-                <a href="/settings">Go to Settings</a>
+                <a href="/settings">{t("expense.goToSettingsCta")}</a>
               </Button>
             </DialogFooter>
           </DialogContent>

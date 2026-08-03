@@ -8,6 +8,7 @@ import { SpendingDonut } from "@/components/dashboard/SpendingDonut";
 import { computeComparison } from "@/lib/comparison";
 import { onExpenseCreated } from "@/lib/expense-events";
 import { formatAmount } from "@/lib/format";
+import { t } from "@/i18n";
 import type {
   Category,
   CreateExpenseRequest,
@@ -84,7 +85,7 @@ export default function DashboardView({ comparison: initialComparison, currency,
       onClick={openAddDialog}
       className="rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
     >
-      Add expense
+      {t("expense.addButton")}
     </Button>
   );
 
@@ -99,7 +100,7 @@ export default function DashboardView({ comparison: initialComparison, currency,
   if (spent.length === 0) {
     return (
       <div className="space-y-3 text-center">
-        <p className="text-blue-100/70">No expenses this month yet.</p>
+        <p className="text-blue-100/70">{t("dashboard.emptyState")}</p>
         <div className="flex justify-center">{addExpenseButton}</div>
         <ExpenseFormDialog
           open={dialogOpen}
@@ -134,7 +135,7 @@ export default function DashboardView({ comparison: initialComparison, currency,
       <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
         <SpendingDonut entries={spent} />
         <div className="text-center sm:text-left">
-          <p className="text-sm text-blue-100/60">This month</p>
+          <p className="text-sm text-blue-100/60">{t("dashboard.thisMonth")}</p>
           <p className="text-3xl font-bold text-white">{formatAmount(comparison.currentTotal, currency)}</p>
           {comparison.comparisonAvailable && (
             <p className="mt-1">
@@ -143,17 +144,17 @@ export default function DashboardView({ comparison: initialComparison, currency,
                 changePercent={comparison.totalChangePercent}
                 status="changed"
                 currency={currency}
-                label="vs last month"
+                label={t("dashboard.vsLastMonth")}
               />
             </p>
           )}
-          <p className="mt-2 text-sm text-blue-100/60">Per-category spending for the current month.</p>
+          <p className="mt-2 text-sm text-blue-100/60">{t("dashboard.perCategorySpending")}</p>
         </div>
       </div>
 
       <div>
         <div className="mb-3 flex items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold text-white">By category</h2>
+          <h2 className="text-lg font-semibold text-white">{t("dashboard.byCategory")}</h2>
           {addExpenseButton}
         </div>
         <MonthlySummary entries={breakdownEntries} currency={currency} />

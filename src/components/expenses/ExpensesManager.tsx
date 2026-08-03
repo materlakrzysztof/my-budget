@@ -14,6 +14,7 @@ import { ExpenseFormDialog, fieldClassName } from "@/components/expenses/Expense
 import { useCreateExpense } from "@/components/hooks/useCreateExpense";
 import { onExpenseCreated } from "@/lib/expense-events";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 import type { Category, CreateExpenseRequest, Currency, Expense, ListExpensesResponse } from "@/types";
 
 interface ExpensesManagerProps {
@@ -176,13 +177,13 @@ export default function ExpensesManager({
     <div className="space-y-6">
       <div>
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">Expenses</h2>
+          <h2 className="text-lg font-semibold text-white">{t("nav.expenses")}</h2>
           <Button
             type="button"
             onClick={openAddDialog}
             className="rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
           >
-            Add expense
+            {t("expense.addButton")}
           </Button>
         </div>
         {serverError && dialogMode === "closed" && !deleteTarget && (
@@ -195,7 +196,7 @@ export default function ExpensesManager({
         )}
         <div className="mb-3">
           <label htmlFor="expense-category-filter" className="mb-1 block text-sm text-blue-100/80">
-            Filter by category
+            {t("expense.filterByCategory")}
           </label>
           <select
             id="expense-category-filter"
@@ -207,7 +208,7 @@ export default function ExpensesManager({
             )}
           >
             <option value="" className="text-black">
-              All categories
+              {t("expense.allCategories")}
             </option>
             {categories.map((category) => (
               <option key={category.id} value={category.id} className="text-black">
@@ -221,7 +222,7 @@ export default function ExpensesManager({
           currency={currency}
           onEdit={openEditDialog}
           onDeleteRequest={openDeleteDialog}
-          emptyMessage={selectedCategoryId != null ? "No expenses in this category." : "No expenses yet."}
+          emptyMessage={selectedCategoryId != null ? t("expense.emptyFiltered") : t("expense.emptyAll")}
         />
       </div>
 
@@ -244,10 +245,8 @@ export default function ExpensesManager({
       >
         <DialogContent className="border-white/10 bg-slate-900 text-white">
           <DialogHeader>
-            <DialogTitle className="text-white">Delete expense</DialogTitle>
-            <DialogDescription className="text-blue-100/70">
-              Are you sure you want to delete this expense? This cannot be undone.
-            </DialogDescription>
+            <DialogTitle className="text-white">{t("expense.deleteDialogTitle")}</DialogTitle>
+            <DialogDescription className="text-blue-100/70">{t("expense.deleteDialogDescription")}</DialogDescription>
           </DialogHeader>
           {serverError && (
             <p
@@ -264,10 +263,10 @@ export default function ExpensesManager({
               className="border-white/20 bg-white/10 text-white hover:bg-white/20"
               onClick={closeDeleteDialog}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button type="button" variant="destructive" onClick={handleConfirmDelete}>
-              Delete
+              {t("common.delete")}
             </Button>
           </DialogFooter>
         </DialogContent>

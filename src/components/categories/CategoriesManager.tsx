@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { CategoryList } from "@/components/categories/CategoryList";
 import { CategoryFormDialog } from "@/components/categories/CategoryFormDialog";
 import { DuplicateCategoryAlert } from "@/components/categories/DuplicateCategoryAlert";
+import { t } from "@/i18n";
 import type { Category, CreateCategoryRequest, CreateCategoryResponse } from "@/types";
 
 interface CategoriesManagerProps {
@@ -103,13 +104,13 @@ export default function CategoriesManager({ initialCategories }: CategoriesManag
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white">Your categories</h2>
+        <h2 className="text-lg font-semibold text-white">{t("category.heading")}</h2>
         <Button
           type="button"
           onClick={openAddDialog}
           className="rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
         >
-          Add category
+          {t("category.addButton")}
         </Button>
       </div>
 

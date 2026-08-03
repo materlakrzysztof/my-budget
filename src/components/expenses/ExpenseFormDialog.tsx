@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 import type { Category, CreateExpenseRequest, Expense } from "@/types";
 
 export const fieldClassName =
@@ -51,19 +52,19 @@ export function ExpenseFormDialog({
     const next: typeof errors = {};
 
     if (!categoryId) {
-      next.categoryId = "Category is required";
+      next.categoryId = t("expense.validation.categoryRequired");
     }
 
     if (name.trim().length > 100) {
-      next.name = "Name must be at most 100 characters";
+      next.name = t("expense.validation.nameTooLong");
     }
 
     if (!/^\d+(\.\d{1,2})?$/.test(amount.trim()) || Number(amount) <= 0) {
-      next.amount = "Enter a positive amount with up to 2 decimal places";
+      next.amount = t("expense.validation.invalidAmount");
     }
 
     if (!date || date > todayIsoDate()) {
-      next.date = "Date cannot be in the future";
+      next.date = t("expense.validation.dateInFuture");
     }
 
     setErrors(next);
@@ -92,16 +93,18 @@ export function ExpenseFormDialog({
     >
       <DialogContent className="border-white/10 bg-slate-900 text-white">
         <DialogHeader>
-          <DialogTitle className="text-white">{mode === "add" ? "Add expense" : "Edit expense"}</DialogTitle>
+          <DialogTitle className="text-white">
+            {mode === "add" ? t("expense.addButton") : t("expense.editTitle")}
+          </DialogTitle>
           <DialogDescription className="sr-only">
-            {mode === "add" ? "Add a new expense" : "Edit an existing expense"}
+            {mode === "add" ? t("expense.addDialogDescription") : t("expense.editDialogDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
             <label htmlFor="expense-category" className="mb-1 block text-sm text-blue-100/80">
-              Category
+              {t("expense.categoryLabel")}
             </label>
             <select
               id="expense-category"
@@ -123,7 +126,7 @@ export function ExpenseFormDialog({
 
           <div>
             <label htmlFor="expense-name" className="mb-1 block text-sm text-blue-100/80">
-              Name
+              {t("common.nameLabel")}
             </label>
             <Input
               id="expense-name"
@@ -132,7 +135,7 @@ export function ExpenseFormDialog({
                 setName(e.target.value);
                 if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
               }}
-              placeholder="Optional label"
+              placeholder={t("expense.namePlaceholder")}
               className={fieldClassName}
             />
             {errors.name && <p className="mt-1 text-xs text-red-300">{errors.name}</p>}
@@ -140,7 +143,7 @@ export function ExpenseFormDialog({
 
           <div>
             <label htmlFor="expense-amount" className="mb-1 block text-sm text-blue-100/80">
-              Amount
+              {t("expense.amountLabel")}
             </label>
             <Input
               id="expense-amount"
@@ -158,7 +161,7 @@ export function ExpenseFormDialog({
 
           <div>
             <label htmlFor="expense-date" className="mb-1 block text-sm text-blue-100/80">
-              Date
+              {t("expense.dateLabel")}
             </label>
             <Input
               id="expense-date"
@@ -189,7 +192,7 @@ export function ExpenseFormDialog({
               disabled={submitting}
               className="w-full rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
             >
-              {submitting ? "Saving..." : mode === "add" ? "Add expense" : "Save changes"}
+              {submitting ? t("common.saving") : mode === "add" ? t("expense.addButton") : t("common.saveChanges")}
             </Button>
           </DialogFooter>
         </form>

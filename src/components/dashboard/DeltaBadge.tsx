@@ -1,5 +1,6 @@
 import { formatAmount } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 import type { ComparisonStatus, Currency } from "@/types";
 
 interface DeltaBadgeProps {
@@ -16,7 +17,7 @@ export function DeltaBadge({ changeAmount, changePercent, status, currency, labe
   if (status === "new") {
     return (
       <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/20 px-2 py-0.5 text-xs font-medium text-blue-200">
-        new
+        {t("dashboard.newBadge")}
       </span>
     );
   }

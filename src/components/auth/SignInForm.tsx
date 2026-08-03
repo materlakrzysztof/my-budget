@@ -4,6 +4,7 @@ import { FormField } from "@/components/auth/FormField";
 import { PasswordToggle } from "@/components/auth/PasswordToggle";
 import { SubmitButton } from "@/components/auth/SubmitButton";
 import { ServerError } from "@/components/auth/ServerError";
+import { t } from "@/i18n";
 
 interface Props {
   serverError?: string | null;
@@ -18,12 +19,12 @@ export default function SignInForm({ serverError }: Props) {
   function validate() {
     const next: typeof errors = {};
     if (!email.trim()) {
-      next.email = "Email is required";
+      next.email = t("auth.emailRequired");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      next.email = "Enter a valid email address";
+      next.email = t("auth.emailInvalid");
     }
     if (!password) {
-      next.password = "Password is required";
+      next.password = t("auth.passwordRequired");
     }
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -44,7 +45,7 @@ export default function SignInForm({ serverError }: Props) {
       <FormField
         id="email"
         type="email"
-        label="Email"
+        label={t("auth.emailLabel")}
         value={email}
         onChange={(v) => {
           setEmail(v);
@@ -57,14 +58,14 @@ export default function SignInForm({ serverError }: Props) {
 
       <FormField
         id="password"
-        label="Password"
+        label={t("auth.passwordLabel")}
         type={showPassword ? "text" : "password"}
         value={password}
         onChange={(v) => {
           setPassword(v);
           clearError("password");
         }}
-        placeholder="Your password"
+        placeholder={t("auth.passwordPlaceholderSignIn")}
         error={errors.password}
         icon={<Lock className="size-4" />}
         endContent={
@@ -79,8 +80,8 @@ export default function SignInForm({ serverError }: Props) {
 
       <ServerError message={serverError} />
 
-      <SubmitButton pendingText="Signing in..." icon={<LogIn className="size-4" />}>
-        Sign in
+      <SubmitButton pendingText={t("auth.signInPending")} icon={<LogIn className="size-4" />}>
+        {t("nav.signIn")}
       </SubmitButton>
     </form>
   );

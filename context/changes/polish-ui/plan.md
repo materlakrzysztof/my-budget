@@ -526,28 +526,28 @@ contract changes (API error *copy* may change, but not shapes/status codes).
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npm run build`
-- [x] 2.2 Linting passes: `npm run lint`
-- [x] 2.3 Grep check: no remaining English UI literals in `src/pages/**` / `src/components/*.astro`
+- [x] 2.1 Type checking passes: `npm run build` — 7d7428a
+- [x] 2.2 Linting passes: `npm run lint` — 7d7428a
+- [x] 2.3 Grep check: no remaining English UI literals in `src/pages/**` / `src/components/*.astro` — 7d7428a
 
 #### Manual
 
-- [x] 2.4 Nav, page titles, landing/auth pages render in Polish
-- [x] 2.5 Config banner renders Polish copy
+- [x] 2.4 Nav, page titles, landing/auth pages render in Polish — 7d7428a
+- [x] 2.5 Config banner renders Polish copy — 7d7428a
 
 ### Phase 3: React island surfaces
 
 #### Automated
 
-- [ ] 3.1 Type checking passes: `npm run build`
-- [ ] 3.2 Linting passes: `npm run lint`
-- [ ] 3.3 Unit tests pass: `npm run test`
+- [x] 3.1 Type checking passes: `npm run build`
+- [x] 3.2 Linting passes: `npm run lint`
+- [x] 3.3 Unit tests pass: `npm run test`
 
 #### Manual
 
-- [ ] 3.4 Dashboard, expenses, categories, settings, auth forms render in Polish
-- [ ] 3.5 Client-side validation errors show Polish messages
-- [ ] 3.6 A pluralized count is grammatically correct at counts 1, 3, 5
+- [x] 3.4 Dashboard, expenses, categories, settings, auth forms render in Polish
+- [x] 3.5 Client-side validation errors show Polish messages
+- [x] 3.6 A pluralized count is grammatically correct at counts 1, 3, 5
 
 ### Phase 4: Server & API user-facing messages
 

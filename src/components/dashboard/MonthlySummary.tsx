@@ -1,6 +1,7 @@
 import { colorForIndex } from "@/components/dashboard/SpendingDonut";
 import { DeltaBadge } from "@/components/dashboard/DeltaBadge";
 import { formatAmount } from "@/lib/format";
+import { t } from "@/i18n";
 import type { ComparisonStatus, Currency, MonthlySummaryEntry } from "@/types";
 
 interface MonthlySummaryEntryWithDelta extends MonthlySummaryEntry {
@@ -18,7 +19,7 @@ interface MonthlySummaryProps {
 
 export function MonthlySummary({ entries, currency }: MonthlySummaryProps) {
   if (entries.length === 0) {
-    return <p className="text-sm text-blue-100/50">No categories yet.</p>;
+    return <p className="text-sm text-blue-100/50">{t("common.noCategoriesYet")}</p>;
   }
 
   const maxTotal = Math.max(...entries.map((entry) => Number(entry.total)));

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
+import { t } from "@/i18n";
 import type { Category } from "@/types";
 
 interface CategoryListProps {
@@ -16,7 +17,7 @@ export function CategoryList({ categories, onEdit, onDelete }: CategoryListProps
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   if (categories.length === 0) {
-    return <p className="text-sm text-blue-100/50">No categories yet.</p>;
+    return <p className="text-sm text-blue-100/50">{t("common.noCategoriesYet")}</p>;
   }
 
   async function handleConfirmDelete(id: string) {
@@ -49,7 +50,7 @@ export function CategoryList({ categories, onEdit, onDelete }: CategoryListProps
                 disabled={deletingId === category.id}
                 className="rounded-lg border border-red-500/30 bg-red-900/40 px-3 py-2 text-sm font-medium text-red-200 transition-colors hover:bg-red-900/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
               >
-                {deletingId === category.id ? "Deleting..." : "Confirm"}
+                {deletingId === category.id ? t("common.deleting") : t("common.confirm")}
               </button>
               <button
                 type="button"
@@ -59,14 +60,14 @@ export function CategoryList({ categories, onEdit, onDelete }: CategoryListProps
                 disabled={deletingId === category.id}
                 className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-blue-100/80 transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
               >
-                Cancel
+                {t("common.cancel")}
               </button>
             </div>
           ) : (
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                aria-label={`Edit ${category.name}`}
+                aria-label={t("category.ariaEdit", { name: category.name })}
                 onClick={() => {
                   onEdit(category);
                 }}
@@ -76,7 +77,7 @@ export function CategoryList({ categories, onEdit, onDelete }: CategoryListProps
               </button>
               <button
                 type="button"
-                aria-label={`Delete ${category.name}`}
+                aria-label={t("category.ariaDelete", { name: category.name })}
                 onClick={() => {
                   setConfirmingId(category.id);
                 }}
