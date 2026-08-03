@@ -1,5 +1,6 @@
 ---
 import GlobalAddExpense from "@/components/expenses/GlobalAddExpense";
+import { t } from "@/i18n";
 
 const { user } = Astro.locals;
 const pathname = Astro.url.pathname;
@@ -21,31 +22,31 @@ function linkClass(active: boolean) {
         <span class="hidden text-blue-100/70 sm:inline">{user.email}</span>
         <div class="flex flex-wrap gap-3">
           <a href="/dashboard" class:list={linkClass(pathname === "/dashboard")}>
-            Dashboard
+            {t("nav.dashboard")}
           </a>
           <a href="/expenses" class:list={linkClass(pathname === "/expenses")}>
-            Expenses
+            {t("nav.expenses")}
           </a>
           <GlobalAddExpense client:load />
           <a href="/settings" class:list={linkClass(pathname === "/settings")}>
-            Settings
+            {t("nav.settings")}
           </a>
           <form method="POST" action="/api/auth/signout">
             <button type="submit" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
-              Sign out
+              {t("nav.signOut")}
             </button>
           </form>
         </div>
       </>
     ) : (
       <>
-        <span class="text-blue-100/70">Not signed in</span>
+        <span class="text-blue-100/70">{t("nav.notSignedIn")}</span>
         <div class="flex flex-wrap gap-3">
           <a href="/auth/signin" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
-            Sign in
+            {t("nav.signIn")}
           </a>
           <a href="/auth/signup" class="text-purple-300 transition-colors hover:text-purple-100 hover:underline">
-            Sign up
+            {t("nav.signUp")}
           </a>
         </div>
       </>

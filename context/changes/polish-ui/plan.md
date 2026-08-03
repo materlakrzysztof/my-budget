@@ -513,27 +513,27 @@ contract changes (API error *copy* may change, but not shapes/status codes).
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npm run build`
-- [x] 1.2 Linting passes: `npm run lint`
-- [x] 1.3 Unit tests pass: `npm run test` (format + i18n specs green)
+- [x] 1.1 Type checking passes: `npm run build` — a925baf
+- [x] 1.2 Linting passes: `npm run lint` — a925baf
+- [x] 1.3 Unit tests pass: `npm run test` (format + i18n specs green) — a925baf
 
 #### Manual
 
-- [ ] 1.4 `document.documentElement.lang === "pl"` in the running app
-- [ ] 1.5 An amount renders with comma decimal (`40,00 …`)
+- [x] 1.4 `document.documentElement.lang === "pl"` in the running app
+- [x] 1.5 An amount renders with comma decimal (`40,00 …`)
 
 ### Phase 2: Astro (SSR) surfaces
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npm run build`
-- [ ] 2.2 Linting passes: `npm run lint`
-- [ ] 2.3 Grep check: no remaining English UI literals in `src/pages/**` / `src/components/*.astro`
+- [x] 2.1 Type checking passes: `npm run build`
+- [x] 2.2 Linting passes: `npm run lint`
+- [x] 2.3 Grep check: no remaining English UI literals in `src/pages/**` / `src/components/*.astro`
 
 #### Manual
 
-- [ ] 2.4 Nav, page titles, landing/auth pages render in Polish
-- [ ] 2.5 Config banner renders Polish copy
+- [x] 2.4 Nav, page titles, landing/auth pages render in Polish
+- [x] 2.5 Config banner renders Polish copy
 
 ### Phase 3: React island surfaces
 

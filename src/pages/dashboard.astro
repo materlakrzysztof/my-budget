@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase";
 import { listCategories } from "@/lib/services/categories";
 import { getMonthlyComparison } from "@/lib/services/expenses";
 import { getOrCreateUserSettings } from "@/lib/services/settings";
+import { t } from "@/i18n";
 import type { MonthlyComparison } from "@/types";
 
 const EMPTY_COMPARISON: MonthlyComparison = {
@@ -23,12 +24,12 @@ const categories = supabase && user ? await listCategories(supabase, user.id) : 
 const settings = supabase && user ? await getOrCreateUserSettings(supabase, user.id) : { currency: "USD" as const };
 ---
 
-<Layout title="Dashboard">
+<Layout title={t("meta.dashboardTitle")}>
   <div class="bg-cosmic min-h-screen p-4">
     <div class="mx-auto w-full max-w-4xl">
       <div class="mt-8 rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
         <h1 class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
-          Dashboard
+          {t("nav.dashboard")}
         </h1>
         <DashboardView comparison={comparison} currency={settings.currency} categories={categories} client:load />
       </div>

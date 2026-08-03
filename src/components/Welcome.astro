@@ -1,5 +1,5 @@
 ---
-
+import { t } from "@/i18n";
 ---
 
 <div class="bg-cosmic relative min-h-screen w-full overflow-hidden">
@@ -30,23 +30,23 @@
       <h1
         class="mb-6 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 bg-clip-text text-5xl leading-tight font-bold text-transparent sm:text-6xl lg:text-7xl"
       >
-        MyBudget
+        {t("meta.defaultTitle")}
       </h1>
       <p class="mb-10 max-w-2xl text-lg text-blue-100/70 sm:text-xl">
-        Keep every expense in view, understand where your money goes, and make your monthly budget easier to manage.
+        {t("landing.heroTagline")}
       </p>
       <div class="flex flex-col gap-4 sm:flex-row">
         <a
           href="/auth/signup"
           class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-purple-500"
         >
-          Sign up
+          {t("nav.signUp")}
         </a>
         <a
           href="/auth/signin"
           class="inline-flex items-center justify-center rounded-lg border border-white/20 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-white/10"
         >
-          Sign in
+          {t("nav.signIn")}
         </a>
       </div>
     </div>
@@ -70,9 +70,9 @@
           <path d="M12 7v10"></path>
           <path d="M15 9.5c0-1.1-1.3-2-3-2s-3 .9-3 2 1.3 2 3 2 3 .9 3 2-1.3 2-3 2-3-.9-3-2"></path>
         </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">Track every expense</h3>
+        <h3 class="mb-2 text-lg font-semibold text-white">{t("landing.featureTrackTitle")}</h3>
         <p class="text-sm leading-relaxed text-blue-100/60">
-          Log purchases as they happen and organize them into categories that make sense for your life.
+          {t("landing.featureTrackDescription")}
         </p>
       </div>
 
@@ -92,9 +92,9 @@
           <path d="M3 3v18h18"></path>
           <path d="m7 15 4-4 3 3 5-7"></path>
         </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">See your month clearly</h3>
+        <h3 class="mb-2 text-lg font-semibold text-white">{t("landing.featureClarityTitle")}</h3>
         <p class="text-sm leading-relaxed text-blue-100/60">
-          View your monthly spending total and category breakdown in one focused dashboard.
+          {t("landing.featureClarityDescription")}
         </p>
       </div>
 
@@ -115,9 +115,9 @@
           <path d="M8 12h8"></path>
           <path d="M12 8v8"></path>
         </svg>
-        <h3 class="mb-2 text-lg font-semibold text-white">Use your currency</h3>
+        <h3 class="mb-2 text-lg font-semibold text-white">{t("landing.featureCurrencyTitle")}</h3>
         <p class="text-sm leading-relaxed text-blue-100/60">
-          Set the currency you use, so every amount is displayed in the way that feels familiar.
+          {t("landing.featureCurrencyDescription")}
         </p>
       </div>
     </div>
