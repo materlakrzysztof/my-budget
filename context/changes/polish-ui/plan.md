@@ -513,9 +513,9 @@ contract changes (API error *copy* may change, but not shapes/status codes).
 
 #### Automated
 
-- [ ] 1.1 Type checking passes: `npm run build`
-- [ ] 1.2 Linting passes: `npm run lint`
-- [ ] 1.3 Unit tests pass: `npm run test` (format + i18n specs green)
+- [x] 1.1 Type checking passes: `npm run build`
+- [x] 1.2 Linting passes: `npm run lint`
+- [x] 1.3 Unit tests pass: `npm run test` (format + i18n specs green)
 
 #### Manual
 
