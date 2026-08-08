@@ -2,87 +2,30 @@
  * @10x/code-reviewer — entry point.
  *
  * A minimal, strongly-typed foundation for AI-powered code review built on the
- * Vercel AI SDK (`ai`) with the OpenRouter provider. It wires three pieces that
- * later features can build on:
+ * Vercel AI SDK (`ai`) with the OpenRouter provider. The package is split into
+ * focused modules that this barrel re-exports:
  *
- *   1. A configured OpenRouter model factory (`createReviewModel`).
- *   2. Zod schemas describing a structured review result (see `./schemas.ts`).
- *   3. `reviewCode()`, which asks a model for a schema-validated review.
+ *   - `./schemas.ts` — zod schemas describing a structured review result.
+ *   - `./prompts.ts` — system instructions and the review prompt builder.
+ *   - `./model.ts`   — the OpenRouter model factory (`createReviewModel`).
+ *   - `./agent.ts`   — the reusable `ToolLoopAgent` (`createReviewAgent`) and
+ *                      the `reviewCode()` convenience wrapper.
  *
  * Configuration is read from the environment (with per-call overrides):
  *   - OPENROUTER_API_KEY  (required) — your OpenRouter API key.
  *   - OPENROUTER_MODEL    (optional) — model id, defaults to DEFAULT_MODEL.
  */
 
-import { generateText, Output } from "ai";
-import type { LanguageModel } from "ai";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { fileURLToPath } from "node:url";
 import process from "node:process";
 
-import { reviewResultSchema } from "./schemas.ts";
-import type { ReviewResult } from "./schemas.ts";
-import { REVIEW_INSTRUCTIONS, buildReviewPrompt } from "./prompts.ts";
-import type { ReviewCodeInput } from "./prompts.ts";
+import { reviewCode } from "./agent.ts";
 
-// Re-export the extracted schema and prompt surfaces so the public API of the
-// package is unchanged by the modular split.
+// Aggregate the package's public surface.
 export * from "./schemas.ts";
 export * from "./prompts.ts";
-
-/**
- * Default OpenRouter model. Overridable via the OPENROUTER_MODEL env var or the
- * `model` option. Browse current ids at https://openrouter.ai/models.
- */
-export const DEFAULT_MODEL = "anthropic/claude-sonnet-5";
-
-/** Options for constructing the reviewer's underlying model. */
-export interface CodeReviewerConfig {
-  /** OpenRouter API key. Falls back to `process.env.OPENROUTER_API_KEY`. */
-  apiKey?: string;
-  /** Model id (e.g. "anthropic/claude-sonnet-5"). Falls back to env / DEFAULT_MODEL. */
-  model?: string;
-  /** Override the OpenRouter API base URL (rarely needed). */
-  baseURL?: string;
-}
-
-/**
- * Build a configured OpenRouter language model ready to pass to the AI SDK.
- * Throws if no API key can be resolved.
- */
-export function createReviewModel(config: CodeReviewerConfig = {}): LanguageModel {
-  const apiKey = config.apiKey ?? process.env.OPENROUTER_API_KEY;
-  if (!apiKey) {
-    throw new Error("Missing OpenRouter API key. Set OPENROUTER_API_KEY or pass { apiKey } to createReviewModel().");
-  }
-
-  const provider = createOpenRouter({
-    apiKey,
-    ...(config.baseURL ? { baseURL: config.baseURL } : {}),
-  });
-
-  return provider(config.model ?? process.env.OPENROUTER_MODEL ?? DEFAULT_MODEL);
-}
-
-/**
- * Review a snippet of code and return a schema-validated structured result.
- *
- * @example
- * const result = await reviewCode({ code, filename: "sum.ts", language: "typescript" });
- * console.log(result.summary, result.findings);
- */
-export async function reviewCode(input: ReviewCodeInput, config: CodeReviewerConfig = {}): Promise<ReviewResult> {
-  const model = createReviewModel(config);
-
-  const { output } = await generateText({
-    model,
-    system: REVIEW_INSTRUCTIONS,
-    prompt: buildReviewPrompt(input),
-    output: Output.object({ schema: reviewResultSchema }),
-  });
-
-  return output;
-}
+export * from "./model.ts";
+export * from "./agent.ts";
 
 /** Small demo used when this file is executed directly (`node src/index.ts`). */
 async function main(): Promise<void> {

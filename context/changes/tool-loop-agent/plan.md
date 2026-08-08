@@ -398,24 +398,24 @@ visible change is `scripts.start`/`scripts.dev` now pointing at `src/cli.ts`.
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
-- [x] 1.2 Barrel still exports all schema/prompt/type names
+- [x] 1.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck` — 765bf74
+- [x] 1.2 Barrel still exports all schema/prompt/type names — 765bf74
 
 #### Manual
 
-- [x] 1.3 schemas.ts / prompts.ts contain definitions verbatim (no wording/shape drift)
+- [x] 1.3 schemas.ts / prompts.ts contain definitions verbatim (no wording/shape drift) — 765bf74
 
 ### Phase 2: Model & Agent Modules
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
-- [ ] 2.2 No remaining `generateText` import under `src/`
+- [x] 2.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
+- [x] 2.2 No remaining `generateText` import under `src/`
 
 #### Manual
 
-- [ ] 2.3 reviewCode on sample snippet returns populated ReviewResult via ToolLoopAgent
-- [ ] 2.4 createReviewAgent().generate({ prompt }) returns schema-matching `{ output }`
+- [x] 2.3 reviewCode on sample snippet returns populated ReviewResult via ToolLoopAgent
+- [x] 2.4 createReviewAgent().generate({ prompt }) returns schema-matching `{ output }`
 
 ### Phase 3: Barrel & CLI
 
