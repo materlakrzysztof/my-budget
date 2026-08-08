@@ -72,7 +72,7 @@ const astroConfig = tseslint.config({
 
 export default tseslint.config(
   includeIgnoreFile(gitignorePath),
-  { ignores: [".claude/**", ".github/actions/**"] },
+  { ignores: [".claude/**", ".github/actions/**", "packages/code-reviewer/**"] },
   baseConfig,
   reactConfig,
   eslintPluginAstro.configs["flat/recommended"],
