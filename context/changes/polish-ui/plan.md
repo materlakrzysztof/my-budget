@@ -539,28 +539,28 @@ contract changes (API error *copy* may change, but not shapes/status codes).
 
 #### Automated
 
-- [x] 3.1 Type checking passes: `npm run build`
-- [x] 3.2 Linting passes: `npm run lint`
-- [x] 3.3 Unit tests pass: `npm run test`
+- [x] 3.1 Type checking passes: `npm run build` — 307e890
+- [x] 3.2 Linting passes: `npm run lint` — 307e890
+- [x] 3.3 Unit tests pass: `npm run test` — 307e890
 
 #### Manual
 
-- [x] 3.4 Dashboard, expenses, categories, settings, auth forms render in Polish
-- [x] 3.5 Client-side validation errors show Polish messages
-- [x] 3.6 A pluralized count is grammatically correct at counts 1, 3, 5
+- [x] 3.4 Dashboard, expenses, categories, settings, auth forms render in Polish — 307e890
+- [x] 3.5 Client-side validation errors show Polish messages — 307e890
+- [x] 3.6 A pluralized count is grammatically correct at counts 1, 3, 5 — 307e890
 
 ### Phase 4: Server & API user-facing messages
 
 #### Automated
 
-- [ ] 4.1 Type checking passes: `npm run build`
-- [ ] 4.2 Linting passes: `npm run lint`
-- [ ] 4.3 Unit/integration tests pass: `npm run test`
+- [x] 4.1 Type checking passes: `npm run build`
+- [x] 4.2 Linting passes: `npm run lint`
+- [x] 4.3 Unit/integration tests pass: `npm run test`
 
 #### Manual
 
-- [ ] 4.4 Forcing a save failure surfaces a Polish error message
-- [ ] 4.5 No English error string appears in any user-facing failure path
+- [x] 4.4 Forcing a save failure surfaces a Polish error message
+- [x] 4.5 No English error string appears in any user-facing failure path
 
 ### Phase 5: Test alignment
 

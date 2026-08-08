@@ -52,9 +52,7 @@ export default function CategoriesManager({ initialCategories }: CategoriesManag
         body: JSON.stringify(input),
       });
     } catch {
-      setServerError(
-        target ? "Failed to update category. Please try again." : "Failed to create category. Please try again.",
-      );
+      setServerError(target ? t("errors.updateCategoryFailed") : t("errors.createCategoryFailed"));
       return;
     }
 
@@ -65,9 +63,7 @@ export default function CategoriesManager({ initialCategories }: CategoriesManag
     }
 
     if (!response.ok) {
-      setServerError(
-        target ? "Failed to update category. Please try again." : "Failed to create category. Please try again.",
-      );
+      setServerError(target ? t("errors.updateCategoryFailed") : t("errors.createCategoryFailed"));
       return;
     }
 
@@ -81,7 +77,7 @@ export default function CategoriesManager({ initialCategories }: CategoriesManag
     try {
       response = await fetch(`/api/categories/${id}`, { method: "DELETE" });
     } catch {
-      setListError("Failed to delete category. Please try again.");
+      setListError(t("errors.deleteCategoryFailed"));
       return;
     }
 
@@ -93,7 +89,7 @@ export default function CategoriesManager({ initialCategories }: CategoriesManag
 
     // 404 = already gone (e.g. deleted in another tab); treat as success.
     if (!response.ok && response.status !== 404) {
-      setListError("Failed to delete category. Please try again.");
+      setListError(t("errors.deleteCategoryFailed"));
       return;
     }
 

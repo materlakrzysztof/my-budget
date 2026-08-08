@@ -64,7 +64,7 @@ export default function ExpensesManager({
         if (requestId !== filterRequestSeq.current) return false;
 
         if (!expensesRes.ok) {
-          setServerError("Failed to refresh expenses. Please try again.");
+          setServerError(t("errors.refreshExpensesFailed"));
           return true;
         }
 
@@ -74,7 +74,7 @@ export default function ExpensesManager({
         return true;
       } catch {
         if (requestId === filterRequestSeq.current) {
-          setServerError("Failed to refresh expenses. Please try again.");
+          setServerError(t("errors.refreshExpensesFailed"));
         }
         return true;
       }
@@ -152,7 +152,7 @@ export default function ExpensesManager({
     }
 
     if (!response.ok) {
-      setServerError("Failed to update expense. Please try again.");
+      setServerError(t("errors.updateExpenseFailed"));
       return;
     }
 
@@ -165,7 +165,7 @@ export default function ExpensesManager({
 
     const response = await fetch(`/api/expenses/${deleteTarget.id}`, { method: "DELETE" });
     if (!response.ok && response.status !== 404) {
-      setServerError("Failed to delete expense. Please try again.");
+      setServerError(t("errors.deleteExpenseFailed"));
       return;
     }
 

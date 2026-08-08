@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { t } from "@/i18n";
 import type { Category, CreateCategoryRequest, UpdateCategoryRequest } from "@/types";
 
 const UNIQUE_VIOLATION = "23505";
@@ -25,21 +26,21 @@ export const updateCategorySchema = createCategorySchema;
 
 export class DuplicateCategoryError extends Error {
   constructor(public readonly existingName: string) {
-    super(`A category named '${existingName}' already exists.`);
+    super(t("errors.duplicateCategory", { name: existingName }));
     this.name = "DuplicateCategoryError";
   }
 }
 
 export class CategoryNotFoundError extends Error {
   constructor() {
-    super("Category not found.");
+    super(t("errors.categoryNotFound"));
     this.name = "CategoryNotFoundError";
   }
 }
 
 export class CategoryInUseError extends Error {
   constructor() {
-    super("This category still has expenses and cannot be deleted.");
+    super(t("errors.categoryInUse"));
     this.name = "CategoryInUseError";
   }
 }

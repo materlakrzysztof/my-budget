@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
 import { getMonthlySummary } from "@/lib/services/expenses";
+import { t } from "@/i18n";
 import type { MonthlySummaryResponse } from "@/types";
 
 export const prerender = false;
@@ -16,7 +17,7 @@ export const GET: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   const summary = await getMonthlySummary(supabase, context.locals.user.id);

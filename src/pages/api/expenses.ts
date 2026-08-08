@@ -9,6 +9,7 @@ import {
   InvalidAmountError,
   listExpenses,
 } from "@/lib/services/expenses";
+import { t } from "@/i18n";
 import type { ExpenseResponse, ListExpensesResponse } from "@/types";
 
 export const prerender = false;
@@ -24,7 +25,7 @@ export const GET: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   // Resolve the requested category against the user's own categories, mirroring
@@ -51,7 +52,7 @@ export const POST: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   const body: unknown = await context.request.json().catch(() => null);

@@ -1,6 +1,7 @@
 import type { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { computeComparison, mergeCategoriesWithTotals, previousMonthReferenceDate } from "@/lib/comparison";
+import { t } from "@/i18n";
 import type {
   CreateExpenseRequest,
   Expense,
@@ -55,28 +56,28 @@ export const updateExpenseSchema = createExpenseSchema;
 
 export class FutureDateError extends Error {
   constructor() {
-    super("Expense date cannot be in the future.");
+    super(t("errors.futureDate"));
     this.name = "FutureDateError";
   }
 }
 
 export class InvalidAmountError extends Error {
   constructor() {
-    super("Amount must be a positive number within the supported range.");
+    super(t("errors.invalidAmount"));
     this.name = "InvalidAmountError";
   }
 }
 
 export class CategoryOwnershipError extends Error {
   constructor() {
-    super("The selected category does not belong to this user.");
+    super(t("errors.categoryOwnership"));
     this.name = "CategoryOwnershipError";
   }
 }
 
 export class ExpenseNotFoundError extends Error {
   constructor() {
-    super("Expense not found.");
+    super(t("errors.expenseNotFound"));
     this.name = "ExpenseNotFoundError";
   }
 }

@@ -41,7 +41,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       });
 
       if (!response.ok) {
-        setServerError("Failed to save currency. Please try again.");
+        setServerError(t("errors.currencySaveFailed"));
         return;
       }
 

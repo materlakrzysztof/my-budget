@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import type { CreateExpenseRequest, Expense, ExpenseResponse } from "@/types";
 
 export type CreateExpenseResult = { ok: true; expense: Expense } | { ok: false; error: string };
@@ -16,7 +17,7 @@ export function useCreateExpense() {
     }
 
     if (!response.ok) {
-      return { ok: false, error: "Failed to create expense. Please try again." };
+      return { ok: false, error: t("errors.createExpenseFailed") };
     }
 
     const { expense } = (await response.json()) as ExpenseResponse;

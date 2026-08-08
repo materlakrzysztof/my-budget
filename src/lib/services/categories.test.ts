@@ -26,7 +26,7 @@ describe("DuplicateCategoryError", () => {
   it("carries the existing category's name in its message", () => {
     const error = new DuplicateCategoryError("Food");
     expect(error.existingName).toBe("Food");
-    expect(error.message).toBe("A category named 'Food' already exists.");
+    expect(error.message).toBe("Kategoria o nazwie „Food” już istnieje.");
   });
 });
 
@@ -34,7 +34,7 @@ describe("CategoryNotFoundError", () => {
   it("has a stable name and message", () => {
     const error = new CategoryNotFoundError();
     expect(error.name).toBe("CategoryNotFoundError");
-    expect(error.message).toBe("Category not found.");
+    expect(error.message).toBe("Kategoria nie została znaleziona.");
   });
 });
 
@@ -42,7 +42,7 @@ describe("CategoryInUseError", () => {
   it("has a stable name and message", () => {
     const error = new CategoryInUseError();
     expect(error.name).toBe("CategoryInUseError");
-    expect(error.message).toBe("This category still has expenses and cannot be deleted.");
+    expect(error.message).toBe("Ta kategoria nadal ma przypisane wydatki i nie może zostać usunięta.");
   });
 });
 

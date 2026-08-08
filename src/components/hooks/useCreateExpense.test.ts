@@ -79,6 +79,6 @@ describe("useCreateExpense", () => {
     const { createExpense } = useCreateExpense();
     const result = await createExpense(validInput);
 
-    expect(result).toEqual({ ok: false, error: "Failed to create expense. Please try again." });
+    expect(result).toEqual({ ok: false, error: "Nie udało się dodać wydatku. Spróbuj ponownie." });
   });
 });

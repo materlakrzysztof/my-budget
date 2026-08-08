@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
 import { getOrCreateUserSettings, updateSettingsSchema, updateUserSettings } from "@/lib/services/settings";
+import { t } from "@/i18n";
 import type { SettingsResponse } from "@/types";
 
 export const prerender = false;
@@ -16,7 +17,7 @@ export const GET: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   const settings = await getOrCreateUserSettings(supabase, context.locals.user.id);
@@ -30,7 +31,7 @@ export const PUT: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   const body: unknown = await context.request.json().catch(() => null);
