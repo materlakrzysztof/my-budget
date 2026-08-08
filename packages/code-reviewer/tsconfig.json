@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    // --- Emit / module system: ESM tuned for Node's native TypeScript support ---
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["esnext"],
+    "outDir": "dist",
+    "rootDir": "src",
+
+    // Let source use explicit ".ts" specifiers (so `node src/index.ts` runs as-is),
+    // while `tsc` rewrites them to ".js" in the emitted output.
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+
+    // Node runs TypeScript by stripping types only — forbid syntax that would
+    // need real transformation (enums, namespaces, param properties, ...) and
+    // require explicit `import type` so nothing type-only is emitted.
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+
+    // --- Type checking ---
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+
+    // --- Interop ---
+    "types": ["node"],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts"]
+}
