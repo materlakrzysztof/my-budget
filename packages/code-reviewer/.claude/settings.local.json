@@ -2,16 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(npm -v)",
-      "Bash(npm view *)",
-      "Bash(npm install *)",
-      "Bash(node -e \"for\\(const p of ['ai','@openrouter/ai-sdk-provider','zod','typescript','@types/node']\\){console.log\\(p, require\\(p+'/package.json'\\).version\\)}\")",
-      "Bash(node -e \"const ai=require\\('ai'\\); console.log\\('generateText:',typeof ai.generateText,'| generateObject:',typeof ai.generateObject,'| Output:',typeof ai.Output, ai.Output?'keys='+Object.keys\\(ai.Output\\):''\\)\")",
-      "Bash(curl -s https://openrouter.ai/api/v1/models)",
-      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{try{const j=JSON.parse\\(d\\);const ids=j.data.map\\(m=>m.id\\).filter\\(id=>/^\\(anthropic|openai|google\\)\\\\//.test\\(id\\)\\).slice\\(0,25\\);console.log\\(ids.join\\('\\\\n'\\)\\)}catch\\(e\\){console.log\\('ERR',e.message\\)}}\\)\")",
-      "Bash(unset OPENROUTER_API_KEY)",
-      "Bash(node src/index.ts)",
-      "Bash(echo \"exit=$?\")",
-      "Bash(node --input-type=module -e \"import * as m from './src/index.ts'; console.log\\('exports:', Object.keys\\(m\\).join\\(', '\\)\\); console.log\\('DEFAULT_MODEL:', m.DEFAULT_MODEL\\); console.log\\('schema ok:', m.reviewResultSchema.safeParse\\({summary:'s',findings:[]}\\).success\\)\")"
+      "Bash(npm view *)"
     ]
   }
 }
