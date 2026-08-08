@@ -409,23 +409,23 @@ visible change is `scripts.start`/`scripts.dev` now pointing at `src/cli.ts`.
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
-- [x] 2.2 No remaining `generateText` import under `src/`
+- [x] 2.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck` — 797fdea
+- [x] 2.2 No remaining `generateText` import under `src/` — 797fdea
 
 #### Manual
 
-- [x] 2.3 reviewCode on sample snippet returns populated ReviewResult via ToolLoopAgent
-- [x] 2.4 createReviewAgent().generate({ prompt }) returns schema-matching `{ output }`
+- [x] 2.3 reviewCode on sample snippet returns populated ReviewResult via ToolLoopAgent — 797fdea
+- [x] 2.4 createReviewAgent().generate({ prompt }) returns schema-matching `{ output }` — 797fdea
 
 ### Phase 3: Barrel & CLI
 
 #### Automated
 
-- [ ] 3.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
-- [ ] 3.2 Build passes: `npm --prefix packages/code-reviewer run build`
-- [ ] 3.3 index.ts has no executable top-level statements (no `import.meta` / `main(`)
+- [x] 3.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
+- [x] 3.2 Build passes: `npm --prefix packages/code-reviewer run build`
+- [x] 3.3 index.ts has no executable top-level statements (no `import.meta` / `main(`)
 
 #### Manual
 
-- [ ] 3.4 `npm run start` runs sample review and prints JSON result
-- [ ] 3.5 Importing the barrel triggers zero import-time side effects
+- [x] 3.4 `npm run start` runs sample review and prints JSON result
+- [x] 3.5 Importing the barrel triggers zero import-time side effects
