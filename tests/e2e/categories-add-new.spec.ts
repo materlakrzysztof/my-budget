@@ -12,14 +12,14 @@ test("adding a new unique category appears in the list without a page reload", a
   const categoryName = `E2E Category ${Date.now()}`;
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Ustawienia" }).click();
   await expect(page).toHaveURL(/\/settings$/);
   await openAddCategoryDialog(page);
 
   const dialog = categoryDialog(page, "add");
-  await dialog.getByLabel("Name").fill(categoryName);
-  await dialog.getByLabel("Description").fill("Created by an e2e test");
-  await dialog.getByRole("button", { name: "Add category" }).click();
+  await dialog.getByLabel("Nazwa").fill(categoryName);
+  await dialog.getByLabel("Opis").fill("Created by an e2e test");
+  await dialog.getByRole("button", { name: "Dodaj kategorię" }).click();
 
   // Appears in place: category list updates from the same /settings page.
   await expect(page.getByText(categoryName, { exact: true })).toBeVisible();

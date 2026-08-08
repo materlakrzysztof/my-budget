@@ -11,10 +11,10 @@ test("signing up twice with the same email shows a duplicate-account error", asy
   async function signUp() {
     await page.goto("/auth/signup");
     await waitForAuthFormHydration(page);
-    await page.getByLabel("Email").fill(email);
-    await page.getByLabel("Password", { exact: true }).fill(password);
-    await page.getByLabel("Confirm password").fill(password);
-    await page.getByRole("button", { name: "Create account" }).click();
+    await page.getByLabel("E-mail").fill(email);
+    await page.getByLabel("Hasło", { exact: true }).fill(password);
+    await page.getByLabel("Powtórz hasło").fill(password);
+    await page.getByRole("button", { name: "Utwórz konto" }).click();
   }
 
   // First signup succeeds (dev-mode auto-confirm).
@@ -25,5 +25,5 @@ test("signing up twice with the same email shows a duplicate-account error", asy
   await signUp();
   await expect(page).toHaveURL(/\/auth\/signup\?error=/);
   // ServerError renders as a plain <p>, no ARIA alert role — assert via getByText.
-  await expect(page.getByText("User already registered")).toBeVisible();
+  await expect(page.getByText("Użytkownik o tym adresie e-mail już istnieje.")).toBeVisible();
 });

@@ -13,23 +13,23 @@ test("a case/whitespace variant of an existing category name is blocked with an 
   const duplicateVariant = `  ${baseName.toUpperCase()}  `;
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Ustawienia" }).click();
   await expect(page).toHaveURL(/\/settings$/);
 
   // Add the original category.
   await openAddCategoryDialog(page);
   const addDialog = categoryDialog(page, "add");
-  await addDialog.getByLabel("Name").fill(baseName);
-  await addDialog.getByLabel("Description").fill("Original category");
-  await addDialog.getByRole("button", { name: "Add category" }).click();
+  await addDialog.getByLabel("Nazwa").fill(baseName);
+  await addDialog.getByLabel("Opis").fill("Original category");
+  await addDialog.getByRole("button", { name: "Dodaj kategorię" }).click();
   await expect(page.getByText(baseName, { exact: true })).toBeVisible();
 
   // Attempt a case/whitespace variant of the same name.
   await openAddCategoryDialog(page);
   const dupDialog = categoryDialog(page, "add");
-  await dupDialog.getByLabel("Name").fill(duplicateVariant);
-  await dupDialog.getByLabel("Description").fill("Attempted duplicate");
-  await dupDialog.getByRole("button", { name: "Add category" }).click();
+  await dupDialog.getByLabel("Nazwa").fill(duplicateVariant);
+  await dupDialog.getByLabel("Opis").fill("Attempted duplicate");
+  await dupDialog.getByRole("button", { name: "Dodaj kategorię" }).click();
 
   // The duplicate error surfaces inside the still-open dialog.
   const alert = dupDialog.getByRole("alert");

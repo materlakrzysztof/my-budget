@@ -25,9 +25,9 @@ test("a freshly signed-up user's first visit to Settings shows the 8 default cat
 
   // First visit to Settings: the 8 defaults are seeded transparently when the
   // Categories section loads.
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Ustawienia" }).click();
   await expect(page).toHaveURL(/\/settings$/);
-  await expect(page.getByRole("heading", { name: "Your categories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Twoje kategorie" })).toBeVisible();
 
   for (const name of DEFAULT_CATEGORY_NAMES) {
     await expect(page.getByText(name, { exact: true })).toBeVisible();

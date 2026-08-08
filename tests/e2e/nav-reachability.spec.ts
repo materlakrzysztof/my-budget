@@ -17,32 +17,32 @@ test("authenticated user can reach every core area via nav from any protected pa
   await page.goto("/settings");
   await expect(page).toHaveURL(/\/settings$/);
   // Category management is reachable here — folded into Settings (FR-023).
-  await expect(page.getByRole("heading", { name: "Your categories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Twoje kategorie" })).toBeVisible();
 
-  await page.getByRole("link", { name: "Dashboard" }).click();
+  await page.getByRole("link", { name: "Pulpit" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Pulpit" })).toBeVisible();
 
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Ustawienia" }).click();
   await expect(page).toHaveURL(/\/settings$/);
-  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Your categories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Ustawienia" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Twoje kategorie" })).toBeVisible();
 
-  await page.getByRole("button", { name: "Add Expense" }).click();
-  await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
+  await page.getByRole("button", { name: "Dodaj wydatek" }).click();
+  await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible();
   await expect(page).toHaveURL(/\/settings$/);
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog", { name: "Add expense" })).not.toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).not.toBeVisible();
 
-  await page.getByRole("link", { name: "Expenses" }).click();
+  await page.getByRole("link", { name: "Wydatki" }).click();
   await expect(page).toHaveURL(/\/expenses$/);
 
   // Sign out from a non-Dashboard page.
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Ustawienia" }).click();
   await expect(page).toHaveURL(/\/settings$/);
-  await page.getByRole("button", { name: "Sign out" }).click();
+  await page.getByRole("button", { name: "Wyloguj się" }).click();
   await expect(page).toHaveURL("/");
-  await expect(page.getByRole("navigation").getByRole("link", { name: "Sign in" })).toBeVisible();
+  await expect(page.getByRole("navigation").getByRole("link", { name: "Zaloguj się" })).toBeVisible();
 });
 
 test("authenticated user can reach every core area via nav from any protected page (mobile)", async ({ page }) => {
@@ -55,30 +55,30 @@ test("authenticated user can reach every core area via nav from any protected pa
   await page.goto("/settings");
   await expect(page).toHaveURL(/\/settings$/);
   // Category management is reachable here — folded into Settings (FR-023).
-  await expect(page.getByRole("heading", { name: "Your categories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Twoje kategorie" })).toBeVisible();
 
-  await page.getByRole("link", { name: "Dashboard" }).click();
+  await page.getByRole("link", { name: "Pulpit" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Pulpit" })).toBeVisible();
 
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Ustawienia" }).click();
   await expect(page).toHaveURL(/\/settings$/);
-  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Your categories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Ustawienia" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Twoje kategorie" })).toBeVisible();
 
-  await page.getByRole("button", { name: "Add Expense" }).click();
-  await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
+  await page.getByRole("button", { name: "Dodaj wydatek" }).click();
+  await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible();
   await expect(page).toHaveURL(/\/settings$/);
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog", { name: "Add expense" })).not.toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).not.toBeVisible();
 
-  await page.getByRole("link", { name: "Expenses" }).click();
+  await page.getByRole("link", { name: "Wydatki" }).click();
   await expect(page).toHaveURL(/\/expenses$/);
 
   // Sign out from a non-Dashboard page.
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Ustawienia" }).click();
   await expect(page).toHaveURL(/\/settings$/);
-  await page.getByRole("button", { name: "Sign out" }).click();
+  await page.getByRole("button", { name: "Wyloguj się" }).click();
   await expect(page).toHaveURL("/");
-  await expect(page.getByRole("navigation").getByRole("link", { name: "Sign in" })).toBeVisible();
+  await expect(page.getByRole("navigation").getByRole("link", { name: "Zaloguj się" })).toBeVisible();
 });

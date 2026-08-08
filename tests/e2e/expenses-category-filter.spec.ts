@@ -15,28 +15,28 @@ test("the category picker filters the expenses list in place, clears, and presel
 
   await signUpAndSignIn(page, email, password);
   await page.goto("/expenses?action=add");
-  await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible();
 
   // Two Groceries expenses and one Transport — filtering must isolate Groceries.
-  await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Groceries" });
-  await expenseDialog(page, "add").getByLabel("Amount").fill("40.00");
-  await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  await expenseDialog(page, "add").getByLabel("Kwota").fill("40.00");
+  await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
   await expect(expenseRowFor(page, "Groceries")).toHaveCount(1);
 
-  await page.getByRole("button", { name: "Add expense", exact: true }).click();
-  await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Groceries" });
-  await expenseDialog(page, "add").getByLabel("Amount").fill("25.00");
-  await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true }).click();
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  await expenseDialog(page, "add").getByLabel("Kwota").fill("25.00");
+  await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
   await expect(expenseRowFor(page, "Groceries")).toHaveCount(2);
 
-  await page.getByRole("button", { name: "Add expense", exact: true }).click();
-  await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Transport" });
-  await expenseDialog(page, "add").getByLabel("Amount").fill("15.00");
-  await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
+  await page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true }).click();
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Transport" });
+  await expenseDialog(page, "add").getByLabel("Kwota").fill("15.00");
+  await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
   await expect(expenseRowFor(page, "Transport")).toHaveCount(1);
 
   // Filter to Groceries: list narrows in place, no reload, URL syncs.
-  await page.getByLabel("Filter by category").selectOption({ label: "Groceries" });
+  await page.getByLabel("Filtruj według kategorii").selectOption({ label: "Groceries" });
   await expect(page).toHaveURL(/\/expenses\?category=/);
   await expect(expenseRowFor(page, "Groceries")).toHaveCount(2);
   await expect(expenseRowFor(page, "Transport")).toHaveCount(0);
@@ -46,7 +46,7 @@ test("the category picker filters the expenses list in place, clears, and presel
   expect(groceriesId).toBeTruthy();
 
   // Clear back to "All categories": full list restored, URL resets.
-  await page.getByLabel("Filter by category").selectOption({ label: "All categories" });
+  await page.getByLabel("Filtruj według kategorii").selectOption({ label: "Wszystkie kategorie" });
   await expect(page).toHaveURL(/\/expenses$/);
   await expect(expenseRowFor(page, "Groceries")).toHaveCount(2);
   await expect(expenseRowFor(page, "Transport")).toHaveCount(1);
@@ -55,7 +55,7 @@ test("the category picker filters the expenses list in place, clears, and presel
   // preselects the picker to the same category (drill-down/bookmark parity).
   await page.goto(`/expenses?category=${groceriesId}`);
   await expect(page).toHaveURL(/\/expenses\?category=/);
-  await expect(page.getByLabel("Filter by category")).toHaveValue(groceriesId ?? "");
+  await expect(page.getByLabel("Filtruj według kategorii")).toHaveValue(groceriesId ?? "");
   await expect(expenseRowFor(page, "Groceries")).toHaveCount(2);
   await expect(expenseRowFor(page, "Transport")).toHaveCount(0);
 });

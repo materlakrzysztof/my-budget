@@ -38,7 +38,9 @@ const { title = t("meta.defaultTitle") } = Astro.props;
       ))
     }
     <Topbar />
-    <slot />
+    <main>
+      <slot />
+    </main>
   </body>
 </html>
 

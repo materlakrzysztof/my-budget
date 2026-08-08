@@ -21,7 +21,7 @@ test("authenticated user hitting root is redirected to dashboard", async ({ page
   await page.goto("/");
 
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Pulpit" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Wyloguj się" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "MyBudget" })).not.toBeVisible();
 });

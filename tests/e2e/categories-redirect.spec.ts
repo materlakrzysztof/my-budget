@@ -15,5 +15,5 @@ test("the old /categories route redirects to Settings, where categories are now 
   // 301), and the category manager is present there.
   await page.goto("/categories");
   await expect(page).toHaveURL(/\/settings$/);
-  await expect(page.getByRole("heading", { name: "Your categories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Twoje kategorie" })).toBeVisible();
 });
