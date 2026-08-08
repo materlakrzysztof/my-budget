@@ -14,6 +14,7 @@ import { reviewCode } from "./agent.ts";
 /** Review a small buggy sample and print the structured result as JSON. */
 async function main(): Promise<void> {
   if (!process.env.OPENROUTER_API_KEY) {
+    // eslint-disable-next-line no-console
     console.error(
       "OPENROUTER_API_KEY is not set.\n" +
         "Set it and re-run, e.g.:\n" +
@@ -39,6 +40,7 @@ async function main(): Promise<void> {
     language: "javascript",
   });
 
+  // eslint-disable-next-line no-console
   console.log(JSON.stringify(result, null, 2));
 }
 

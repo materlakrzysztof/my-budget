@@ -566,20 +566,20 @@ verification passes, this change is complete.
 
 #### Automated
 
-- [x] 1.1 Secret exists: `gh secret list` shows `OPENROUTER_API_KEY`
-- [x] 1.2 Labels exist: `gh label list` shows `ai-cr:passed`, `ai-cr:failed`, `ai-cr:review`
+- [x] 1.1 Secret exists: `gh secret list` shows `OPENROUTER_API_KEY` — 8a3792f
+- [x] 1.2 Labels exist: `gh label list` shows `ai-cr:passed`, `ai-cr:failed`, `ai-cr:review` — 8a3792f
 
 #### Manual
 
-- [x] 1.3 OpenRouter key is valid for the chosen model
+- [x] 1.3 OpenRouter key is valid for the chosen model — 8a3792f
 
 ### Phase 2: Extend `@10x/code-reviewer` with a PR-scoring path
 
 #### Automated
 
-- [ ] 2.1 Package type-checks / lints
-- [ ] 2.2 Unit tests pass
-- [ ] 2.3 Entrypoint emits valid JSON against a fixture (smoke)
+- [x] 2.1 Package type-checks / lints
+- [x] 2.2 Unit tests pass
+- [x] 2.3 Entrypoint emits valid JSON against a fixture (smoke)
 
 #### Manual
 

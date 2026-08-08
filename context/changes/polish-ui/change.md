@@ -3,9 +3,9 @@ id: polish-ui
 title: Polish UI via message-key layer
 roadmap_ref: S-11
 prd_refs: [FR-020]
-status: implementing
+status: implemented
 created: 2026-07-29
-updated: 2026-08-03
+updated: 2026-08-08
 ---
 
 # Polish UI

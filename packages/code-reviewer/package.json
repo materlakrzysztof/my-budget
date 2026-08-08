@@ -12,7 +12,10 @@
   "scripts": {
     "start": "node --env-file-if-exists=.env src/cli.ts",
     "dev": "node --env-file-if-exists=.env --watch src/cli.ts",
+    "review:pr": "node src/review-pr.ts",
     "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "vitest run",
     "build": "tsc"
   },
   "dependencies": {
@@ -22,6 +25,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
   }
 }
