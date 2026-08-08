@@ -20,6 +20,12 @@ inputs:
     description: "Override the OpenRouter model id (defaults to the package's DEFAULT_MODEL)."
     required: false
     default: ""
+  pr-checkout-path:
+    description: "Workspace-relative path to the untrusted PR checkout. Used only as a diff source — never executed."
+    required: true
+  trusted-checkout-path:
+    description: "Workspace-relative path to the trusted, pinned checkout that provides this action's own code and the @10x/code-reviewer package. Must not be attacker-controlled."
+    required: true
 
 outputs:
   verdict:
@@ -32,6 +38,7 @@ runs:
     - name: Assemble PR diff & metadata
       id: assemble
       shell: bash
+      working-directory: ${{ inputs.pr-checkout-path }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
         BASE_REF: ${{ github.event.pull_request.base.ref }}
@@ -47,13 +54,13 @@ runs:
 
     - name: Install code-reviewer dependencies
       shell: bash
-      working-directory: packages/code-reviewer
+      working-directory: ${{ inputs.trusted-checkout-path }}/packages/code-reviewer
       run: npm ci
 
     - name: Score pull request
       id: score
       shell: bash
-      working-directory: packages/code-reviewer
+      working-directory: ${{ inputs.trusted-checkout-path }}/packages/code-reviewer
       env:
         OPENROUTER_API_KEY: ${{ inputs.openrouter-api-key }}
         MODEL_OVERRIDE: ${{ inputs.model }}

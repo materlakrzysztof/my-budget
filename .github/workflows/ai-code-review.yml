@@ -21,16 +21,29 @@ jobs:
       group: ai-code-review-${{ github.event.pull_request.number }}
       cancel-in-progress: true
     steps:
+      # Untrusted: the PR's own head commit. Used only as a diff source
+      # (fetch-depth: 0 so the composite action can compute the three-dot
+      # diff against origin/<base-ref>) — never executed.
       - uses: actions/checkout@v4
         with:
-          # fetch-depth: 0 so the composite action can compute the three-dot
-          # diff against origin/<base-ref>.
           fetch-depth: 0
+          path: pr
 
-      - uses: ./.github/actions/ai-code-review
+      # Trusted: pinned to the PR's base commit, which is already-merged
+      # history the PR cannot rewrite. Provides the composite action's own
+      # code and the @10x/code-reviewer package, so a PR can never edit the
+      # logic that grades it.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: trusted
+
+      - uses: ./trusted/.github/actions/ai-code-review
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           openrouter-api-key: ${{ secrets.OPENROUTER_API_KEY }}
+          pr-checkout-path: pr
+          trusted-checkout-path: trusted
           # Mirrors the composite action's own defaults — tuning either value
           # only ever touches this workflow file, never code.
           criterion-floor: "5"

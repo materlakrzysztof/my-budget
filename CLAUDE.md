@@ -57,6 +57,8 @@ A gated `deploy` job auto-deploys to Cloudflare Workers on merge to `main` (`nee
 
 A separate workflow (`.github/workflows/ai-code-review.yml`) runs on every PR to `main` (opened, synchronize, reopened, or `ai-cr:review` labeled) via the `.github/actions/ai-code-review` composite action, which uses `@10x/code-reviewer`'s PR-scoring path (`packages/code-reviewer/src/review-pr.ts`). It scores the PR diff on six 1–10 criteria (correctness, idiomaticity, complexity, test/risk coverage, documentation, security), posts/updates a single PR comment with the scores, and applies `ai-cr:passed` (green) or `ai-cr:failed` (red) — failing if any criterion is below the per-criterion floor (advisory only; non-zero exit, not yet a required check). Requires the `OPENROUTER_API_KEY` repository secret. Add the `ai-cr:review` label to any PR to re-run the review.
 
+The workflow checks out the PR head **only** as an untrusted diff source (`path: pr`); the action's own code and the `@10x/code-reviewer` package run from a second checkout pinned to `github.event.pull_request.base.sha` (`path: trusted`), so a PR can never rewrite the logic that grades it.
+
 <!-- BEGIN @przeprogramowani/10x-cli -->
 
 ## 10xDevs AI Toolkit - Module 3, Lesson 4 (E2E Tests)

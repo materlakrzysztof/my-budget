@@ -21,3 +21,13 @@
 **Rule**: When implementing authenticated redirects in Astro frontmatter, always `return Astro.redirect(...)` to exit request handling before markup rendering.
 
 **Applies to**: All Astro page frontmatter redirect guards in `src/pages/**` where no-flash auth navigation is required.
+
+## New workspace packages under packages/* are invisible to root CI unless explicitly wired in
+
+**Context**: `eslint.config.js:75`, `vitest.config.ts:5` (`packages/code-reviewer`)
+
+**Problem**: Root lint/test explicitly exclude `packages/code-reviewer`, and the `ai-code-review` composite action only runs `npm ci` + `review:pr` — never lint or test. The package ships a real, passing test suite (`schemas.test.ts`, `prompts.test.ts`, `gate.test.mjs`) that CI never executes, so regressions in it go undetected.
+
+**Rule**: Any new `packages/*` subpackage must get its own lint+test step wired into a workflow (`ci.yml` or a dedicated job) before its tests count as CI coverage — a passing local test suite that no workflow invokes provides no regression protection.
+
+**Applies to**: `packages/**` subpackages added outside the root workspace, and any new composite action/workflow that consumes one.
