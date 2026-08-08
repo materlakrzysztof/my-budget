@@ -590,8 +590,8 @@ verification passes, this change is complete.
 
 #### Automated
 
-- [x] 3.1 Action YAML valid (`actionlint`)
-- [x] 3.2 Gate logic unit-tested via fixture (below-floor → FAIL; at/above → PASS)
+- [x] 3.1 Action YAML valid (`actionlint`) — c659f78
+- [x] 3.2 Gate logic unit-tested via fixture (below-floor → FAIL; at/above → PASS) — c659f78
 
 #### Manual
 
@@ -603,7 +603,7 @@ verification passes, this change is complete.
 
 #### Automated
 
-- [ ] 4.1 Workflow parses (`actionlint`)
+- [x] 4.1 Workflow parses (`actionlint`)
 - [ ] 4.2 `AI Code Review` check created and runs on a test PR
 
 #### Manual
