@@ -617,8 +617,8 @@ verification passes, this change is complete.
 
 #### Automated
 
-- [x] 5.1 Markdown lints/formats clean
+- [x] 5.1 Markdown lints/formats clean — 019fbd7
 
 #### Manual
 
-- [x] 5.2 CLAUDE.md CI section reflects shipped workflow, labels, secret
+- [x] 5.2 CLAUDE.md CI section reflects shipped workflow, labels, secret — 019fbd7
