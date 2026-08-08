@@ -1,0 +1,116 @@
+name: "AI Code Review"
+description: "Score a pull request with @10x/code-reviewer and gate on a per-criterion floor."
+
+inputs:
+  github-token:
+    description: "Token for the gh CLI (posting comments, reading/setting labels)."
+    required: true
+  openrouter-api-key:
+    description: "OpenRouter API key used by the review model."
+    required: true
+  criterion-floor:
+    description: "Minimum passing score (1-10) required on every criterion."
+    required: false
+    default: "5"
+  diff-max-bytes:
+    description: "Truncate the PR diff past this many bytes before scoring."
+    required: false
+    default: "200000"
+  model:
+    description: "Override the OpenRouter model id (defaults to the package's DEFAULT_MODEL)."
+    required: false
+    default: ""
+
+outputs:
+  verdict:
+    description: "PASS or FAIL"
+    value: ${{ steps.gate.outputs.verdict }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Assemble PR diff & metadata
+      id: assemble
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        BASE_REF: ${{ github.event.pull_request.base.ref }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        DIFF_MAX_BYTES: ${{ inputs.diff-max-bytes }}
+        WORKDIR: ${{ runner.temp }}/ai-code-review
+      run: bash "$GITHUB_ACTION_PATH/scripts/assemble-diff.sh"
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "24"
+
+    - name: Install code-reviewer dependencies
+      shell: bash
+      working-directory: packages/code-reviewer
+      run: npm ci
+
+    - name: Score pull request
+      id: score
+      shell: bash
+      working-directory: packages/code-reviewer
+      env:
+        OPENROUTER_API_KEY: ${{ inputs.openrouter-api-key }}
+        MODEL_OVERRIDE: ${{ inputs.model }}
+        WORKDIR: ${{ runner.temp }}/ai-code-review
+      run: |
+        set -euo pipefail
+        export PR_TITLE="$(cat "$WORKDIR/pr-title.txt")"
+        if [ -s "$WORKDIR/pr-body.txt" ]; then
+          export PR_BODY="$(cat "$WORKDIR/pr-body.txt")"
+        fi
+        export PR_DIFF_FILE="$WORKDIR/diff.txt"
+        if [ -n "$MODEL_OVERRIDE" ]; then
+          export OPENROUTER_MODEL="$MODEL_OVERRIDE"
+        fi
+        npm run review:pr --silent > "$WORKDIR/review.json"
+
+    - name: Deterministic gate
+      id: gate
+      shell: bash
+      env:
+        REVIEW_FILE: ${{ runner.temp }}/ai-code-review/review.json
+        CRITERION_FLOOR: ${{ inputs.criterion-floor }}
+      run: node "$GITHUB_ACTION_PATH/scripts/gate.mjs"
+
+    - name: Render review comment
+      shell: bash
+      env:
+        REVIEW_FILE: ${{ runner.temp }}/ai-code-review/review.json
+        COMMENT_FILE: ${{ runner.temp }}/ai-code-review/comment.md
+        VERDICT: ${{ steps.gate.outputs.verdict }}
+        CRITERION_FLOOR: ${{ inputs.criterion-floor }}
+        DIFF_TRUNCATED: ${{ steps.assemble.outputs.truncated }}
+      run: node "$GITHUB_ACTION_PATH/scripts/render-comment.mjs"
+
+    - name: Post or update review comment
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        COMMENT_FILE: ${{ runner.temp }}/ai-code-review/comment.md
+      run: bash "$GITHUB_ACTION_PATH/scripts/post-comment.sh"
+
+    - name: Apply verdict label
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        VERDICT: ${{ steps.gate.outputs.verdict }}
+      run: bash "$GITHUB_ACTION_PATH/scripts/apply-labels.sh"
+
+    - name: Set check status
+      shell: bash
+      env:
+        VERDICT: ${{ steps.gate.outputs.verdict }}
+      run: |
+        if [ "$VERDICT" = "FAIL" ]; then
+          echo "::error title=AI Code Review::Verdict FAIL — a criterion scored below the floor. See the PR comment for details."
+          exit 1
+        fi
+        echo "AI Code Review verdict: PASS"

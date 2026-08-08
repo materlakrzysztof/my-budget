@@ -17,7 +17,12 @@ import { createReviewModel } from "./model.ts";
 import type { CodeReviewerConfig } from "./model.ts";
 import { reviewResultSchema, scoredReviewSchema } from "./schemas.ts";
 import type { ReviewResult, ScoredReview } from "./schemas.ts";
-import { REVIEW_INSTRUCTIONS, buildReviewPrompt, PR_REVIEW_INSTRUCTIONS, buildPullRequestReviewPrompt } from "./prompts.ts";
+import {
+  REVIEW_INSTRUCTIONS,
+  buildReviewPrompt,
+  PR_REVIEW_INSTRUCTIONS,
+  buildPullRequestReviewPrompt,
+} from "./prompts.ts";
 import type { ReviewCodeInput, PullRequestReviewInput } from "./prompts.ts";
 
 /** Config for the review agent: model options plus an optional instruction override. */

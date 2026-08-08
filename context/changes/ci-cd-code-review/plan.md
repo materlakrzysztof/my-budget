@@ -577,21 +577,21 @@ verification passes, this change is complete.
 
 #### Automated
 
-- [x] 2.1 Package type-checks / lints
-- [x] 2.2 Unit tests pass
-- [x] 2.3 Entrypoint emits valid JSON against a fixture (smoke)
+- [x] 2.1 Package type-checks / lints — c5cfc92
+- [x] 2.2 Unit tests pass — c5cfc92
+- [x] 2.3 Entrypoint emits valid JSON against a fixture (smoke) — c5cfc92
 
 #### Manual
 
-- [ ] 2.4 Real sample PR diff produces sensible, in-range scores + summary/notes
-- [ ] 2.5 Existing `reviewCode` demo still works unchanged
+- [x] 2.4 Real sample PR diff produces sensible, in-range scores + summary/notes — c5cfc92
+- [x] 2.5 Existing `reviewCode` demo still works unchanged — c5cfc92
 
 ### Phase 3: Composite action
 
 #### Automated
 
-- [ ] 3.1 Action YAML valid (`actionlint`)
-- [ ] 3.2 Gate logic unit-tested via fixture (below-floor → FAIL; at/above → PASS)
+- [x] 3.1 Action YAML valid (`actionlint`)
+- [x] 3.2 Gate logic unit-tested via fixture (below-floor → FAIL; at/above → PASS)
 
 #### Manual
 

@@ -32,6 +32,8 @@ async function main(): Promise<void> {
   }
 
   const diff = readFileSync(prDiffFile, "utf8");
+  // An empty PR_BODY (not just unset) should also read as "no description".
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const prBody = process.env.PR_BODY || undefined;
 
   const result = await reviewPullRequest({ prTitle, prBody, diff });

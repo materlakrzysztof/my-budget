@@ -1,0 +1,12 @@
+{
+  "summary": "Fixture: every criterion at or above the floor.",
+  "scores": {
+    "correctness": 9,
+    "idiomaticity": 8,
+    "complexity": 5,
+    "testRiskCoverage": 5,
+    "documentation": 6,
+    "security": 9
+  },
+  "notes": [{ "criterion": "complexity", "comment": "A touch more abstraction than needed, but acceptable." }]
+}
