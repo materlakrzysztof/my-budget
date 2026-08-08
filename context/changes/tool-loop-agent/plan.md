@@ -421,11 +421,11 @@ visible change is `scripts.start`/`scripts.dev` now pointing at `src/cli.ts`.
 
 #### Automated
 
-- [x] 3.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
-- [x] 3.2 Build passes: `npm --prefix packages/code-reviewer run build`
-- [x] 3.3 index.ts has no executable top-level statements (no `import.meta` / `main(`)
+- [x] 3.1 Type checking passes: `npm --prefix packages/code-reviewer run typecheck` — 25da202
+- [x] 3.2 Build passes: `npm --prefix packages/code-reviewer run build` — 25da202
+- [x] 3.3 index.ts has no executable top-level statements (no `import.meta` / `main(`) — 25da202
 
 #### Manual
 
-- [x] 3.4 `npm run start` runs sample review and prints JSON result
-- [x] 3.5 Importing the barrel triggers zero import-time side effects
+- [x] 3.4 `npm run start` runs sample review and prints JSON result — 25da202
+- [x] 3.5 Importing the barrel triggers zero import-time side effects — 25da202
