@@ -566,12 +566,12 @@ contract changes (API error *copy* may change, but not shapes/status codes).
 
 #### Automated
 
-- [x] 5.1 Full unit suite passes: `npm run test` (script is `test:unit` — 67/67 green; `test:integration` has 1 pre-existing env failure unrelated to i18n: local Supabase "JWT issued at future" clock skew)
-- [x] 5.2 e2e suite passes: `npm run test:e2e`
-- [x] 5.3 Linting passes: `npm run lint`
-- [x] 5.4 Build passes: `npm run build`
+- [x] 5.1 Full unit suite passes: `npm run test` — 44f8258 (script is `test:unit` — 67/67 green; `test:integration` has 1 pre-existing env failure unrelated to i18n: local Supabase "JWT issued at future" clock skew)
+- [x] 5.2 e2e suite passes: `npm run test:e2e` — 44f8258
+- [x] 5.3 Linting passes: `npm run lint` — 44f8258
+- [x] 5.4 Build passes: `npm run build` — 44f8258
 
 #### Manual
 
 - [ ] 5.5 Full manual pass confirms no English UI copy remains on any reachable screen
-- [x] 5.6 e2e run is stable across two consecutive runs (run 1: 20 passed + 1 flaky-then-passed `auth-happy-path` — pre-existing post-signin session race, not i18n; run 2: 21/21 clean)
+- [x] 5.6 e2e run is stable across two consecutive runs — 44f8258 (run 1: 20 passed + 1 flaky-then-passed `auth-happy-path` — pre-existing post-signin session race, not i18n; run 2: 21/21 clean)
