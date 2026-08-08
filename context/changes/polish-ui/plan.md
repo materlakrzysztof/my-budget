@@ -573,5 +573,5 @@ contract changes (API error *copy* may change, but not shapes/status codes).
 
 #### Manual
 
-- [ ] 5.5 Full manual pass confirms no English UI copy remains on any reachable screen
+- [x] 5.5 Full manual pass confirms no English UI copy remains on any reachable screen — confirmed by reviewer
 - [x] 5.6 e2e run is stable across two consecutive runs — 44f8258 (run 1: 20 passed + 1 flaky-then-passed `auth-happy-path` — pre-existing post-signin session race, not i18n; run 2: 21/21 clean)
