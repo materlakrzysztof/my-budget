@@ -11,24 +11,30 @@ test("editing an expense's amount updates both the list and the summary total", 
   const password = "TestPassword123!";
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Add Expense" }).click();
+  await page.goto("/expenses?action=add");
+  await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible();
+
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Entertainment" });
+  await expenseDialog(page, "add").getByLabel("Kwota").fill("20.00");
+  await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
+  await expect(expenseRowFor(page, "Entertainment")).toContainText("20,00 USD");
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(summaryRowFor(page, "Entertainment")).toContainText("20,00 USD");
+
+  await page.goto("/expenses");
   await expect(page).toHaveURL(/\/expenses$/);
-  await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible();
 
-  await expenseDialog(page, "add").getByLabel("Category").selectOption({ label: "Entertainment" });
-  await expenseDialog(page, "add").getByLabel("Amount").fill("20.00");
-  await expenseDialog(page, "add").getByRole("button", { name: "Add expense" }).click();
-  await expect(expenseRowFor(page, "Entertainment")).toContainText("$20.00");
-  await expect(summaryRowFor(page, "Entertainment")).toContainText("$20.00");
+  await expenseRowFor(page, "Entertainment").getByRole("button", { name: "Edytuj" }).click();
+  await expenseDialog(page, "edit").getByLabel("Nazwa").fill("Movie night");
+  await expenseDialog(page, "edit").getByLabel("Kwota").fill("50.00");
+  await expenseDialog(page, "edit").getByRole("button", { name: "Zapisz zmiany" }).click();
 
-  await expenseRowFor(page, "Entertainment").getByRole("button", { name: "Edit" }).click();
-  await expenseDialog(page, "edit").getByLabel("Name").fill("Movie night");
-  await expenseDialog(page, "edit").getByLabel("Amount").fill("50.00");
-  await expenseDialog(page, "edit").getByRole("button", { name: "Save changes" }).click();
-
-  await expect(expenseRowFor(page, "Entertainment")).toContainText("$50.00");
+  await expect(expenseRowFor(page, "Entertainment")).toContainText("50,00 USD");
   await expect(expenseRowFor(page, "Entertainment")).toContainText("Movie night");
-  await expect(expenseRowFor(page, "Entertainment")).not.toContainText("$20.00");
-  await expect(summaryRowFor(page, "Entertainment")).toContainText("$50.00");
-  await expect(summaryRowFor(page, "Entertainment")).not.toContainText("$70.00");
+  await expect(expenseRowFor(page, "Entertainment")).not.toContainText("20,00 USD");
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(summaryRowFor(page, "Entertainment")).toContainText("50,00 USD");
+  await expect(summaryRowFor(page, "Entertainment")).not.toContainText("70,00 USD");
 });

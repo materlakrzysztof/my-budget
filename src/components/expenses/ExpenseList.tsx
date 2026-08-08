@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { formatAmount } from "@/lib/format";
+import { t } from "@/i18n";
 import type { Currency, Expense } from "@/types";
 
 interface ExpenseListProps {
@@ -15,7 +16,7 @@ export function ExpenseList({
   currency,
   onEdit,
   onDeleteRequest,
-  emptyMessage = "No expenses yet.",
+  emptyMessage = t("expense.emptyAll"),
 }: ExpenseListProps) {
   if (expenses.length === 0) {
     return <p className="text-sm text-blue-100/50">{emptyMessage}</p>;
@@ -45,7 +46,7 @@ export function ExpenseList({
                 onEdit(expense);
               }}
             >
-              Edit
+              {t("common.edit")}
             </Button>
             <Button
               type="button"
@@ -55,7 +56,7 @@ export function ExpenseList({
                 onDeleteRequest(expense);
               }}
             >
-              Delete
+              {t("common.delete")}
             </Button>
           </div>
         </li>

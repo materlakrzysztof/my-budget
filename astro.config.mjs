@@ -64,6 +64,11 @@ function parseDevVars(contents) {
 // https://astro.build/config
 export default defineConfig({
   output: "server",
+  // Category management moved into Settings (FR-023); permanently redirect the
+  // old standalone route so existing bookmarks and deep links keep working.
+  redirects: {
+    "/categories": "/settings",
+  },
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss(), loadCloudflareEnvDevVars()],

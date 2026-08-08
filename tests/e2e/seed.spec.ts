@@ -7,5 +7,5 @@ test("unauthenticated visit to /dashboard redirects to sign-in", async ({ page }
   await page.goto("/dashboard");
 
   await expect(page).toHaveURL(/\/auth\/signin$/);
-  await expect(page.getByRole("heading", { name: "Sign in" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Zaloguj się" })).toBeVisible();
 });

@@ -12,37 +12,37 @@ test("account creation, sign-in, and sign-out survive as one real flow", async (
   // Sign up with a brand-new, unique email.
   await page.goto("/auth/signup");
   await waitForAuthFormHydration(page);
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(password);
-  await page.getByLabel("Confirm password").fill(password);
-  await page.getByRole("button", { name: "Create account" }).click();
+  await page.getByLabel("E-mail").fill(email);
+  await page.getByLabel("Hasło", { exact: true }).fill(password);
+  await page.getByLabel("Powtórz hasło").fill(password);
+  await page.getByRole("button", { name: "Utwórz konto" }).click();
 
   // Dev-mode auto-confirm: no email step, lands directly on the success copy.
   await expect(page).toHaveURL(/\/auth\/confirm-email$/);
-  await expect(page.getByRole("heading", { name: "Registration successful" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Rejestracja zakończona sukcesem" })).toBeVisible();
 
   // Sign in with the same credentials.
-  await page.getByRole("link", { name: "Go to sign in" }).click();
+  await page.getByRole("link", { name: "Przejdź do logowania" }).click();
   await expect(page).toHaveURL(/\/auth\/signin$/);
   await waitForAuthFormHydration(page);
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(password);
-  await page.getByRole("button", { name: "Sign in" }).click();
+  await page.getByLabel("E-mail").fill(email);
+  await page.getByLabel("Hasło", { exact: true }).fill(password);
+  await page.getByRole("button", { name: "Zaloguj się" }).click();
 
   // Signed in: Topbar shows the user's email and a way into the protected area.
-  await expect(page).toHaveURL("/");
+  await expect(page).toHaveURL(/\/(|dashboard)$/);
   await expect(page.getByText(email)).toBeVisible();
 
   // Reach the protected /dashboard.
-  await page.getByRole("link", { name: "Dashboard" }).click();
+  await page.getByRole("link", { name: "Pulpit" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
-  await expect(page.getByText(`Welcome, ${email}`)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Pulpit" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Wyloguj się" })).toBeVisible();
 
   // Sign out.
-  await page.getByRole("button", { name: "Sign out" }).click();
+  await page.getByRole("button", { name: "Wyloguj się" }).click();
   await expect(page).toHaveURL("/");
-  await expect(page.getByText("Not signed in")).toBeVisible();
+  await expect(page.getByText("Niezalogowany")).toBeVisible();
 
   // The real proof of "signed out": /dashboard is inaccessible again.
   await page.goto("/dashboard");

@@ -10,6 +10,8 @@ export interface CreateCategoryRequest {
   description: string;
 }
 
+export type UpdateCategoryRequest = CreateCategoryRequest;
+
 export interface CreateCategoryResponse {
   category: Category;
 }
@@ -54,6 +56,28 @@ export interface MonthlySummaryEntry {
 
 export interface MonthlySummaryResponse {
   summary: MonthlySummaryEntry[];
+}
+
+export type ComparisonStatus = "changed" | "new" | "dropped";
+
+export interface CategoryDelta {
+  categoryId: string;
+  categoryName: string;
+  current: string;
+  previous: string;
+  changeAmount: string;
+  changePercent: number | null;
+  status: ComparisonStatus;
+  rank: number;
+}
+
+export interface MonthlyComparison {
+  currentTotal: string;
+  previousTotal: string;
+  totalChangeAmount: string;
+  totalChangePercent: number | null;
+  categories: CategoryDelta[];
+  comparisonAvailable: boolean;
 }
 
 export const CURRENCIES = ["USD", "EUR", "GBP", "PLN", "JPY", "CAD", "AUD"] as const;

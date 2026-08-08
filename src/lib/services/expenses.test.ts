@@ -1,59 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { createExpenseSchema, listExpenses, mergeCategoriesWithTotals, updateExpenseSchema } from "./expenses";
-
-describe("mergeCategoriesWithTotals", () => {
-  it("defaults a category with no matching total to 0.00", () => {
-    const result = mergeCategoriesWithTotals([{ id: "c1", name: "Groceries" }], []);
-    expect(result).toEqual([{ categoryId: "c1", categoryName: "Groceries", total: "0.00", rank: 1 }]);
-  });
-
-  it("sorts descending by numeric total", () => {
-    const result = mergeCategoriesWithTotals(
-      [
-        { id: "c1", name: "Groceries" },
-        { id: "c2", name: "Transport" },
-      ],
-      [
-        { categoryId: "c1", total: "10.00" },
-        { categoryId: "c2", total: "50.00" },
-      ],
-    );
-    expect(result.map((r) => r.categoryId)).toEqual(["c2", "c1"]);
-    expect(result.map((r) => r.rank)).toEqual([1, 2]);
-  });
-
-  it("breaks ties alphabetically by category name", () => {
-    const result = mergeCategoriesWithTotals(
-      [
-        { id: "c1", name: "Zebra" },
-        { id: "c2", name: "Apple" },
-      ],
-      [
-        { categoryId: "c1", total: "20.00" },
-        { categoryId: "c2", total: "20.00" },
-      ],
-    );
-    expect(result.map((r) => r.categoryId)).toEqual(["c2", "c1"]);
-  });
-
-  it("assigns sequential ranks after sorting", () => {
-    const result = mergeCategoriesWithTotals(
-      [
-        { id: "c1", name: "A" },
-        { id: "c2", name: "B" },
-        { id: "c3", name: "C" },
-      ],
-      [
-        { categoryId: "c1", total: "5.00" },
-        { categoryId: "c2", total: "15.00" },
-        { categoryId: "c3", total: "10.00" },
-      ],
-    );
-    expect(result.map((r) => r.rank)).toEqual([1, 2, 3]);
-    expect(result.map((r) => r.categoryId)).toEqual(["c2", "c3", "c1"]);
-  });
-});
+import { createExpenseSchema, listExpenses, updateExpenseSchema } from "./expenses";
 
 describe("listExpenses", () => {
   interface QueryBuilderMock {

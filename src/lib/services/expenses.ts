@@ -1,6 +1,16 @@
 import type { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import type { CreateExpenseRequest, Expense, MonthlySummaryEntry, UpdateExpenseRequest } from "@/types";
+import { computeComparison, mergeCategoriesWithTotals, previousMonthReferenceDate } from "@/lib/comparison";
+import { t } from "@/i18n";
+import type {
+  CreateExpenseRequest,
+  Expense,
+  MonthlyComparison,
+  MonthlySummaryEntry,
+  UpdateExpenseRequest,
+} from "@/types";
+
+export { computeComparison, mergeCategoriesWithTotals, previousMonthReferenceDate };
 
 const FUTURE_DATE_VIOLATION = "23514";
 const CATEGORY_OWNERSHIP_VIOLATION = "23503";
@@ -46,28 +56,28 @@ export const updateExpenseSchema = createExpenseSchema;
 
 export class FutureDateError extends Error {
   constructor() {
-    super("Expense date cannot be in the future.");
+    super(t("errors.futureDate"));
     this.name = "FutureDateError";
   }
 }
 
 export class InvalidAmountError extends Error {
   constructor() {
-    super("Amount must be a positive number within the supported range.");
+    super(t("errors.invalidAmount"));
     this.name = "InvalidAmountError";
   }
 }
 
 export class CategoryOwnershipError extends Error {
   constructor() {
-    super("The selected category does not belong to this user.");
+    super(t("errors.categoryOwnership"));
     this.name = "CategoryOwnershipError";
   }
 }
 
 export class ExpenseNotFoundError extends Error {
   constructor() {
-    super("Expense not found.");
+    super(t("errors.expenseNotFound"));
     this.name = "ExpenseNotFoundError";
   }
 }
@@ -189,24 +199,28 @@ export async function deleteExpense(supabase: SupabaseClient, userId: string, ex
   if (!data) throw new ExpenseNotFoundError();
 }
 
-export function mergeCategoriesWithTotals(
-  categories: { id: string; name: string }[],
-  totals: { categoryId: string; total: string }[],
-): MonthlySummaryEntry[] {
-  const totalsByCategory = new Map(totals.map((t) => [t.categoryId, t.total]));
+async function fetchMonthTotals(
+  supabase: SupabaseClient,
+  userId: string,
+  referenceDate: Date,
+): Promise<{ categoryId: string; total: string }[]> {
+  const monthStart = `${referenceDate.getUTCFullYear()}-${String(referenceDate.getUTCMonth() + 1).padStart(2, "0")}-01`;
 
-  return categories
-    .map((category) => ({
-      categoryId: category.id,
-      categoryName: category.name,
-      total: totalsByCategory.get(category.id) ?? "0.00",
-    }))
-    .sort((a, b) => {
-      const diff = Number(b.total) - Number(a.total);
-      if (diff !== 0) return diff;
-      return a.categoryName.localeCompare(b.categoryName);
-    })
-    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+  const { data, error } = await supabase
+    .from("monthly_category_summary")
+    .select("category_id, total")
+    .eq("user_id", userId)
+    .eq("month", monthStart);
+
+  if (error) throw error;
+
+  return (data as { category_id: string; total: string }[]).map((t) => ({ categoryId: t.category_id, total: t.total }));
+}
+
+async function fetchCategories(supabase: SupabaseClient, userId: string): Promise<{ id: string; name: string }[]> {
+  const { data, error } = await supabase.from("categories").select("id, name").eq("user_id", userId);
+  if (error) throw error;
+  return data;
 }
 
 export async function getMonthlySummary(
@@ -214,25 +228,29 @@ export async function getMonthlySummary(
   userId: string,
   referenceDate: Date = new Date(),
 ): Promise<MonthlySummaryEntry[]> {
-  const monthStart = `${referenceDate.getUTCFullYear()}-${String(referenceDate.getUTCMonth() + 1).padStart(2, "0")}-01`;
-
-  const [categoriesResult, totalsResult] = await Promise.all([
-    supabase.from("categories").select("id, name").eq("user_id", userId),
-    supabase
-      .from("monthly_category_summary")
-      .select("category_id, total")
-      .eq("user_id", userId)
-      .eq("month", monthStart),
+  const [categories, totals] = await Promise.all([
+    fetchCategories(supabase, userId),
+    fetchMonthTotals(supabase, userId, referenceDate),
   ]);
 
-  if (categoriesResult.error) throw categoriesResult.error;
-  if (totalsResult.error) throw totalsResult.error;
+  return mergeCategoriesWithTotals(categories, totals);
+}
 
-  const categories = categoriesResult.data as { id: string; name: string }[];
-  const totals = totalsResult.data as { category_id: string; total: string }[];
+export async function getMonthlyComparison(
+  supabase: SupabaseClient,
+  userId: string,
+  referenceDate: Date = new Date(),
+): Promise<MonthlyComparison> {
+  const previousReferenceDate = previousMonthReferenceDate(referenceDate);
 
-  return mergeCategoriesWithTotals(
-    categories,
-    totals.map((t) => ({ categoryId: t.category_id, total: t.total })),
-  );
+  const [categories, currentTotals, previousTotals] = await Promise.all([
+    fetchCategories(supabase, userId),
+    fetchMonthTotals(supabase, userId, referenceDate),
+    fetchMonthTotals(supabase, userId, previousReferenceDate),
+  ]);
+
+  const current = mergeCategoriesWithTotals(categories, currentTotals);
+  const previous = mergeCategoriesWithTotals(categories, previousTotals);
+
+  return computeComparison(current, previous);
 }

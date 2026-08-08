@@ -1,188 +1,233 @@
 ---
 project: MyBudget
-version: 1
-status: draft
-created: 2026-07-21
-updated: 2026-07-25
-prd_version: 2
+version: 2
+status: active
+created: 2026-07-27
+updated: 2026-07-30
+prd_version: 4
 main_goal: low-complexity
-top_blocker: capacity
+top_blocker: decisions
 ---
 
 # Roadmap: MyBudget
 
-> Derived from `context/foundation/prd.md` — the consolidated PRD (v3) covering both
-> the v1 MVP (S-01–S-03, all shipped, see `## Done`) and the v2 iteration (S-04+).
-> The two source PRDs are archived under `context/foundation/archive/`
-> (`prd-v1-2026-07-20.md`, `prd-v2-2026-07-23.md`) + auto-researched codebase baseline.
-> `main_goal`/`top_blocker` above reflect the latest interview (v2).
-> Edit-in-place; archive when superseded.
-> Slices below are listed in dependency order. The "At a glance" table is the index.
-> **FR/US numbering follows the consolidated `prd.md`** — a single authoritative space
-> (v1 = FR-001..FR-009, v2 = FR-010..FR-014). What were `prd-v2.md` FR-001..FR-005 map
-> to FR-010..FR-014 respectively; v2 US-01/US-02 map to US-03/US-04.
+> Derived from `context/foundation/prd.md` (v4) + auto-researched codebase baseline.
+> Supersedes the archived roadmap at `context/foundation/archive/2026-07-27-roadmap.md`.
+> This regeneration sequences **iteration 3** (dashboard, UX improvements, AI-assisted
+> entry). Everything from v1 + v2 and the `category-editing` change is shipped and
+> lives in `## Done`; PRD FR-001–FR-014 and FR-004 are therefore covered by completed
+> work, and the new slices below cover FR-015–FR-028.
+> Slices are listed in dependency order. The "At a glance" table is the index.
 
 ## Vision recap
 
-A person managing their own household budget today tracks expenses in Excel — manually entering and categorizing every line item, with no automatic analysis and no way to see where the money went without extra, tedious work. MyBudget replaces that spreadsheet with structured expense entry, categorization, and a month-end summary, removing the manual friction that's the main reason people abandon spreadsheet-based budgeting after a few weeks.
-
-**v2 update (2026-07-24):** the MVP above shipped and is in daily use by its one real user. Four gaps only became visible from that day-to-day use — no persistent nav, no way to tell expenses apart beyond amount/category/date, no drill-down from a category total to its underlying expenses, and a hardcoded USD currency. The consolidated `prd.md` (v2 iteration, FR-010–FR-014) scopes closing those four gaps; S-04 onward below cover it.
+MyBudget is a live personal expense tracker in daily use by one household budgeter. The shipped app lets the user log expenses, categorize them, set a currency, and read a flat month-end summary that ranks categories by total spend. Three gaps surfaced from real use and form this iteration: no visual monthly **dashboard** (chart, headline total, month-over-month movement), UX/navigation friction (English-only UI, no landing page, non-sticky header, category management off in its own page, no quick add, no in-page expense filter), and fully manual expense entry the user wants to speed up with AI-assisted parsing of free text.
 
 ## North star
 
-**S-04: User can reach every core area through a persistent nav menu** — this iteration's validation milestone (the smallest end-to-end slice whose success proves the value of fast post-MVP polish): no schema change, pure wiring of routes that already exist, and it closes the #1 gap named in `prd.md`'s Problem Statement (discoverability). Placed first among S-04+ as its Prerequisites (none) allow.
+**S-08: user can open a monthly dashboard showing this month's spending as a per-category chart, a headline total, and per-category totals** — it is the headline value of the iteration, it absorbs the existing flat summary, and it traces directly to the v3 primary Success Criterion and US-05.
 
-> "North star" means the smallest end-to-end slice whose successful delivery would prove the point of the current iteration — placed as early as its Prerequisites allow, because everything else only matters if this works. (v1's original north star was S-03, above — already shipped; see `## Done`.)
+> "North star" here means the smallest end-to-end, user-visible slice whose successful delivery proves the iteration was worth doing — placed as early as its prerequisites allow because the rest of the iteration only matters once the user can actually *see* their month at a glance.
 
 ## At a glance
 
-| ID   | Change ID                    | Outcome (user can …)                                                                                          | Prerequisites | PRD refs                                     | Status |
-| ---- | ---------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------- | -------------------------------------------- | ------ |
-| S-01 | `account-signin-signout`     | create an account and sign in / sign out                                                                      | —             | FR-001, FR-002                               | done   |
-| S-02 | `expense-categories`         | view default expense categories and add a new one (with a similar-name warning)                               | S-01          | FR-003, FR-005                               | done   |
-| S-03 | `log-and-summarize-expenses` | log an expense (auto or backdated date, manual category) and see it in a ranked monthly summary               | S-02          | FR-006, FR-007, FR-008, FR-009, US-01, US-02 | done   |
-| S-04 | `persistent-nav-menu`        | reach Dashboard, Expenses, Categories, and Settings through a persistent nav menu on every authenticated page | —             | FR-010, FR-014, US-03                        | done   |
-| S-05 | `expense-name-description`   | add an optional name/description when creating or editing an expense                                          | —             | FR-011, FR-014                               | done   |
-| S-06 | `category-expense-drilldown` | click a category to see the filtered list of expenses belonging to it                                         | —             | FR-012, FR-014, US-03                        | done   |
-| S-07 | `user-currency-setting`      | set a currency once in settings and have it apply to all amount display/entry going forward                   | —             | FR-013, FR-014, US-04                        | done   |
+| ID   | Change ID                   | Outcome (user can …)                                             | Prerequisites | PRD refs                | Status   |
+| ---- | --------------------------- | ---------------------------------------------------------------- | ------------- | ----------------------- | -------- |
+| S-08 | monthly-dashboard           | see a monthly dashboard: per-category chart, total, per-category | —             | FR-015, FR-016, FR-017, US-05 | done     |
+| S-09 | dashboard-month-comparison  | see current vs previous month (hidden when no history)           | S-08          | FR-018, US-05           | done     |
+| S-10 | dashboard-quick-add         | start adding an expense in one click from the dashboard          | S-08          | FR-019                  | done     |
+| S-11 | polish-ui                   | see the entire UI in Polish (message-key layer)                  | —             | FR-020                  | ready    |
+| S-12 | landing-page                | (visitor) see a public landing page; authed users go to dashboard| —             | FR-021                  | done     |
+| S-13 | sticky-nav-header           | keep the nav header visible while scrolling                      | —             | FR-022                  | done     |
+| S-14 | categories-in-settings      | manage categories from Settings (old route redirects)            | —             | FR-023                  | done     |
+| S-15 | expenses-category-filter    | filter the expenses list via an in-page category picker          | —             | FR-024                  | done     |
+| S-16 | add-expense-dialog          | add an expense through a modal/dialog                            | —             | FR-025                  | done     |
+| S-17 | ai-assisted-expense-entry   | parse free text into reviewable expenses before saving           | S-16          | FR-026, FR-027, FR-028, US-06 | blocked  |
 
-(No `## Streams` section — S-01–S-03 are one straight chain and S-04–S-07 are four mutually independent slices with no shared prerequisite chain; neither group benefits from a separate navigation view beyond the table above.)
+## Streams
+
+Navigation aid — groups items that share a Prerequisites chain. Canonical ordering still lives in the dependency graph below; this is the proposed reading order across parallel tracks.
+
+| Stream | Theme            | Chain                          | Note                                                             |
+| ------ | ---------------- | ------------------------------ | --------------------------------------------------------------- |
+| A      | Dashboard        | `S-08` → `S-09` / `S-10`       | North-star chain; S-09 and S-10 run in parallel after S-08.     |
+| B      | UX & navigation  | `S-11`, `S-12`, `S-13`, `S-14`, `S-15` | Independent quick wins — all parallel, no cross-dependencies.   |
+| C      | Assisted entry   | `S-16` → `S-17`                | S-17 blocked on AI-provider decisions; S-16 ships independently. |
 
 ## Baseline
 
-What's already in place in the codebase as of `2026-07-21` for S-01–S-03 (auto-researched
+What's already in place in the codebase as of 2026-07-27 (auto-researched + user-confirmed). Foundations below assume these are present and do NOT re-scaffold them.
 
-- user-confirmed), refreshed `2026-07-24` for S-04+.
-  The Foundations section below assumes these are present and does not re-scaffold them.
-
-* **Frontend:** present — Astro 6 SSR + React 19 islands, Tailwind 4, shadcn/ui (`src/components/ui/button.tsx`). Live and deployed. **2026-07-24 refresh:** `src/layouts/Layout.astro` renders no nav at all, and `/dashboard`, `/expenses`, `/categories` have zero `href` links between them — this is the concrete gap S-04 closes.
-* **Backend / API:** present for categories/expenses (`src/pages/api/{categories,expenses}.ts`) as of S-02/S-03; absent for settings/currency — no such endpoint exists yet (S-07 gap).
-* **Data:** present — `categories` and `expenses` tables exist (`supabase/migrations/2026072*`). **2026-07-24 refresh:** `expenses` has no name/description column (S-05 gap); no currency field exists anywhere, per-user or per-expense (S-07 gap).
-* **Auth:** present — full flow wired (`src/lib/supabase.ts`, `src/middleware.ts`, auth pages) and verified end-to-end in production (`context/deployment/deploy-plan.md`: signup → email confirmation → signin → protected `/dashboard`, live on Cloudflare Workers). Unchanged by v2.
-* **Deploy / infra:** present — Cloudflare Workers via `wrangler`, first deploy completed and verified live. CI (`.github/workflows/ci.yml`) runs lint+build+unit/integration tests+migration-safety (see `context/foundation/test-plan.md`). Auto-deploy-on-merge is wired: a gated `deploy` job publishes to Cloudflare Workers on merge to `main`, only after `ci` + `migration-safety` pass (see `## Done`).
-* **Observability:** absent — no app-level logging or error tracking beyond default `wrangler tail` log streaming. Unchanged by v2.
+- **Frontend:** present — Astro 6 SSR + React 19 islands (`src/pages`, `src/components`).
+- **Backend / API:** present — API routes under `src/pages/api/{auth,expenses,categories,settings}`.
+- **Data:** present — Supabase Postgres with 6 migrations in `supabase/migrations/`, per-user RLS.
+- **Auth:** present — Supabase SSR + `src/middleware.ts` (PROTECTED_ROUTES redirect).
+- **Deploy / infra:** present — `@astrojs/cloudflare` (Workers) + GitHub Actions CI (lint + build + migration-safety), gated deploy-on-merge.
+- **Observability:** absent — no logging/error-tracking library in `src/`. Not required by this iteration's PRD.
+- **i18n:** absent — no message-key layer today; introduced within S-11 (Polish UI), not as a standalone foundation.
 
 ## Foundations
 
-No standalone Foundations were needed for this roadmap, for either PRD version. Auth, Frontend, and Deploy/infra were already `present` per Baseline above for v1, so re-scaffolding them would have been redundant; the absent data-schema layer folded into S-02/S-03 instead of pre-building it ahead of user-facing work.
-
-**v2 update:** likewise no Foundations for S-04–S-07. All four gaps (nav, name/description, category drill-down, currency) are self-contained additive changes with no shared technical prerequisite — none needs scaffolding before another can proceed, so each folds its own minimal data/logic/UI work into its own slice.
+None for this iteration. Every application layer is already present (see `## Baseline`); the one cross-cutting technical element this iteration adds — the i18n message-key layer — is introduced inside the first slice that needs it (S-11), and the external AI dependency is introduced inside S-17. Progressive disclosure over pre-built layers.
 
 ## Slices
 
-### S-01: User can create an account and sign in / sign out
+### S-08: Monthly dashboard (chart + total + per-category)
 
-- **Outcome:** user can create an account and sign in / sign out.
-- **Change ID:** `account-signin-signout`
-- **PRD refs:** FR-001, FR-002
+- **Outcome:** user can open a monthly dashboard and see this month's spending as a per-category chart, a headline total, and per-category totals; the existing flat summary is absorbed here.
+- **Change ID:** monthly-dashboard
+- **PRD refs:** FR-015, FR-016, FR-017, US-05
+- **Prerequisites:** — (expense/category data and the current aggregation already exist)
+- **Parallel with:** S-11, S-12, S-13, S-14, S-15, S-16
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** absorbs the existing monthly summary — the dashboard's total and per-category figures must reconcile exactly with the underlying records; low risk since the aggregation already exists and is only re-presented.
+- **Status:** done
+
+### S-09: Month-over-month comparison
+
+- **Outcome:** user can see the current month's spending compared against the previous month (total, and per-category where available); the comparison is hidden when there is no prior-month history.
+- **Change ID:** dashboard-month-comparison
+- **PRD refs:** FR-018, US-05
+- **Prerequisites:** S-08
+- **Parallel with:** S-10
+- **Blockers:** —
+- **Unknowns:** — (empty-state resolved in PRD: hide when no history)
+- **Risk:** adds a prior-month aggregation; the empty state must not mislead (hidden, not shown as a zero/false drop).
+- **Status:** done
+
+### S-10: Quick add from dashboard
+
+- **Outcome:** user can start adding an expense in one click from the dashboard.
+- **Change ID:** dashboard-quick-add
+- **PRD refs:** FR-019
+- **Prerequisites:** S-08
+- **Parallel with:** S-09
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** trivial entry point; low risk. If S-16 lands first, this opens the add-expense dialog rather than a separate page.
+- **Status:** done
+
+### S-11: Polish UI
+
+- **Outcome:** user sees the entire UI in Polish; strings are served from a lightweight message-key layer (no language-switcher UI).
+- **Change ID:** polish-ui
+- **PRD refs:** FR-020
 - **Prerequisites:** —
+- **Parallel with:** S-08, S-12, S-13, S-14, S-15, S-16
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** introduces a message-key layer touching all existing views — mechanical but broad; sequencing this early lets later slices adopt keys from the start (a soft preference, not a hard prerequisite).
+- **Status:** done
+
+### S-12: Landing page
+
+- **Outcome:** an unauthenticated visitor sees a public landing page describing the app's capabilities; authenticated users are routed to the dashboard.
+- **Change ID:** landing-page
+- **PRD refs:** FR-021
+- **Prerequisites:** — (soft: the dashboard is the authed redirect target; falls back to the existing home if S-08 hasn't landed)
+- **Parallel with:** S-08, S-11, S-13, S-14, S-15, S-16
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** adds a public route + an auth-aware redirect; must not break the existing auth redirect behavior (guardrail).
+- **Status:** done
+
+### S-13: Sticky nav header
+
+- **Outcome:** the navigation header stays visible (sticky) as the user scrolls any page.
+- **Change ID:** sticky-nav-header
+- **PRD refs:** FR-022
+- **Prerequisites:** —
+- **Parallel with:** S-08, S-11, S-12, S-14, S-15, S-16
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** layout change to the shared header; low risk, must remain usable on mobile.
+- **Status:** done
+
+### S-14: Category management in Settings
+
+- **Outcome:** user manages categories (add/edit/delete) from within Settings; the old standalone category route redirects to the new location.
+- **Change ID:** categories-in-settings
+- **PRD refs:** FR-023
+- **Prerequisites:** —
+- **Parallel with:** S-08, S-11, S-12, S-13, S-15, S-16
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** relocating an existing route — a redirect must be added so current bookmarks don't break (guardrail).
+- **Status:** ready
+
+### S-15: Category filter on expenses list
+
+- **Outcome:** user filters the expenses list by choosing a category from an in-page picker.
+- **Change ID:** expenses-category-filter
+- **PRD refs:** FR-024
+- **Prerequisites:** —
+- **Parallel with:** S-08, S-11, S-12, S-13, S-14, S-16
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** builds on the existing URL-based drill-down (`?category=`); low risk, additive affordance.
+- **Status:** done
+
+### S-16: Add-expense dialog
+
+- **Outcome:** user can add an expense through a modal/dialog, unifying the entry point.
+- **Change ID:** add-expense-dialog
+- **PRD refs:** FR-025
+- **Prerequisites:** —
+- **Parallel with:** S-08, S-11, S-12, S-13, S-14, S-15
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** reworks the add-expense entry into a dialog (a pattern already used for category/expense editing); low risk. It is the prerequisite for the AI free-text mode (S-17).
+- **Status:** done
+
+### S-17: AI-assisted expense entry
+
+- **Outcome:** user switches the add-expense dialog to free-text mode, types e.g. "lidl 200zł, orlen 150zł", and reviews/adjusts/confirms one or more AI-parsed expenses (amount, description, category from existing categories) before any are saved.
+- **Change ID:** ai-assisted-expense-entry
+- **PRD refs:** FR-026, FR-027, FR-028, US-06
+- **Prerequisites:** S-16
 - **Parallel with:** —
-- **Blockers:** —
-- **Unknowns:** —
-- **Risk:** Already implemented and verified end-to-end in production (`context/deployment/deploy-plan.md`: signup → email confirmation → signin → `/dashboard`). Listed first only to preserve PRD traceability for FR-001/FR-002 — expect a confirmation pass against the PRD wording, not new build work.
-- **Status:** done
-
-### S-02: User can view and add expense categories
-
-- **Outcome:** user can view the default expense categories and add a new one with a description; the system warns if a similar name already exists.
-- **Change ID:** `expense-categories`
-- **PRD refs:** FR-003, FR-005
-- **Prerequisites:** S-01
-- **Parallel with:** —
-- **Blockers:** —
-- **Unknowns:** —
-- **Risk:** First real build slice — introduces the categories table and its RLS policy (per this repo's per-user-data convention). Sequenced before expense logging because FR-008 requires an existing category to select from when adding an expense.
-- **Status:** done
-
-### S-03: User can log an expense and see it in the monthly summary
-
-- **Outcome:** user can add an expense with an automatic (today's) or backdated date and a manually selected category, and see it reflected in a month-end summary ranked from largest to smallest category spend.
-- **Change ID:** `log-and-summarize-expenses`
-- **PRD refs:** FR-006, FR-007, FR-008, FR-009, US-01, US-02
-- **Prerequisites:** S-02
-- **Parallel with:** —
-- **Blockers:** —
-- **Unknowns:** —
-- **Risk:** This is the north star and the largest slice — it bundles FR-006/007/008/009 and both user stories because the PRD's own Primary Success Criterion and both Given/When/Then blocks treat "add expense" and "see it summarized" as one atomic outcome, not two independently valuable steps. Splitting further would be premature complexity for a 3-week solo, after-hours MVP.
-- **Status:** done
-
-### S-04: User can reach every core area through a persistent nav menu
-
-- **Outcome:** user can open a persistent nav menu from any authenticated page, linking to Dashboard, Add Expense, Categories, and Settings.
-- **Change ID:** `persistent-nav-menu`
-- **PRD refs:** FR-010, FR-014, US-03
-- **Prerequisites:** —
-- **Parallel with:** S-05, S-06, S-07
-- **Blockers:** —
-- **Unknowns:** —
-- **Risk:** North star and smallest slice here — no schema change, pure wiring of routes that already exist (`/dashboard`, `/expenses`, `/categories`). The one wrinkle: the nav's Settings destination has no real page yet until S-07 ships — land it as a minimal placeholder so the link isn't dead, and don't let this slice grow into building S-07's content early. Guardrail: must not remove or break any existing bookmarked route.
-- **Status:** done
-
-### S-05: User can add a name/description to an expense
-
-- **Outcome:** user can optionally add a name/description when creating or editing an expense.
-- **Change ID:** `expense-name-description`
-- **PRD refs:** FR-011, FR-014
-- **Prerequisites:** —
-- **Parallel with:** S-04, S-06, S-07
-- **Blockers:** —
-- **Unknowns:** —
-- **Risk:** Smallest data change here — one additive optional column, no backfill needed. Keep it optional per PRD explicitly to avoid adding friction to every entry; resist scope creep into making it required.
-- **Status:** done
-
-### S-06: User can click into a category and see its underlying expenses
-
-- **Outcome:** user can select a category (from the summary or categories page) and see the filtered list of expenses belonging to it.
-- **Change ID:** `category-expense-drilldown`
-- **PRD refs:** FR-012, FR-014, US-03
-- **Prerequisites:** —
-- **Parallel with:** S-04, S-05, S-07
-- **Blockers:** —
-- **Unknowns:** —
-- **Risk:** New route/view over existing `expenses`/`categories` tables — no schema change, just a filtered query. Guardrail: the existing monthly summary's per-category totals must keep reconciling exactly as before; verify the drill-down list's own sum matches the total already shown for that category.
-- **Status:** done
-
-### S-07: User can set a currency once and have it apply everywhere
-
-- **Outcome:** user can set their currency once in settings; all expense amounts, forms, and the monthly summary display and accept that currency going forward, with no conversion of previously logged amounts.
-- **Change ID:** `user-currency-setting`
-- **PRD refs:** FR-013, FR-014, US-04
-- **Prerequisites:** —
-- **Parallel with:** S-04, S-05, S-06
-- **Blockers:** —
-- **Unknowns:** —
-- **Risk:** Broadest touch surface of the four (every place an amount is entered or displayed) and the only one needing a new per-user settings surface. Guardrail is explicit and easy to violate by accident: relabel-only, no FX conversion of historical amounts, and the monthly summary total must still reconcile with the sum of individual expenses in the newly selected currency. Sequenced last among S-04–S-07 per the low-complexity bias (smallest slices first).
-- **Status:** done
+- **Blockers:** external AI provider not yet selected or contracted
+- **Unknowns:**
+  - Which external AI service performs the parsing + classification, and does it fit the deployment runtime's constraints? — Owner: user (with stack selection). Block: yes.
+  - Acceptable parsing accuracy for amounts / currency symbols / multi-item lines before the review step becomes a burden? — Owner: user. Block: no.
+  - Does assisted entry need any new expense data fields (assumed none)? — Owner: user. Block: no.
+- **Risk:** the only slice adding an outbound third-party dependency and a genuinely new classification rule; gated behind a mandatory review step so bad parses never persist. Blocked until the provider decision resolves.
+- **Status:** blocked
 
 ## Backlog Handoff
 
-| Roadmap ID | Change ID                    | Suggested issue title                                                             | Ready for `/10x-plan` | Notes                                                                                   |
-| ---------- | ---------------------------- | --------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------- |
-| S-01       | `account-signin-signout`     | Confirm account creation and sign-in/out cover FR-001/FR-002                      | done                  | Shipped and archived — see `## Done` below.                                             |
-| S-02       | `expense-categories`         | Build category viewing and creation with duplicate-name warning                   | done                  | Shipped and archived — see `## Done` below.                                             |
-| S-03       | `log-and-summarize-expenses` | Build expense logging (auto/backdated date + category) and ranked monthly summary | done                  | Shipped and archived — see `## Done` below.                                             |
-| S-04       | `persistent-nav-menu`        | Add a persistent nav menu (Dashboard/Expenses/Categories/Settings)                | yes                   | North star of this iteration. Run `/10x-plan persistent-nav-menu`.                      |
-| S-05       | `expense-name-description`   | Add optional name/description field to expense create/edit                        | yes                   | Independent of S-04/S-06/S-07 — can run in parallel.                                    |
-| S-06       | `category-expense-drilldown` | Add category-filtered expense list view                                           | yes                   | Independent of S-04/S-05/S-07 — can run in parallel.                                    |
-| S-07       | `user-currency-setting`      | Add per-user currency setting applied app-wide (relabel-only, no FX)              | yes                   | Independent of S-04/S-05/S-06 — can run in parallel. Needs its own settings page/route. |
+| Roadmap ID | Change ID                  | Suggested issue title                                  | Ready for `/10x-plan` | Notes                                  |
+| ---------- | -------------------------- | ------------------------------------------------------ | --------------------- | -------------------------------------- |
+| S-08       | monthly-dashboard          | Monthly dashboard: per-category chart, total, breakdown | no                    | Done — archived 2026-07-28             |
+| S-09       | dashboard-month-comparison | Dashboard: month-over-month comparison                 | no                    | Needs S-08 first                       |
+| S-10       | dashboard-quick-add        | Dashboard: one-click add expense                       | no                    | Needs S-08 first                       |
+| S-11       | polish-ui                  | Polish UI via message-key layer                        | yes                   | Run `/10x-plan polish-ui`              |
+| S-12       | landing-page               | Public landing page + authed redirect to dashboard     | no                    | Done — archived 2026-07-28             |
+| S-13       | sticky-nav-header          | Sticky navigation header                               | no                    | Done — archived 2026-07-28             |
+| S-14       | categories-in-settings     | Move category management into Settings (+ redirect)    | no                    | Done — archived 2026-07-28             |
+| S-15       | expenses-category-filter   | In-page category filter on the expenses list           | yes                   | Run `/10x-plan expenses-category-filter` |
+| S-16       | add-expense-dialog         | Add-expense modal/dialog                               | yes                   | Run `/10x-plan add-expense-dialog`     |
+| S-17       | ai-assisted-expense-entry  | AI-assisted expense entry from free text               | no                    | Blocked — resolve AI Open Questions    |
 
 ## Open Roadmap Questions
 
-_None._ Both PRD's own `## Open Questions` sections were empty ("No open questions" / "None identified at this time"), and all sequencing anchors (main goal, north star, top blocker) were locked during their respective interviews without any deferred cross-slice questions.
+1. **AI provider & data handling** — which external service performs parsing + classification, whether it fits the deployment runtime's constraints, and its data-handling / retention terms. Owner: user (with downstream stack selection). Block: S-17.
+2. **AI parsing accuracy & amount/currency formats** — how reliably free text like "lidl 200zł" is parsed (amount, currency symbol, multiple items per line) and the acceptable error rate before the review step becomes a burden. Owner: user. Block: S-17 (planning).
+3. **AI data-shape impact** — confirm assisted entry needs no new expense fields (assumed none). Owner: user. Block: S-17 (planning).
 
 ## Parked
 
-- **No automatic bank-account import** — Why parked: PRD §Non-Goals — open-banking/bank-API integration is a large, security-sensitive undertaking out of scope for the MVP.
-- **No shared/multi-user household budgets** — Why parked: PRD §Non-Goals — consistent with the flat, single-user access model; each account sees only its own data.
-- **No AI-based automatic expense categorization in v1** — Why parked: PRD §Non-Goals — deferred to v2; v1 uses manual category selection only (FR-008).
-- **No month-over-month trend analysis in v1** — Why parked: PRD §Non-Goals — deferred to v2; the monthly summary uses simple per-category sums for the current month only (FR-009).
-- **No payment reminders for upcoming bills in v1** — Why parked: PRD §Non-Goals — present in the original idea as a nice-to-have, not selected as an MVP Secondary criterion.
-- **No category editing (name/description) in v1 (FR-004, nice-to-have)** — Why parked: PRD §Non-Goals — default categories plus adding new ones cover MVP needs; demoted and deferred to v2.
-- **No CSV/Excel export in v1** — Why parked: PRD §Non-Goals — considered but dropped entirely so all effort goes to the core account/categories/expenses/summary flow.
-- **Multi-currency / FX conversion** — Why parked: `prd.md` §Non-Goals — single currency label per account, relabel-only; no exchange-rate lookups, no per-expense currency, no historical conversion.
-- **Expense search/full-text search** — Why parked: `prd.md` §Non-Goals — S-06 adds category-filtered browsing only; keyword search across name/description is out of scope.
-- **Role/permission changes** — Why parked: `prd.md` §Non-Goals — auth and access control stay exactly as they are today.
-- **Redesign of the monthly summary itself** — Why parked: `prd.md` §Non-Goals — the existing ranked category-summary view/logic is untouched; S-06 only adds a way to drill into a category's underlying expense list.
+- **No automatic bank-account import** — Why parked: PRD §Non-Goals — open-banking/bank-API integration is out of scope.
+- **No shared/multi-user household budgets** — Why parked: PRD §Non-Goals — flat single-user model.
+- **No fully automatic (unsupervised) AI categorization** — Why parked: PRD §Non-Goals — AI-assist (S-17) only ever proposes into existing categories and never saves without confirmation; unattended auto-categorization/auto-create is out of scope.
+- **No month-over-month trend analysis beyond a single previous-month comparison** — Why parked: PRD §Non-Goals — no trend lines, forecasting, or multi-month analytics.
+- **No budgets, spending limits, alerts, payment reminders, or notifications** — Why parked: PRD §Non-Goals — the app reports spend; it doesn't set targets or push.
+- **No multiple shipped languages / no language-switcher UI** — Why parked: PRD §Non-Goals — strings are key-based, but only Polish ships this iteration.
+- **No CSV/Excel export** — Why parked: PRD §Non-Goals — dropped so effort goes to the core flow.
+- **No multi-currency / FX conversion** — Why parked: PRD §Non-Goals — single currency label per user, relabel-only.
+- **No expense keyword/full-text search** — Why parked: PRD §Non-Goals — category-filtered browsing only.
+- **No role/permission changes** — Why parked: PRD §Non-Goals — auth stays flat.
 
 ## Done
 
@@ -193,4 +238,13 @@ _None._ Both PRD's own `## Open Questions` sections were empty ("No open questio
 - **S-07: User can set a currency once and have it apply everywhere** — Archived 2026-07-25 → `context/archive/2026-07-24-user-currency-setting/`. Lesson: —.
 - **S-05: User can add a name/description to an expense** — Archived 2026-07-25 → `context/archive/2026-07-24-expense-name-description/`. Lesson: —.
 - **S-04: User can reach every core area through a persistent nav menu** — Archived 2026-07-25 → `context/archive/2026-07-24-persistent-nav-menu/`. Lesson: —.
-- **Infra: CI auto-deploy-on-merge to Cloudflare Workers** — 2026-07-25 → `context/changes/deploy-on-merge/`. Gated `deploy` job in `.github/workflows/ci.yml` publishes on merge to `main` after `ci` + `migration-safety` pass. Promoted out of `## Parked` (was: not tied to any PRD FR; deferred behind the low-complexity sequencing goal, now expired). Lesson: —.
+- **FR-004: User can edit a category's name/description and delete a category** — Archived 2026-07-27 → `context/archive/2026-07-26-category-editing/`. Promoted out of `## Parked` (was: nice-to-have deferred to v2). Lesson: —.
+- **Infra: CI auto-deploy-on-merge to Cloudflare Workers** — 2026-07-25 → `context/changes/deploy-on-merge/`. Gated `deploy` job in `.github/workflows/ci.yml` publishes on merge to `main` after `ci` + `migration-safety` pass. Lesson: —.
+- **S-09: user can see the current month's spending compared against the previous month (total, and per-category where available); the comparison is hidden when there is no prior-month history.** — Archived 2026-07-30 → `context/archive/2026-07-29-dashboard-month-comparison/`. Lesson: —.
+- **S-10: user can start adding an expense in one click from the dashboard.** — Archived 2026-07-30 → `context/archive/2026-07-29-dashboard-quick-add/`. Lesson: —.
+- **S-15: user filters the expenses list by choosing a category from an in-page picker.** — Archived 2026-07-30 → `context/archive/2026-07-29-expenses-category-filter/`. Lesson: —.
+- **S-14: user manages categories (add/edit/delete) from within Settings; the old standalone category route redirects to the new location.** — Archived 2026-07-28 → `context/archive/2026-07-27-categories-in-settings/`. Lesson: —.
+- **S-08: user can open a monthly dashboard and see this month's spending as a per-category chart, a headline total, and per-category totals; the existing flat summary is absorbed here.** — Archived 2026-07-28 → `context/archive/2026-07-27-monthly-dashboard/`. Lesson: —.
+- **S-12: an unauthenticated visitor sees a public landing page describing app capabilities; authenticated users visiting `/` are redirected to `/dashboard`.** — Archived 2026-07-28 → `context/archive/2026-07-28-landing-page/`. Lesson: redirect guards must exit before rendering page markup.
+- **S-13: navigation header stays pinned to the top while scrolling on all pages, preserving readability and dialog layering.** — Archived 2026-07-28 → `context/archive/2026-07-28-sticky-nav-header/`. Lesson: —.
+- **S-16: user can add an expense through a modal/dialog, unifying the entry point.** — Archived 2026-07-30 → `context/archive/2026-07-29-add-expense-dialog/`. Lesson: —.

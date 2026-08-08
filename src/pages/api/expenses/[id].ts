@@ -9,6 +9,7 @@ import {
   updateExpense,
   updateExpenseSchema,
 } from "@/lib/services/expenses";
+import { t } from "@/i18n";
 import type { ExpenseResponse } from "@/types";
 
 export const prerender = false;
@@ -24,7 +25,7 @@ export const PATCH: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   const body: unknown = await context.request.json().catch(() => null);
@@ -57,7 +58,7 @@ export const DELETE: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   try {

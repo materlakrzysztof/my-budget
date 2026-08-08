@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,23 +10,17 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ExpenseList } from "@/components/expenses/ExpenseList";
-import { ExpenseFormDialog } from "@/components/expenses/ExpenseFormDialog";
-import { MonthlySummary } from "@/components/expenses/MonthlySummary";
-import type {
-  Category,
-  CreateExpenseRequest,
-  Currency,
-  Expense,
-  ListExpensesResponse,
-  MonthlySummaryEntry,
-  MonthlySummaryResponse,
-} from "@/types";
+import { ExpenseFormDialog, fieldClassName } from "@/components/expenses/ExpenseFormDialog";
+import { useCreateExpense } from "@/components/hooks/useCreateExpense";
+import { onExpenseCreated } from "@/lib/expense-events";
+import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
+import type { Category, CreateExpenseRequest, Currency, Expense, ListExpensesResponse } from "@/types";
 
 interface ExpensesManagerProps {
   categories: Category[];
   initialExpenses: Expense[];
-  initialSummary: MonthlySummaryEntry[];
-  categoryFilter: Category | null;
+  initialCategoryId: string | null;
   currency: Currency;
   autoOpenAdd?: boolean;
 }
@@ -35,18 +30,19 @@ type DialogMode = "closed" | "add" | "edit";
 export default function ExpensesManager({
   categories,
   initialExpenses,
-  initialSummary,
-  categoryFilter,
+  initialCategoryId,
   currency,
   autoOpenAdd,
 }: ExpensesManagerProps) {
   const [expenses, setExpenses] = useState<Expense[]>(initialExpenses);
-  const [summary, setSummary] = useState<MonthlySummaryEntry[]>(initialSummary);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(initialCategoryId);
   const [dialogMode, setDialogMode] = useState<DialogMode>("closed");
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
   const hasAutoOpened = useRef(false);
+  const filterRequestSeq = useRef(0);
+  const { createExpense } = useCreateExpense();
 
   useEffect(() => {
     if (autoOpenAdd && !hasAutoOpened.current) {
@@ -58,20 +54,46 @@ export default function ExpensesManager({
     }
   }, [autoOpenAdd]);
 
-  async function refresh() {
-    const expensesUrl = categoryFilter
-      ? `/api/expenses?category=${encodeURIComponent(categoryFilter.id)}`
-      : "/api/expenses";
-    const [expensesRes, summaryRes] = await Promise.all([fetch(expensesUrl), fetch("/api/expenses/summary")]);
+  const refresh = useCallback(
+    async (categoryId: string | null = selectedCategoryId): Promise<boolean> => {
+      const requestId = ++filterRequestSeq.current;
+      const expensesUrl = categoryId ? `/api/expenses?category=${encodeURIComponent(categoryId)}` : "/api/expenses";
 
-    if (expensesRes.ok) {
-      const { expenses: nextExpenses } = (await expensesRes.json()) as ListExpensesResponse;
-      setExpenses(nextExpenses);
-    }
+      try {
+        const expensesRes = await fetch(expensesUrl);
+        if (requestId !== filterRequestSeq.current) return false;
 
-    if (summaryRes.ok) {
-      const { summary: nextSummary } = (await summaryRes.json()) as MonthlySummaryResponse;
-      setSummary(nextSummary);
+        if (!expensesRes.ok) {
+          setServerError(t("errors.refreshExpensesFailed"));
+          return true;
+        }
+
+        const { expenses: nextExpenses } = (await expensesRes.json()) as ListExpensesResponse;
+        setExpenses(nextExpenses);
+        setServerError(null);
+        return true;
+      } catch {
+        if (requestId === filterRequestSeq.current) {
+          setServerError(t("errors.refreshExpensesFailed"));
+        }
+        return true;
+      }
+    },
+    [selectedCategoryId],
+  );
+
+  useEffect(() => {
+    return onExpenseCreated(() => {
+      void refresh();
+    });
+  }, [refresh]);
+
+  async function handleCategoryFilterChange(e: ChangeEvent<HTMLSelectElement>) {
+    const nextId = e.target.value || null;
+    setSelectedCategoryId(nextId);
+    const applied = await refresh(nextId);
+    if (applied) {
+      window.history.replaceState(null, "", nextId ? `/expenses?category=${encodeURIComponent(nextId)}` : "/expenses");
     }
   }
 
@@ -105,11 +127,20 @@ export default function ExpensesManager({
 
   async function handleFormSubmit(input: CreateExpenseRequest) {
     const target = dialogMode === "edit" ? editingExpense : null;
-    const url = target ? `/api/expenses/${target.id}` : "/api/expenses";
-    const method = target ? "PATCH" : "POST";
 
-    const response = await fetch(url, {
-      method,
+    if (!target) {
+      const result = await createExpense(input);
+      if (!result.ok) {
+        setServerError(result.error);
+        return;
+      }
+      closeFormDialog();
+      await refresh();
+      return;
+    }
+
+    const response = await fetch(`/api/expenses/${target.id}`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
     });
@@ -121,9 +152,7 @@ export default function ExpensesManager({
     }
 
     if (!response.ok) {
-      setServerError(
-        target ? "Failed to update expense. Please try again." : "Failed to create expense. Please try again.",
-      );
+      setServerError(t("errors.updateExpenseFailed"));
       return;
     }
 
@@ -136,7 +165,7 @@ export default function ExpensesManager({
 
     const response = await fetch(`/api/expenses/${deleteTarget.id}`, { method: "DELETE" });
     if (!response.ok && response.status !== 404) {
-      setServerError("Failed to delete expense. Please try again.");
+      setServerError(t("errors.deleteExpenseFailed"));
       return;
     }
 
@@ -147,37 +176,53 @@ export default function ExpensesManager({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="mb-3 text-lg font-semibold text-white">This month&apos;s summary</h2>
-        <MonthlySummary entries={summary} currency={currency} />
-      </div>
-
-      <div>
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">Expenses</h2>
+          <h2 className="text-lg font-semibold text-white">{t("nav.expenses")}</h2>
           <Button
             type="button"
             onClick={openAddDialog}
             className="rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-500"
           >
-            Add expense
+            {t("expense.addButton")}
           </Button>
         </div>
-        {categoryFilter && (
-          <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-blue-100/80">
-            <span>
-              Filtered by: <span className="font-medium text-white">{categoryFilter.name}</span>
-            </span>
-            <a href="/expenses" className="font-medium text-purple-300 underline-offset-2 hover:underline">
-              Clear filter
-            </a>
-          </div>
+        {serverError && dialogMode === "closed" && !deleteTarget && (
+          <p
+            role="alert"
+            className="mb-3 flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-900/30 px-3 py-2 text-sm text-red-300"
+          >
+            {serverError}
+          </p>
         )}
+        <div className="mb-3">
+          <label htmlFor="expense-category-filter" className="mb-1 block text-sm text-blue-100/80">
+            {t("expense.filterByCategory")}
+          </label>
+          <select
+            id="expense-category-filter"
+            value={selectedCategoryId ?? ""}
+            onChange={handleCategoryFilterChange}
+            className={cn(
+              "h-9 w-full max-w-xs rounded-md border px-3 py-1 text-base shadow-xs outline-none",
+              fieldClassName,
+            )}
+          >
+            <option value="" className="text-black">
+              {t("expense.allCategories")}
+            </option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id} className="text-black">
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <ExpenseList
           expenses={expenses}
           currency={currency}
           onEdit={openEditDialog}
           onDeleteRequest={openDeleteDialog}
-          emptyMessage={categoryFilter ? "No expenses in this category." : "No expenses yet."}
+          emptyMessage={selectedCategoryId != null ? t("expense.emptyFiltered") : t("expense.emptyAll")}
         />
       </div>
 
@@ -200,10 +245,8 @@ export default function ExpensesManager({
       >
         <DialogContent className="border-white/10 bg-slate-900 text-white">
           <DialogHeader>
-            <DialogTitle className="text-white">Delete expense</DialogTitle>
-            <DialogDescription className="text-blue-100/70">
-              Are you sure you want to delete this expense? This cannot be undone.
-            </DialogDescription>
+            <DialogTitle className="text-white">{t("expense.deleteDialogTitle")}</DialogTitle>
+            <DialogDescription className="text-blue-100/70">{t("expense.deleteDialogDescription")}</DialogDescription>
           </DialogHeader>
           {serverError && (
             <p
@@ -220,10 +263,10 @@ export default function ExpensesManager({
               className="border-white/20 bg-white/10 text-white hover:bg-white/20"
               onClick={closeDeleteDialog}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button type="button" variant="destructive" onClick={handleConfirmDelete}>
-              Delete
+              {t("common.delete")}
             </Button>
           </DialogFooter>
         </DialogContent>

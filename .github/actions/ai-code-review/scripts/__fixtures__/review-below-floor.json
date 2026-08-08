@@ -1,0 +1,12 @@
+{
+  "summary": "Fixture: one criterion below the floor.",
+  "scores": {
+    "correctness": 8,
+    "idiomaticity": 7,
+    "complexity": 6,
+    "testRiskCoverage": 4,
+    "documentation": 7,
+    "security": 8
+  },
+  "notes": [{ "criterion": "testRiskCoverage", "comment": "Risky path is untested." }]
+}

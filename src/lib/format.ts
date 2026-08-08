@@ -1,7 +1,7 @@
 import type { Currency } from "@/types";
 
 export function formatAmount(amount: string, currency: Currency): string {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("pl-PL", {
     style: "currency",
     currency,
     minimumFractionDigits: 2,

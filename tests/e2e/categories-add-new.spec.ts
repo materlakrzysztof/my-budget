@@ -1,9 +1,10 @@
 // risk: expense-categories plan.md Phase 4 #2 — FR-005 happy path: a new,
 // unique category is added via the CategoriesManager island and appears in
-// the list immediately, without a page reload.
+// the list immediately, without a page reload. As of FR-023 the manager lives
+// in the Categories section of Settings, reached via the Settings nav link.
 // seed: tests/e2e/seed.spec.ts
 import { test, expect } from "@playwright/test";
-import { signUpAndSignIn, waitForCategoriesFormHydration } from "./helpers";
+import { signUpAndSignIn, openAddCategoryDialog, categoryDialog } from "./helpers";
 
 test("adding a new unique category appears in the list without a page reload", async ({ page }) => {
   const email = `e2e-cat-add-${Date.now()}@example.com`;
@@ -11,18 +12,19 @@ test("adding a new unique category appears in the list without a page reload", a
   const categoryName = `E2E Category ${Date.now()}`;
 
   await signUpAndSignIn(page, email, password);
-  await page.getByRole("link", { name: "Categories" }).click();
-  await expect(page).toHaveURL(/\/categories$/);
-  await waitForCategoriesFormHydration(page);
+  await page.getByRole("link", { name: "Ustawienia" }).click();
+  await expect(page).toHaveURL(/\/settings$/);
+  await openAddCategoryDialog(page);
 
-  await page.getByLabel("Name").fill(categoryName);
-  await page.getByLabel("Description").fill("Created by an e2e test");
-  await page.getByRole("button", { name: "Add category" }).click();
+  const dialog = categoryDialog(page, "add");
+  await dialog.getByLabel("Nazwa").fill(categoryName);
+  await dialog.getByLabel("Opis").fill("Created by an e2e test");
+  await dialog.getByRole("button", { name: "Dodaj kategorię" }).click();
 
-  // Appears in place: category list updates from the same /categories page.
+  // Appears in place: category list updates from the same /settings page.
   await expect(page.getByText(categoryName, { exact: true })).toBeVisible();
-  await expect(page).toHaveURL(/\/categories(\?.*)?$/);
+  await expect(page).toHaveURL(/\/settings(\?.*)?$/);
 
-  // Form clears on success, ready for the next entry.
-  await expect(page.getByLabel("Name")).toHaveValue("");
+  // Dialog closes on success, ready for the next action.
+  await expect(dialog).toBeHidden();
 });

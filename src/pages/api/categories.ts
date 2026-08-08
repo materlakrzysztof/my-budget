@@ -6,6 +6,7 @@ import {
   DuplicateCategoryError,
   listCategories,
 } from "@/lib/services/categories";
+import { t } from "@/i18n";
 import type { CreateCategoryResponse, ListCategoriesResponse } from "@/types";
 
 export const prerender = false;
@@ -21,7 +22,7 @@ export const GET: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   const categories = await listCategories(supabase, context.locals.user.id);
@@ -35,7 +36,7 @@ export const POST: APIRoute = async (context) => {
 
   const supabase = createClient(context.request.headers, context.cookies);
   if (!supabase) {
-    return json({ error: "Supabase is not configured" }, 500);
+    return json({ error: t("errors.supabaseNotConfigured") }, 500);
   }
 
   const body: unknown = await context.request.json().catch(() => null);

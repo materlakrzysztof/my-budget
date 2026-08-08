@@ -49,9 +49,14 @@ describe("row-level security is enabled", () => {
 });
 
 describe("expected policies exist by name", () => {
-  it("categories has select_own and insert_own", async () => {
+  it("categories has select_own, insert_own, update_own, delete_own", async () => {
     expect(await policyNames("categories")).toEqual(
-      expect.arrayContaining(["categories_select_own", "categories_insert_own"]),
+      expect.arrayContaining([
+        "categories_select_own",
+        "categories_insert_own",
+        "categories_update_own",
+        "categories_delete_own",
+      ]),
     );
   });
 

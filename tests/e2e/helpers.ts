@@ -12,8 +12,8 @@ import { expect } from "@playwright/test";
  */
 
 export async function waitForAuthFormHydration(page: Page) {
-  const toggle = page.getByRole("button", { name: "Show password" }).first();
-  const hydratedMarker = page.getByRole("button", { name: "Hide password" });
+  const toggle = page.getByRole("button", { name: "Pokaż hasło" }).first();
+  const hydratedMarker = page.getByRole("button", { name: "Ukryj hasło" });
 
   // ~10s total budget: wide enough to absorb CI/local resource contention
   // (observed to flake at a 5s budget when other CPU-heavy tasks ran
@@ -33,27 +33,30 @@ export async function waitForAuthFormHydration(page: Page) {
 }
 
 /**
- * Unlike the auth forms' password toggle, the add-category form's submit
- * button is a real type="submit" inside a plain <form> with no method or
- * action — before hydration a click falls through to a *native* submit
- * (GET to the same URL), reloading the page. A retry-click probe like
- * `waitForAuthFormHydration` would therefore risk repeated full page
- * reloads under load. Instead, wait for the network to go idle (the
- * island's hydration script has loaded and run by then), then confirm
- * interactivity with a non-submitting check: a value typed into the Name
- * field must survive — an unhydrated island would otherwise overwrite it
- * back to "" on its first client-side render.
+ * The categories page's "Add category" button is a plain onClick handler
+ * inside the CategoriesManager island (client:load) — before hydration a click
+ * is a silent no-op, the same SSR/islands race waitForAuthFormHydration guards
+ * against. Retrying the click until the Add-category dialog actually opens both
+ * proves hydration and leaves the dialog open, ready for the caller to fill in
+ * the fields. Mirrors openAddExpenseDialog.
  */
-export async function waitForCategoriesFormHydration(page: Page) {
+export async function openAddCategoryDialog(page: Page) {
   await page.waitForLoadState("networkidle");
+  const addButton = page.getByRole("button", { name: "Dodaj kategorię" });
 
-  const nameInput = page.getByLabel("Name");
-  const probe = "hydration-probe";
   await expect(async () => {
-    await nameInput.fill(probe);
-    await expect(nameInput).toHaveValue(probe);
+    await addButton.click();
+    await expect(page.getByRole("dialog", { name: "Dodaj kategorię" })).toBeVisible({ timeout: 250 });
   }).toPass({ timeout: 5000 });
-  await nameInput.fill("");
+}
+
+/**
+ * Scopes to the add/edit category dialog by its title. This disambiguates the
+ * dialog's own submit button (labeled "Dodaj kategorię" in add mode) from the
+ * page-level button of the same name that opens the dialog in the first place.
+ */
+export function categoryDialog(page: Page, mode: "add" | "edit") {
+  return page.getByRole("dialog", { name: mode === "add" ? "Dodaj kategorię" : "Edytuj kategorię" });
 }
 
 /**
@@ -64,19 +67,19 @@ export async function waitForCategoriesFormHydration(page: Page) {
 export async function signUpAndSignIn(page: Page, email: string, password: string) {
   await page.goto("/auth/signup");
   await waitForAuthFormHydration(page);
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(password);
-  await page.getByLabel("Confirm password").fill(password);
-  await page.getByRole("button", { name: "Create account" }).click();
+  await page.getByLabel("E-mail").fill(email);
+  await page.getByLabel("Hasło", { exact: true }).fill(password);
+  await page.getByLabel("Powtórz hasło").fill(password);
+  await page.getByRole("button", { name: "Utwórz konto" }).click();
 
   await expect(page).toHaveURL(/\/auth\/confirm-email$/);
-  await page.getByRole("link", { name: "Go to sign in" }).click();
+  await page.getByRole("link", { name: "Przejdź do logowania" }).click();
   await expect(page).toHaveURL(/\/auth\/signin$/);
   await waitForAuthFormHydration(page);
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password", { exact: true }).fill(password);
-  await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page).toHaveURL("/");
+  await page.getByLabel("E-mail").fill(email);
+  await page.getByLabel("Hasło", { exact: true }).fill(password);
+  await page.getByRole("button", { name: "Zaloguj się" }).click();
+  await expect(page).toHaveURL(/\/(|dashboard)$/);
 }
 
 /**
@@ -89,21 +92,24 @@ export async function signUpAndSignIn(page: Page, email: string, password: strin
  */
 export async function openAddExpenseDialog(page: Page) {
   await page.waitForLoadState("networkidle");
-  const addButton = page.getByRole("button", { name: "Add expense" });
+  // The page-level trigger shares its accessible name ("Dodaj wydatek") with
+  // the Topbar's global add-expense button, so scope to the <main> landmark to
+  // pick the in-page one (the dialog's own submit button is portaled to <body>).
+  const addButton = page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true });
 
   await expect(async () => {
     await addButton.click();
-    await expect(page.getByRole("dialog", { name: "Add expense" })).toBeVisible({ timeout: 250 });
+    await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible({ timeout: 250 });
   }).toPass({ timeout: 5000 });
 }
 
 /**
  * Scopes to the add/edit expense dialog by its title. This disambiguates the
- * dialog's own submit button (labeled "Add expense" in add mode) from the
+ * dialog's own submit button (labeled "Dodaj wydatek" in add mode) from the
  * page-level button of the same name that opens the dialog in the first place.
  */
 export function expenseDialog(page: Page, mode: "add" | "edit") {
-  return page.getByRole("dialog", { name: mode === "add" ? "Add expense" : "Edit expense" });
+  return page.getByRole("dialog", { name: mode === "add" ? "Dodaj wydatek" : "Edytuj wydatek" });
 }
 
 /**

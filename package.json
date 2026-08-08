@@ -44,8 +44,10 @@
   "devDependencies": {
     "@eslint/compat": "^2.0.3",
     "@eslint/js": "^9.29.0",
+    "@openrouter/ai-sdk-provider": "^3.0.0",
     "@playwright/test": "^1.61.1",
     "@types/pg": "^8.20.0",
+    "ai": "^7.0.55",
     "cross-env": "^10.1.0",
     "dependency-cruiser": "^18.1.0",
     "eslint": "^9.29.0",
