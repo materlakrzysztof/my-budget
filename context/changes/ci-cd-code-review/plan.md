@@ -595,23 +595,23 @@ verification passes, this change is complete.
 
 #### Manual
 
-- [ ] 3.3 End-to-end scratch PR: scored comment, correct label, in-place update
-- [ ] 3.4 Truncation note appears for large diff
-- [ ] 3.5 Transport error surfaces distinctly from FAIL verdict
+- [x] 3.3 End-to-end scratch PR: scored comment, correct label, in-place update
+- [x] 3.4 Truncation note appears for large diff
+- [x] 3.5 Transport error surfaces distinctly from FAIL verdict
 
 ### Phase 4: Workflow wiring
 
 #### Automated
 
-- [x] 4.1 Workflow parses (`actionlint`)
-- [ ] 4.2 `AI Code Review` check created and runs on a test PR
+- [x] 4.1 Workflow parses (`actionlint`) — 641e48b
+- [x] 4.2 `AI Code Review` check created and runs on a test PR
 
 #### Manual
 
-- [ ] 4.3 New PR to `main` runs, comments, labels, sets check status
-- [ ] 4.4 `ai-cr:review` re-runs; other labels do not
-- [ ] 4.5 `synchronize` re-runs and updates the same comment
-- [ ] 4.6 `ci.yml` jobs unaffected by label events
+- [x] 4.3 New PR to `main` runs, comments, labels, sets check status
+- [x] 4.4 `ai-cr:review` re-runs; other labels do not
+- [x] 4.5 `synchronize` re-runs and updates the same comment
+- [x] 4.6 `ci.yml` jobs unaffected by label events
 
 ### Phase 5: Docs reconciliation
 
