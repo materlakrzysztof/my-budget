@@ -3,7 +3,7 @@ project: MyBudget
 version: 2
 status: active
 created: 2026-07-27
-updated: 2026-07-30
+updated: 2026-08-09
 prd_version: 4
 main_goal: low-complexity
 top_blocker: decisions
@@ -248,3 +248,4 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **S-12: an unauthenticated visitor sees a public landing page describing app capabilities; authenticated users visiting `/` are redirected to `/dashboard`.** — Archived 2026-07-28 → `context/archive/2026-07-28-landing-page/`. Lesson: redirect guards must exit before rendering page markup.
 - **S-13: navigation header stays pinned to the top while scrolling on all pages, preserving readability and dialog layering.** — Archived 2026-07-28 → `context/archive/2026-07-28-sticky-nav-header/`. Lesson: —.
 - **S-16: user can add an expense through a modal/dialog, unifying the entry point.** — Archived 2026-07-30 → `context/archive/2026-07-29-add-expense-dialog/`. Lesson: —.
+- **S-11: user sees the entire UI in Polish; strings are served from a lightweight message-key layer (no language-switcher UI).** — Archived 2026-08-09 → `context/archive/2026-07-29-polish-ui/`. Lesson: —.
