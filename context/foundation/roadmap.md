@@ -3,7 +3,7 @@ project: MyBudget
 version: 2
 status: active
 created: 2026-07-27
-updated: 2026-07-30
+updated: 2026-08-09
 prd_version: 4
 main_goal: low-complexity
 top_blocker: decisions
@@ -36,7 +36,7 @@ MyBudget is a live personal expense tracker in daily use by one household budget
 | S-08 | monthly-dashboard           | see a monthly dashboard: per-category chart, total, per-category | —             | FR-015, FR-016, FR-017, US-05 | done     |
 | S-09 | dashboard-month-comparison  | see current vs previous month (hidden when no history)           | S-08          | FR-018, US-05           | done     |
 | S-10 | dashboard-quick-add         | start adding an expense in one click from the dashboard          | S-08          | FR-019                  | done     |
-| S-11 | polish-ui                   | see the entire UI in Polish (message-key layer)                  | —             | FR-020                  | ready    |
+| S-11 | polish-ui                   | see the entire UI in Polish (message-key layer)                  | —             | FR-020                  | done     |
 | S-12 | landing-page                | (visitor) see a public landing page; authed users go to dashboard| —             | FR-021                  | done     |
 | S-13 | sticky-nav-header           | keep the nav header visible while scrolling                      | —             | FR-022                  | done     |
 | S-14 | categories-in-settings      | manage categories from Settings (old route redirects)            | —             | FR-023                  | done     |
@@ -248,3 +248,4 @@ None for this iteration. Every application layer is already present (see `## Bas
 - **S-12: an unauthenticated visitor sees a public landing page describing app capabilities; authenticated users visiting `/` are redirected to `/dashboard`.** — Archived 2026-07-28 → `context/archive/2026-07-28-landing-page/`. Lesson: redirect guards must exit before rendering page markup.
 - **S-13: navigation header stays pinned to the top while scrolling on all pages, preserving readability and dialog layering.** — Archived 2026-07-28 → `context/archive/2026-07-28-sticky-nav-header/`. Lesson: —.
 - **S-16: user can add an expense through a modal/dialog, unifying the entry point.** — Archived 2026-07-30 → `context/archive/2026-07-29-add-expense-dialog/`. Lesson: —.
+- **S-11: user sees the entire UI in Polish; strings are served from a lightweight message-key layer (no language-switcher UI).** — Archived 2026-08-09 → `context/archive/2026-07-29-polish-ui/`. Lesson: —.

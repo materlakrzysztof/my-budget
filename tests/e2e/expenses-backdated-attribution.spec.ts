@@ -21,28 +21,28 @@ test("a backdated expense does not affect the current month's summary total", as
   await page.goto("/expenses?action=add");
   await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible();
 
-  // Today-dated expense in Housing.
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Housing" });
+  // Today-dated expense in Mieszkanie.
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Mieszkanie" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("25.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(summaryRowFor(page, "Housing")).toContainText("25,00 USD");
+  await expect(summaryRowFor(page, "Mieszkanie")).toContainText("25,00 USD");
 
   // Backdated expense (two months ago), same category, larger amount.
   await page.goto("/expenses");
   await expect(page).toHaveURL(/\/expenses$/);
   await page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true }).click();
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Housing" });
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Mieszkanie" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("99.00");
   await expenseDialog(page, "add").getByLabel("Data").fill(backdatedDate);
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
 
   // The backdated entry lands in the list, but the current month's summary
-  // total for Housing stays exactly the today-dated amount — never the sum.
+  // total for Mieszkanie stays exactly the today-dated amount — never the sum.
   await expect(page.getByText(backdatedDate)).toBeVisible();
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(summaryRowFor(page, "Housing")).toContainText("25,00 USD");
-  await expect(summaryRowFor(page, "Housing")).not.toContainText("124,00 USD");
+  await expect(summaryRowFor(page, "Mieszkanie")).toContainText("25,00 USD");
+  await expect(summaryRowFor(page, "Mieszkanie")).not.toContainText("124,00 USD");
 });

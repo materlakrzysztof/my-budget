@@ -72,6 +72,16 @@ export const messages = {
       nameRequired: "Nazwa jest wymagana",
       descriptionRequired: "Opis jest wymagany",
     },
+    defaults: {
+      groceries: { name: "Zakupy spożywcze", description: "Jedzenie i artykuły gospodarstwa domowego" },
+      transport: { name: "Transport", description: "Paliwo, komunikacja miejska, parking, konserwacja pojazdu" },
+      housing: { name: "Mieszkanie", description: "Czynsz lub raty kredytu hipotecznego" },
+      utilities: { name: "Media", description: "Prąd, woda, gaz, internet, telefon" },
+      entertainment: { name: "Rozrywka", description: "Kino, gry, hobby, wyjścia" },
+      health: { name: "Zdrowie", description: "Opieka medyczna, apteka, ubezpieczenie" },
+      clothing: { name: "Odzież", description: "Ubrania i obuwie" },
+      other: { name: "Inne", description: "Wszystko, co nie pasuje do innych kategorii" },
+    },
   },
   settings: {
     currencyHeading: "Waluta",
@@ -146,6 +156,8 @@ export const messages = {
   banner: {
     warningPrefix: "Uwaga:",
     docsLabel: "Dokumentacja",
+    supabaseNotConfigured: "Supabase nie jest skonfigurowany — funkcje uwierzytelniania są wyłączone.",
+    supabaseDocsLabel: "Zobacz instrukcję konfiguracji",
   },
   meta: {
     defaultTitle: "MyBudget",
@@ -155,6 +167,7 @@ export const messages = {
     landingTitle: "MyBudget | Śledź swoje wydatki w przejrzysty sposób",
     signInTitle: "Logowanie",
     signUpTitle: "Rejestracja",
+    confirmEmailTitle: "Potwierdzenie e-maila",
   },
   landing: {
     heroTagline:

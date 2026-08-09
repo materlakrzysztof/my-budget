@@ -1,9 +1,10 @@
 ---
 id: tool-loop-agent
 title: Modular code-review agent on ai-sdk ToolLoopAgent
-status: impl_reviewed
+status: archived
 created: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-09
+archived_at: 2026-08-09T11:10:43Z
 ---
 
 # Modular code-review agent on ai-sdk ToolLoopAgent

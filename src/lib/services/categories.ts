@@ -7,14 +7,17 @@ const UNIQUE_VIOLATION = "23505";
 const FK_VIOLATION = "23503";
 
 export const DEFAULT_CATEGORIES: { name: string; description: string }[] = [
-  { name: "Groceries", description: "Food and household supplies" },
-  { name: "Transport", description: "Fuel, public transit, parking, vehicle maintenance" },
-  { name: "Housing", description: "Rent or mortgage payments" },
-  { name: "Utilities", description: "Electricity, water, gas, internet, phone" },
-  { name: "Entertainment", description: "Movies, games, hobbies, going out" },
-  { name: "Health", description: "Medical, pharmacy, insurance" },
-  { name: "Clothing", description: "Apparel and footwear" },
-  { name: "Other", description: "Anything that doesn't fit elsewhere" },
+  { name: t("category.defaults.groceries.name"), description: t("category.defaults.groceries.description") },
+  { name: t("category.defaults.transport.name"), description: t("category.defaults.transport.description") },
+  { name: t("category.defaults.housing.name"), description: t("category.defaults.housing.description") },
+  { name: t("category.defaults.utilities.name"), description: t("category.defaults.utilities.description") },
+  {
+    name: t("category.defaults.entertainment.name"),
+    description: t("category.defaults.entertainment.description"),
+  },
+  { name: t("category.defaults.health.name"), description: t("category.defaults.health.description") },
+  { name: t("category.defaults.clothing.name"), description: t("category.defaults.clothing.description") },
+  { name: t("category.defaults.other.name"), description: t("category.defaults.other.description") },
 ];
 
 export const createCategorySchema = z.object({

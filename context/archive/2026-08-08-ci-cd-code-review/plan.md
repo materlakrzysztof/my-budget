@@ -590,35 +590,35 @@ verification passes, this change is complete.
 
 #### Automated
 
-- [x] 3.1 Action YAML valid (`actionlint`)
-- [x] 3.2 Gate logic unit-tested via fixture (below-floor → FAIL; at/above → PASS)
+- [x] 3.1 Action YAML valid (`actionlint`) — c659f78
+- [x] 3.2 Gate logic unit-tested via fixture (below-floor → FAIL; at/above → PASS) — c659f78
 
 #### Manual
 
-- [ ] 3.3 End-to-end scratch PR: scored comment, correct label, in-place update
-- [ ] 3.4 Truncation note appears for large diff
-- [ ] 3.5 Transport error surfaces distinctly from FAIL verdict
+- [x] 3.3 End-to-end scratch PR: scored comment, correct label, in-place update — 2949a90
+- [x] 3.4 Truncation note appears for large diff — 2949a90
+- [x] 3.5 Transport error surfaces distinctly from FAIL verdict — 2949a90
 
 ### Phase 4: Workflow wiring
 
 #### Automated
 
-- [ ] 4.1 Workflow parses (`actionlint`)
-- [ ] 4.2 `AI Code Review` check created and runs on a test PR
+- [x] 4.1 Workflow parses (`actionlint`) — 641e48b
+- [x] 4.2 `AI Code Review` check created and runs on a test PR — 2949a90
 
 #### Manual
 
-- [ ] 4.3 New PR to `main` runs, comments, labels, sets check status
-- [ ] 4.4 `ai-cr:review` re-runs; other labels do not
-- [ ] 4.5 `synchronize` re-runs and updates the same comment
-- [ ] 4.6 `ci.yml` jobs unaffected by label events
+- [x] 4.3 New PR to `main` runs, comments, labels, sets check status — 2949a90
+- [x] 4.4 `ai-cr:review` re-runs; other labels do not — 2949a90
+- [x] 4.5 `synchronize` re-runs and updates the same comment — 2949a90
+- [x] 4.6 `ci.yml` jobs unaffected by label events — 2949a90
 
 ### Phase 5: Docs reconciliation
 
 #### Automated
 
-- [ ] 5.1 Markdown lints/formats clean
+- [x] 5.1 Markdown lints/formats clean — 019fbd7
 
 #### Manual
 
-- [ ] 5.2 CLAUDE.md CI section reflects shipped workflow, labels, secret
+- [x] 5.2 CLAUDE.md CI section reflects shipped workflow, labels, secret — 019fbd7
