@@ -23,18 +23,18 @@ test("clicking a summary category drills into its filtered expenses and reconcil
   await page.goto("/expenses?action=add");
   await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible();
 
-  // Two Groceries expenses (40 + 25 = 65) and one Transport (15) — so the
-  // Groceries filter must show exactly two rows that sum to its 65 total.
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  // Two Zakupy spożywcze expenses (40 + 25 = 65) and one Transport (15) — so the
+  // Zakupy spożywcze filter must show exactly two rows that sum to its 65 total.
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Zakupy spożywcze" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("40.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
-  await expect(expenseRowFor(page, "Groceries")).toHaveCount(1);
+  await expect(expenseRowFor(page, "Zakupy spożywcze")).toHaveCount(1);
 
   await page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true }).click();
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Zakupy spożywcze" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("25.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
-  await expect(expenseRowFor(page, "Groceries")).toHaveCount(2);
+  await expect(expenseRowFor(page, "Zakupy spożywcze")).toHaveCount(2);
 
   await page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true }).click();
   await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Transport" });
@@ -45,23 +45,23 @@ test("clicking a summary category drills into its filtered expenses and reconcil
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/dashboard$/);
 
-  // The summary's Groceries total is the reconciliation reference.
-  await expect(summaryRowFor(page, "Groceries")).toContainText("65,00 USD");
-  const summaryText = (await summaryRowFor(page, "Groceries").textContent()) ?? "";
+  // The summary's Zakupy spożywcze total is the reconciliation reference.
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("65,00 USD");
+  const summaryText = (await summaryRowFor(page, "Zakupy spożywcze").textContent()) ?? "";
   const summaryMatch = /(\d+),(\d{2})/.exec(summaryText);
   const summaryTotal = summaryMatch ? Number(`${summaryMatch[1]}.${summaryMatch[2]}`) : 0;
 
-  // Drill down by clicking the Groceries summary row.
-  await summaryRowFor(page, "Groceries").getByRole("link").click();
+  // Drill down by clicking the Zakupy spożywcze summary row.
+  await summaryRowFor(page, "Zakupy spożywcze").getByRole("link").click();
   await expect(page).toHaveURL(/\/expenses\?category=/);
 
   // Filtered view: picker preselected to the category, and only its expenses show.
   await expect(page.getByLabel("Filtruj według kategorii")).toHaveValue(/.+/);
-  await expect(expenseRowFor(page, "Groceries")).toHaveCount(2);
+  await expect(expenseRowFor(page, "Zakupy spożywcze")).toHaveCount(2);
   await expect(expenseRowFor(page, "Transport")).toHaveCount(0);
 
   // Reconciliation guardrail: filtered rows' sum === the summary's category total.
-  const filteredSum = sumAmounts(await expenseRowFor(page, "Groceries").allTextContents());
+  const filteredSum = sumAmounts(await expenseRowFor(page, "Zakupy spożywcze").allTextContents());
   expect(filteredSum).toBeCloseTo(summaryTotal, 2);
   expect(filteredSum).toBeCloseTo(65, 2);
 

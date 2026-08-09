@@ -18,11 +18,11 @@ test("global Add Expense dialog opens in place from the dashboard and updates th
   await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible();
   await expect(page).toHaveURL(/\/dashboard$/);
 
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Zakupy spożywcze" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("35.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
 
   await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).not.toBeVisible();
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(summaryRowFor(page, "Groceries")).toContainText("35,00 USD");
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("35,00 USD");
 });

@@ -25,33 +25,33 @@ test("dashboard shows the month-over-month comparison only once the previous mon
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByText("względem poprzedniego miesiąca")).toHaveCount(0);
 
-  // Current-month-only expense (Groceries) — previous month still has no
+  // Current-month-only expense (Zakupy spożywcze) — previous month still has no
   // spend, so the comparison stays hidden.
   await page.goto("/expenses?action=add");
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Zakupy spożywcze" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("50.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
 
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(summaryRowFor(page, "Groceries")).toContainText("50,00 USD");
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("50,00 USD");
   await expect(page.getByText("względem poprzedniego miesiąca")).toHaveCount(0);
 
-  // Previous-month spend in Groceries (increases this month: 30 -> 50) and
-  // in Housing only (dropped to 0 this month). Transport has no previous
+  // Previous-month spend in Zakupy spożywcze (increases this month: 30 -> 50) and
+  // in Mieszkanie only (dropped to 0 this month). Transport has no previous
   // spend at all (new this month).
   await page.goto("/expenses");
   await expect(page).toHaveURL(/\/expenses$/);
 
   await page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true }).click();
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Zakupy spożywcze" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("30.00");
   await expenseDialog(page, "add").getByLabel("Data").fill(lastMonth);
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
   await expect(page.getByText(lastMonth)).toBeVisible();
 
   await page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true }).click();
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Housing" });
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Mieszkanie" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("80.00");
   await expenseDialog(page, "add").getByLabel("Data").fill(lastMonth);
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
@@ -64,22 +64,22 @@ test("dashboard shows the month-over-month comparison only once the previous mon
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/dashboard$/);
 
-  // Total: current 70 (Groceries 50 + Transport 20) vs previous 110
-  // (Groceries 30 + Housing 80) — a decrease, rendered green with a down
+  // Total: current 70 (Zakupy spożywcze 50 + Transport 20) vs previous 110
+  // (Zakupy spożywcze 30 + Mieszkanie 80) — a decrease, rendered green with a down
   // arrow and an explicit sign, never color alone.
   await expect(page.getByText("↓ 36% (-40,00 USD) względem poprzedniego miesiąca")).toBeVisible();
 
-  // Changed: Groceries increased 30 -> 50 (+67%), rendered red with an up arrow.
-  await expect(summaryRowFor(page, "Groceries")).toContainText("50,00 USD");
-  await expect(summaryRowFor(page, "Groceries")).toContainText("↑ 67% (+20,00 USD)");
+  // Changed: Zakupy spożywcze increased 30 -> 50 (+67%), rendered red with an up arrow.
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("50,00 USD");
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("↑ 67% (+20,00 USD)");
 
   // New: Transport had no previous-month spend — tagged "nowa", no percentage.
   await expect(summaryRowFor(page, "Transport")).toContainText("20,00 USD");
   await expect(summaryRowFor(page, "Transport")).toContainText("nowa");
   await expect(summaryRowFor(page, "Transport")).not.toContainText("%");
 
-  // Dropped: Housing had spend last month but none this month — still gets a
+  // Dropped: Mieszkanie had spend last month but none this month — still gets a
   // row, showing the decrease to 0.
-  await expect(summaryRowFor(page, "Housing")).toContainText("0,00 USD");
-  await expect(summaryRowFor(page, "Housing")).toContainText("↓ 100% (-80,00 USD)");
+  await expect(summaryRowFor(page, "Mieszkanie")).toContainText("0,00 USD");
+  await expect(summaryRowFor(page, "Mieszkanie")).toContainText("↓ 100% (-80,00 USD)");
 });

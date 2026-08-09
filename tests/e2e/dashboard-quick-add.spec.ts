@@ -33,14 +33,14 @@ test("dashboard quick-add opens the dialog in place from both the empty state an
     await expect(expenseDialog(page, "add")).toBeVisible({ timeout: 250 });
   }).toPass({ timeout: 5000 });
 
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Zakupy spożywcze" });
   await expenseDialog(page, "add").getByLabel("Kwota").fill("25.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
 
   // Dialog closes and the dashboard updates in place — still on /dashboard, no reload.
   await expect(expenseDialog(page, "add")).not.toBeVisible();
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(summaryRowFor(page, "Groceries")).toContainText("25,00 USD");
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("25,00 USD");
 
   // Header button (now visible since the month has spend) opens the same dialog.
   const headerButton = page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true });
@@ -55,5 +55,5 @@ test("dashboard quick-add opens the dialog in place from both the empty state an
   await expect(summaryRowFor(page, "Transport")).toContainText("15,00 USD");
   // The first expense's category total is still there — the refresh replaced
   // the whole summary, not just the newly added category's row.
-  await expect(summaryRowFor(page, "Groceries")).toContainText("25,00 USD");
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("25,00 USD");
 });

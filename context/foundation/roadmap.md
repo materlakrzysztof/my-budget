@@ -36,7 +36,7 @@ MyBudget is a live personal expense tracker in daily use by one household budget
 | S-08 | monthly-dashboard           | see a monthly dashboard: per-category chart, total, per-category | —             | FR-015, FR-016, FR-017, US-05 | done     |
 | S-09 | dashboard-month-comparison  | see current vs previous month (hidden when no history)           | S-08          | FR-018, US-05           | done     |
 | S-10 | dashboard-quick-add         | start adding an expense in one click from the dashboard          | S-08          | FR-019                  | done     |
-| S-11 | polish-ui                   | see the entire UI in Polish (message-key layer)                  | —             | FR-020                  | ready    |
+| S-11 | polish-ui                   | see the entire UI in Polish (message-key layer)                  | —             | FR-020                  | done     |
 | S-12 | landing-page                | (visitor) see a public landing page; authed users go to dashboard| —             | FR-021                  | done     |
 | S-13 | sticky-nav-header           | keep the nav header visible while scrolling                      | —             | FR-022                  | done     |
 | S-14 | categories-in-settings      | manage categories from Settings (old route redirects)            | —             | FR-023                  | done     |

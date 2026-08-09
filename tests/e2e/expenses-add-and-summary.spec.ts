@@ -21,13 +21,13 @@ test("two expenses under two categories reconcile to their own category's total 
   await page.goto("/expenses?action=add");
   await expect(page.getByRole("dialog", { name: "Dodaj wydatek" })).toBeVisible();
 
-  // First expense: Groceries, the larger amount, with an optional name.
-  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Groceries" });
+  // First expense: Zakupy spożywcze, the larger amount, with an optional name.
+  await expenseDialog(page, "add").getByLabel("Kategoria").selectOption({ label: "Zakupy spożywcze" });
   await expenseDialog(page, "add").getByLabel("Nazwa").fill("Birthday dinner");
   await expenseDialog(page, "add").getByLabel("Kwota").fill("40.00");
   await expenseDialog(page, "add").getByRole("button", { name: "Dodaj wydatek" }).click();
-  await expect(expenseRowFor(page, "Groceries")).toContainText("40,00 USD");
-  await expect(expenseRowFor(page, "Groceries")).toContainText("Birthday dinner");
+  await expect(expenseRowFor(page, "Zakupy spożywcze")).toContainText("40,00 USD");
+  await expect(expenseRowFor(page, "Zakupy spożywcze")).toContainText("Birthday dinner");
 
   // Second expense: Transport, the smaller amount.
   await page.getByRole("main").getByRole("button", { name: "Dodaj wydatek", exact: true }).click();
@@ -40,12 +40,12 @@ test("two expenses under two categories reconcile to their own category's total 
   await expect(page).toHaveURL(/\/dashboard$/);
 
   // Each category's own total in the summary — not mixed, not summed together.
-  await expect(summaryRowFor(page, "Groceries")).toContainText("40,00 USD");
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("40,00 USD");
   await expect(summaryRowFor(page, "Transport")).toContainText("15,00 USD");
 
-  // Largest-to-smallest ranking: Groceries (40) ranks above Transport (15).
+  // Largest-to-smallest ranking: Zakupy spożywcze (40) ranks above Transport (15).
   const summaryTexts = await page.getByRole("listitem").filter({ hasNotText: "·" }).allTextContents();
-  const groceriesIndex = summaryTexts.findIndex((t) => t.includes("Groceries"));
+  const groceriesIndex = summaryTexts.findIndex((t) => t.includes("Zakupy spożywcze"));
   const transportIndex = summaryTexts.findIndex((t) => t.includes("Transport"));
   expect(groceriesIndex).toBeGreaterThanOrEqual(0);
   expect(transportIndex).toBeGreaterThan(groceriesIndex);
@@ -65,10 +65,10 @@ test("two expenses under two categories reconcile to their own category's total 
   await expect(page.getByRole("status")).toHaveText("Waluta zaktualizowana.");
 
   await page.goto("/expenses");
-  await expect(expenseRowFor(page, "Groceries")).toContainText("40,00 zł");
+  await expect(expenseRowFor(page, "Zakupy spożywcze")).toContainText("40,00 zł");
   await expect(expenseRowFor(page, "Transport")).toContainText("15,00 zł");
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(summaryRowFor(page, "Groceries")).toContainText("40,00 zł");
+  await expect(summaryRowFor(page, "Zakupy spożywcze")).toContainText("40,00 zł");
   await expect(summaryRowFor(page, "Transport")).toContainText("15,00 zł");
 });

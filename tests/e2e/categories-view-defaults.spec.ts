@@ -7,14 +7,14 @@ import { test, expect } from "@playwright/test";
 import { signUpAndSignIn } from "./helpers";
 
 const DEFAULT_CATEGORY_NAMES = [
-  "Groceries",
+  "Zakupy spożywcze",
   "Transport",
-  "Housing",
-  "Utilities",
-  "Entertainment",
-  "Health",
-  "Clothing",
-  "Other",
+  "Mieszkanie",
+  "Media",
+  "Rozrywka",
+  "Zdrowie",
+  "Odzież",
+  "Inne",
 ];
 
 test("a freshly signed-up user's first visit to Settings shows the 8 default categories", async ({ page }) => {
