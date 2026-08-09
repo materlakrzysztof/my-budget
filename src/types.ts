@@ -95,3 +95,18 @@ export interface UpdateSettingsRequest {
 export interface SettingsResponse {
   settings: UserSettings;
 }
+
+export interface ParseExpensesRequest {
+  text: string;
+}
+
+export interface ParsedExpenseDraft {
+  description: string;
+  amount: string;
+  categoryId: string | null;
+  categoryName: string | null;
+}
+
+export interface ParseExpensesResponse {
+  items: ParsedExpenseDraft[];
+}
