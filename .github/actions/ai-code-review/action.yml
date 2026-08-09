@@ -99,6 +99,7 @@ runs:
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github-token }}
+        GH_REPO: ${{ github.repository }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         COMMENT_FILE: ${{ runner.temp }}/ai-code-review/comment.md
       run: bash "$GITHUB_ACTION_PATH/scripts/post-comment.sh"
@@ -107,6 +108,7 @@ runs:
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github-token }}
+        GH_REPO: ${{ github.repository }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         VERDICT: ${{ steps.gate.outputs.verdict }}
       run: bash "$GITHUB_ACTION_PATH/scripts/apply-labels.sh"
