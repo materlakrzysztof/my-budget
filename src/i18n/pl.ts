@@ -139,6 +139,7 @@ export const messages = {
     expenseNotFound: "Wydatek nie został znaleziony.",
     categoryNotFound: "Kategoria nie została znaleziona.",
     categoryInUse: "Ta kategoria nadal ma przypisane wydatki i nie może zostać usunięta.",
+    aiParseFailed: "Nie udało się przeanalizować tekstu. Spróbuj ponownie lub użyj formularza.",
     duplicateCategory: "Kategoria o nazwie „{name}” już istnieje.",
     refreshExpensesFailed: "Nie udało się odświeżyć wydatków. Spróbuj ponownie.",
     createExpenseFailed: "Nie udało się dodać wydatku. Spróbuj ponownie.",
