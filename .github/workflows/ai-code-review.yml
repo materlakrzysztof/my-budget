@@ -42,8 +42,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           openrouter-api-key: ${{ secrets.OPENROUTER_API_KEY }}
-          pr-checkout-path: pr
-          trusted-checkout-path: trusted
+          pr-checkout-path: ${{ github.workspace }}/pr
+          trusted-checkout-path: ${{ github.workspace }}/trusted
           # Mirrors the composite action's own defaults — tuning either value
           # only ever touches this workflow file, never code.
           criterion-floor: "5"
